@@ -402,7 +402,7 @@
     </div>
     <div class="results-grid" id="results-ENBD"></div>
     <div class="breakdown-wrap" id="breakdown-ENBD"></div>
-    <div class="breakdown-wrap"><h3>Year-by-Year Schedule</h3><div class="table-wrap"><table id="table-ENBD"><thead><tr><th>Year</th><th>Rate</th><th>Monthly Pmt</th><th>Monthly Pmt</th><th>Principal Paid</th><th>Interest Paid</th><th>Life Ins</th><th>Prop Ins</th><th>Total Cost</th><th>Balance</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="breakdown-wrap"><h3>Year-by-Year Schedule</h3><div class="table-wrap"><table id="table-ENBD"><thead><tr><th>Year</th><th>Rate</th><th>Monthly Pmt</th><th>Principal Paid</th><th>Interest Paid</th><th>Life Ins</th><th>Prop Ins</th><th>Total Cost</th><th>Balance</th></tr></thead><tbody></tbody></table></div></div>
   </div>
 
   <!-- Comparison -->
@@ -494,13 +494,6 @@ function getBankConfig(eibor, stl) {
 }
 
 // ── Mortgage math ────────────────────────────────────────
-function calcMonthlyPayment(balance, annualRate) {
-  const r = annualRate / 100 / 12;
-  if (r === 0) return balance; // edge case
-  return balance * r / (1 - Math.pow(1 + r, -1));
-  // note: term passed separately — payment recalculated each phase
-}
-
 function calcMonthlyPaymentN(balance, annualRate, months) {
   const r = annualRate / 100 / 12;
   if (r === 0) return balance / months;
