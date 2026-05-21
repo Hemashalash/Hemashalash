@@ -229,11 +229,118 @@
   .compare-card .cc-row .ck { color: var(--muted); }
   .badge-best { background: var(--green); color: #000; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
 
+  /* Print button */
+  .print-btn {
+    margin-left: auto;
+    padding: 9px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--accent2);
+    background: var(--accent2)18;
+    color: var(--accent2);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .print-btn:hover { background: var(--accent2); color: #000; }
+
   /* Responsive */
   @media(max-width: 600px) {
     .container { padding: 16px 12px; }
     header { padding: 16px; }
     .result-card .rc-value { font-size: 20px; }
+  }
+
+  /* ── PRINT STYLES ───────────────────────────────── */
+  #print-offer { display: none; }
+
+  @media print {
+    body > *:not(#print-offer) { display: none !important; }
+    #print-offer {
+      display: block !important;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #111;
+      font-size: 11pt;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .po-page { page-break-after: always; }
+    .po-page:last-child { page-break-after: auto; }
+
+    .po-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      border-bottom: 3px solid #111;
+      padding-bottom: 12px; margin-bottom: 18px;
+    }
+    .po-header-left h1 { font-size: 20pt; font-weight: 800; margin-bottom: 2px; }
+    .po-header-left p { font-size: 10pt; color: #555; }
+    .po-header-right { text-align: right; font-size: 9pt; color: #555; }
+    .po-header-right .ref { font-size: 11pt; font-weight: 700; color: #111; }
+
+    .po-bank-badge {
+      display: inline-block;
+      padding: 4px 14px; border-radius: 20px;
+      font-weight: 800; font-size: 13pt;
+      margin-bottom: 14px;
+    }
+
+    .po-section { margin-bottom: 18px; }
+    .po-section-title {
+      font-size: 9pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: #555;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px; margin-bottom: 10px;
+    }
+
+    .po-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .po-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    .po-kv { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dotted #ddd; font-size: 10pt; }
+    .po-kv:last-child { border-bottom: none; }
+    .po-kv .k { color: #555; }
+    .po-kv .v { font-weight: 600; }
+
+    .po-box {
+      border: 1.5px solid #ccc;
+      border-radius: 4px;
+      padding: 12px;
+    }
+    .po-box-title { font-size: 9pt; font-weight: 700; text-transform: uppercase; color: #555; margin-bottom: 8px; }
+    .po-box-rate { font-size: 18pt; font-weight: 800; color: #111; }
+    .po-box-sub { font-size: 9pt; color: #555; margin-bottom: 8px; }
+
+    .po-total-row {
+      display: flex; justify-content: space-between;
+      padding: 5px 0; font-size: 10pt; border-bottom: 1px dotted #ddd;
+    }
+    .po-total-row.grand {
+      border-top: 2px solid #111; border-bottom: 2px solid #111;
+      font-size: 12pt; font-weight: 800; margin-top: 4px; padding: 7px 0;
+    }
+    .po-total-row .k { color: #555; }
+    .po-total-row.grand .k { color: #111; }
+
+    /* Year table */
+    .po-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin-top: 10px; }
+    .po-table thead th {
+      background: #f0f0f0; padding: 6px 8px;
+      border: 1px solid #ccc; text-align: right;
+      font-size: 8pt; text-transform: uppercase; letter-spacing: .3px;
+    }
+    .po-table thead th:first-child { text-align: left; }
+    .po-table tbody td { padding: 5px 8px; border: 1px solid #e0e0e0; text-align: right; }
+    .po-table tbody td:first-child { text-align: left; font-weight: 600; }
+    .po-table tbody tr:nth-child(even) { background: #fafafa; }
+    .po-table tbody tr.fixed-row { background: #eef2ff; }
+    .po-table tbody tr.var-row { background: #f0fdf9; }
+
+    .po-notes { font-size: 9pt; color: #444; }
+    .po-notes li { margin-bottom: 4px; }
+    .po-disclaimer {
+      margin-top: 16px; padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font-size: 8pt; color: #888;
+    }
   }
 </style>
 </head>
@@ -310,6 +417,10 @@
     <div class="bank-tab" data-bank="DIB" onclick="switchBank('DIB')">Option B · DIB</div>
     <div class="bank-tab" data-bank="ADIB" onclick="switchBank('ADIB')">Option C · ADIB</div>
     <div class="bank-tab" data-bank="ENBD" onclick="switchBank('ENBD')">Option D · ENBD</div>
+    <button class="print-btn" onclick="printOffer()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      Print Offer as PDF
+    </button>
   </div>
 
   <!-- FAB Panel -->
@@ -412,6 +523,9 @@
   </div>
 
 </div>
+
+<!-- ── PRINT OFFER (hidden, shown only on print) ── -->
+<div id="print-offer"></div>
 
 <script>
 // ── State ───────────────────────────────────────────────
@@ -773,6 +887,251 @@ function updateLTV() {
 // Init
 updateLTV();
 renderAll();
+
+// ── PRINT OFFER ─────────────────────────────────────────
+function printOffer() {
+  const banks = getBankConfig(state.eibor, state.salaryTransfer);
+  const bk = state.activeBank;
+  const cfg = banks[bk];
+  const ri = state.selectedRates[bk];
+  const rc = cfg.rates[ri];
+  const loan = state.propPrice * (1 - state.dpPct / 100);
+  const dp = state.propPrice * state.dpPct / 100;
+  const bankVal = state.bankVal;
+  const term = state.term;
+
+  const rows = buildAmortisation(loan, term, rc, cfg, bankVal);
+  const yearRows = aggregateByYear(rows);
+
+  const totalPayments = rows.reduce((s,r) => s + r.payment, 0);
+  const totalInterest = rows.reduce((s,r) => s + r.interest, 0);
+  const totalLifeIns = rows.reduce((s,r) => s + r.lifeIns, 0);
+  const totalPropIns = rows.reduce((s,r) => s + r.propIns, 0);
+  const upfront = cfg.processingFee + cfg.valuationFee;
+  const totalCost = totalPayments + totalLifeIns + totalPropIns + upfront;
+
+  const fixedRow = rows[0];
+  const fixedMonthly = fixedRow.payment;
+  const fixedLifeIns = fixedRow.lifeIns;
+  const fixedPropIns = fixedRow.propIns;
+  const fixedTotal = fixedMonthly + fixedLifeIns + fixedPropIns;
+
+  const varMonthRow = rows.find(r => !r.isFixed);
+  const varMonthly  = varMonthRow ? varMonthRow.payment  : fixedMonthly;
+  const varLifeIns  = varMonthRow ? varMonthRow.lifeIns  : fixedLifeIns;
+  const varPropIns  = varMonthRow ? varMonthRow.propIns  : fixedPropIns;
+  const varTotal    = varMonthly + varLifeIns + varPropIns;
+
+  const varRate = Math.max(rc.varBase + rc.varSpread, rc.floorRate || 0);
+  const today = new Date().toLocaleDateString('en-AE', { year:'numeric', month:'long', day:'numeric' });
+  const refNum = 'UAE-MTG-' + Date.now().toString(36).toUpperCase().slice(-6);
+
+  const bankColors = { FAB:'#c0392b', DIB:'#1a7a6e', ADIB:'#b8860b', ENBD:'#2c5f7a' };
+  const bankBg     = { FAB:'#fff0f0', DIB:'#f0faf9', ADIB:'#fffbf0', ENBD:'#f0f5fa' };
+  const color = bankColors[bk] || '#111';
+  const bg    = bankBg[bk]    || '#f9f9f9';
+
+  const bankTermsMap = {
+    FAB: [
+      ['Finance Type', 'Conventional or Islamic'],
+      ['Bank Processing Fee', 'NIL'],
+      ['Valuation Fee', 'AED 3,150'],
+      ['Minimum Floor Rate', '1.99%'],
+      ['Life Insurance', '0.0112% per month on outstanding balance'],
+      ['Property Insurance', '0.0525% p.a. based on bank valuation'],
+      ['Overpayment (penalty-free)', 'Up to 25% of outstanding loan per year (post-fixed period only)'],
+      ['Credit Card Requirement', 'Min AED 5,000 limit required prior to Final Offer Stage'],
+    ],
+    DIB: [
+      ['Finance Type', 'Islamic Finance only'],
+      ['Salary Options', 'Salary Transfer & Non-Salary Transfer'],
+      ['Bank Processing Fee', 'NIL'],
+      ['Valuation Fee', 'AED 2,500'],
+      ['Minimum Floor Rate', '1.00%'],
+      ['Life Insurance', '0.01849% per month (First year free – Property Takaful/Salama)'],
+      ['Property Insurance', '0.03325% p.a. based on bank valuation'],
+      ['Overpayment Penalty', '1.05% of overpayment amount or AED 10,500 – whichever is lower'],
+    ],
+    ADIB: [
+      ['Finance Type', 'Islamic Finance only'],
+      ['Bank Processing Fee', 'NIL'],
+      ['Valuation Fee', 'AED 2,625'],
+      ['Minimum Floor Rate', '3.10% (3yr) / 3.25% (5yr)'],
+      ['Life Insurance', '0.025% per month on outstanding balance (reduces over time)'],
+      ['Property Insurance', 'Free'],
+      ['Overpayment (penalty-free)', 'Up to 30% of outstanding loan per year'],
+      ['Overpayment Penalty (above limit)', '1.05% of overpayment amount or AED 10,500 – whichever is lower'],
+    ],
+    ENBD: [
+      ['Finance Type', 'Conventional Finance only'],
+      ['Bank Processing Fee', 'NIL'],
+      ['Valuation Fee', 'NIL'],
+      ['Minimum Floor Rate', 'No floor rate'],
+      ['Life Insurance', '0.0171% per month / 0.2052% p.a. (OPTIONAL)'],
+      ['Property Insurance', '0.005% per month on outstanding balance'],
+      ['Overpayment (penalty-free)', 'Up to 25% of outstanding loan per year'],
+      ['Overpayment Penalty (above limit)', '1.05% of overpayment amount or AED 10,500 – whichever is lower'],
+    ],
+  };
+
+  const termsRows = (bankTermsMap[bk] || []).map(([k,v]) =>
+    `<div class="po-kv"><span class="k">${k}</span><span class="v">${v}</span></div>`
+  ).join('');
+
+  const yearTableRows = yearRows.map(yr =>
+    `<tr class="${yr.isFixed ? 'fixed-row' : 'var-row'}">
+      <td>Year ${yr.year}</td>
+      <td>${yr.rate.toFixed(2)}%</td>
+      <td>AED ${fmt(yr.payment/12)}</td>
+      <td>AED ${fmt(yr.principal)}</td>
+      <td>AED ${fmt(yr.interest)}</td>
+      <td>AED ${fmt(yr.lifeIns)}</td>
+      <td>AED ${fmt(yr.propIns)}</td>
+      <td>AED ${fmt(yr.payment + yr.lifeIns + yr.propIns)}</td>
+      <td>AED ${fmt(yr.balance)}</td>
+    </tr>`
+  ).join('');
+
+  const varNote = rc.floorRate
+    ? `Variable rate = EIBOR (${state.eibor.toFixed(2)}%) + ${rc.varSpread}% = ${(state.eibor + rc.varSpread).toFixed(2)}%, subject to floor rate of ${rc.floorRate}%.`
+    : `Variable rate = EIBOR (${state.eibor.toFixed(2)}%) + ${rc.varSpread}% = ${(state.eibor + rc.varSpread).toFixed(2)}%. No floor rate applies.`;
+
+  document.getElementById('print-offer').innerHTML = `
+  <div class="po-page">
+    <!-- Header -->
+    <div class="po-header">
+      <div class="po-header-left">
+        <h1>🏠 Mortgage Finance Offer</h1>
+        <p>UAE Property Purchase — Indicative Calculation</p>
+      </div>
+      <div class="po-header-right">
+        <div class="ref">Ref: ${refNum}</div>
+        <div>Date: ${today}</div>
+        <div>EIBOR Rate Used: ${state.eibor.toFixed(2)}%</div>
+        <div>Salary Transfer: ${state.salaryTransfer === 'STL' ? 'Yes (STL)' : 'No (NSTL)'}</div>
+      </div>
+    </div>
+
+    <!-- Selected Bank -->
+    <div style="margin-bottom:16px">
+      <div class="po-bank-badge" style="background:${bg};color:${color};border:2px solid ${color}">
+        ${bk} — ${cfg.fullName}
+      </div>
+      <span style="font-size:11pt;color:#555;margin-left:10px">Selected Rate: <strong>${rc.label}</strong> &nbsp;·&nbsp; Fixed: <strong>${rc.fixedRate}%</strong> for ${rc.fixedYears} year${rc.fixedYears>1?'s':''} &nbsp;·&nbsp; Variable: <strong>${varRate.toFixed(2)}%</strong> (EIBOR + ${rc.varSpread}%)</span>
+    </div>
+
+    <!-- Property + Loan details -->
+    <div class="po-section">
+      <div class="po-section-title">Property &amp; Loan Details</div>
+      <div class="po-2col">
+        <div>
+          <div class="po-kv"><span class="k">Property Purchase Price</span><span class="v">AED ${fmt(state.propPrice)}</span></div>
+          <div class="po-kv"><span class="k">Down Payment (${state.dpPct}%)</span><span class="v">AED ${fmt(dp)}</span></div>
+          <div class="po-kv"><span class="k">Loan / Finance Amount</span><span class="v">AED ${fmt(loan)}</span></div>
+          <div class="po-kv"><span class="k">Loan-to-Value (LTV)</span><span class="v">${100-state.dpPct}%</span></div>
+        </div>
+        <div>
+          <div class="po-kv"><span class="k">Bank Valuation</span><span class="v">AED ${fmt(bankVal)}</span></div>
+          <div class="po-kv"><span class="k">Loan Term</span><span class="v">${term} years (${term*12} months)</span></div>
+          <div class="po-kv"><span class="k">Finance Type</span><span class="v">${bk==='FAB'?'Conventional / Islamic':bk==='ENBD'?'Conventional':'Islamic'}</span></div>
+          <div class="po-kv"><span class="k">Salary Transfer</span><span class="v">${state.salaryTransfer==='STL'?'Yes — Salary Transfer':'No — Non-Salary Transfer'}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly payment boxes -->
+    <div class="po-section">
+      <div class="po-section-title">Monthly Payment Breakdown</div>
+      <div class="po-2col">
+        <div class="po-box" style="border-color:${color};background:${bg}">
+          <div class="po-box-title">Fixed Period — Years 1 to ${rc.fixedYears}</div>
+          <div class="po-box-rate">${rc.fixedRate.toFixed(2)}%</div>
+          <div class="po-box-sub">Fixed interest rate</div>
+          <div class="po-kv"><span class="k">Mortgage Payment</span><span class="v">AED ${fmt(fixedMonthly)}</span></div>
+          <div class="po-kv"><span class="k">Life Insurance</span><span class="v">AED ${fmt(fixedLifeIns)}</span></div>
+          <div class="po-kv"><span class="k">Property Insurance</span><span class="v">AED ${fmt(fixedPropIns)}</span></div>
+          <div class="po-kv" style="font-weight:800;font-size:11pt;border-top:1.5px solid ${color};padding-top:6px;margin-top:4px">
+            <span>Total Monthly</span><span>AED ${fmt(fixedTotal)}</span>
+          </div>
+        </div>
+        <div class="po-box">
+          <div class="po-box-title">Variable Period — Years ${rc.fixedYears+1} to ${term}</div>
+          <div class="po-box-rate">${varRate.toFixed(2)}%</div>
+          <div class="po-box-sub">EIBOR (${state.eibor.toFixed(2)}%) + ${rc.varSpread}%${rc.floorRate ? ` [floor: ${rc.floorRate}%]` : ''}</div>
+          <div class="po-kv"><span class="k">Mortgage Payment</span><span class="v">AED ${fmt(varMonthly)}</span></div>
+          <div class="po-kv"><span class="k">Life Insurance</span><span class="v">AED ${fmt(varLifeIns)}</span></div>
+          <div class="po-kv"><span class="k">Property Insurance</span><span class="v">AED ${fmt(varPropIns)}</span></div>
+          <div class="po-kv" style="font-weight:800;font-size:11pt;border-top:1.5px solid #999;padding-top:6px;margin-top:4px">
+            <span>Total Monthly</span><span>AED ${fmt(varTotal)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total cost summary -->
+    <div class="po-section">
+      <div class="po-section-title">Total Cost Summary (${term}-Year Term)</div>
+      <div class="po-total-row"><span class="k">Total Mortgage Payments</span><span>AED ${fmt(totalPayments)}</span></div>
+      <div class="po-total-row"><span class="k">Total Interest / Profit</span><span>AED ${fmt(totalInterest)}</span></div>
+      <div class="po-total-row"><span class="k">Total Life Insurance</span><span>AED ${fmt(totalLifeIns)}</span></div>
+      <div class="po-total-row"><span class="k">Total Property Insurance</span><span>AED ${fmt(totalPropIns)}</span></div>
+      <div class="po-total-row"><span class="k">Upfront Costs (Processing + Valuation)</span><span>AED ${fmt(upfront)}</span></div>
+      <div class="po-total-row grand"><span class="k">TOTAL COST OF OWNERSHIP</span><span>AED ${fmt(totalCost)}</span></div>
+    </div>
+
+    <!-- Bank terms -->
+    <div class="po-section">
+      <div class="po-section-title">Key Bank Terms — ${bk} (${cfg.fullName})</div>
+      ${termsRows}
+    </div>
+  </div>
+
+  <!-- Page 2: amortisation table -->
+  <div class="po-page">
+    <div class="po-header" style="margin-bottom:12px">
+      <div class="po-header-left">
+        <h1 style="font-size:15pt">Year-by-Year Amortisation Schedule</h1>
+        <p>${bk} · ${rc.label} · AED ${fmt(loan)} over ${term} years</p>
+      </div>
+      <div class="po-header-right">
+        <div class="ref">Ref: ${refNum}</div>
+        <div style="margin-top:6px"><span style="background:#eef2ff;padding:2px 8px;border-radius:3px;font-size:8pt">■ Fixed period (${rc.fixedRate}%)</span> &nbsp; <span style="background:#f0fdf9;padding:2px 8px;border-radius:3px;font-size:8pt">■ Variable period (${varRate.toFixed(2)}%)</span></div>
+      </div>
+    </div>
+    <table class="po-table">
+      <thead>
+        <tr>
+          <th>Year</th><th>Rate</th><th>Monthly Pmt</th>
+          <th>Principal (yr)</th><th>Interest (yr)</th>
+          <th>Life Ins (yr)</th><th>Prop Ins (yr)</th>
+          <th>Total Cost (yr)</th><th>Remaining Balance</th>
+        </tr>
+      </thead>
+      <tbody>${yearTableRows}</tbody>
+    </table>
+
+    <!-- Notes -->
+    <div class="po-section" style="margin-top:20px">
+      <div class="po-section-title">Important Notes</div>
+      <ul class="po-notes">
+        <li>${varNote}</li>
+        <li>EIBOR rate used for this calculation: <strong>${state.eibor.toFixed(2)}%</strong>. Actual variable payments will change with each EIBOR reset.</li>
+        <li>Life insurance premium decreases as the outstanding balance reduces over the loan term.</li>
+        ${rc.floorRate ? `<li>A minimum floor rate of <strong>${rc.floorRate}%</strong> applies — the variable rate will not fall below this regardless of EIBOR movements.</li>` : ''}
+        <li>All figures are in UAE Dirhams (AED) and are indicative. Final rates and fees are subject to bank approval and property valuation.</li>
+        <li>Upfront costs (valuation fee: AED ${fmt(cfg.valuationFee)}, processing fee: AED ${fmt(cfg.processingFee)}) are not included in the monthly schedule.</li>
+        <li>This document is for informational purposes only and does not constitute a formal offer or commitment by any bank.</li>
+      </ul>
+    </div>
+
+    <div class="po-disclaimer">
+      Calculated on ${today} using ${state.eibor.toFixed(2)}% EIBOR · Ref: ${refNum} · This is an indicative calculation only. Consult your bank or mortgage advisor for formal offers.
+    </div>
+  </div>
+  `;
+
+  window.print();
+}
 </script>
 </body>
 </html>
