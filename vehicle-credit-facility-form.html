@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vehicle Credit Facility Approval</title>
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      background: #f0f2f5;
+      color: #1a1a1a;
+    }
+
+    /* ── Action bar (hidden when printing) ── */
+    #action-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 10px 24px;
+      background: #1a3a6b;
+      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+
+    #action-bar button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    #action-bar button:hover  { opacity: .88; }
+    #action-bar button:active { transform: scale(.97); }
+
+    #btn-print  { background: #e8a900; color: #1a1a1a; }
+    #btn-reset  { background: #dc3545; color: #fff; }
+    #btn-save   { background: #28a745; color: #fff; }
+
+    #save-banner {
+      display: none;
+      text-align: center;
+      padding: 8px;
+      background: #d4edda;
+      color: #155724;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 20px auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 30px 36px 40px;
+    }
+
+    /* ── Header ── */
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid #1a3a6b;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+    .form-header .logo-block { font-size: 11px; color: #555; line-height: 1.5; }
+    .form-header h1 {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      color: #1a3a6b;
+      flex: 1;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .dept-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a3a6b;
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* ── Section headings ── */
+    .section-title {
+      background: #1a3a6b;
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 10px;
+      margin: 20px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    /* ── Grid rows ── */
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 180px;
+    }
+    .field.full  { flex: 1 1 100%; }
+    .field.half  { flex: 1 1 45%; }
+    .field.third { flex: 1 1 28%; }
+
+    label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a3a6b;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #b0b8c5;
+      border-radius: 3px;
+      font-size: 12px;
+      background: #fafbfc;
+      transition: border-color .15s;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #1a3a6b;
+      background: #fff;
+    }
+
+    textarea { resize: vertical; min-height: 62px; }
+
+    /* ── Payment table ── */
+    .pdc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+    .pdc-table th {
+      background: #dde3ef;
+      color: #1a3a6b;
+      border: 1px solid #b0b8c5;
+      padding: 5px 8px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    .pdc-table td {
+      border: 1px solid #b0b8c5;
+      padding: 4px 6px;
+    }
+    .pdc-table td input { border: none; background: transparent; width: 100%; padding: 2px 4px; }
+    .pdc-table td input:focus { outline: 1px dashed #1a3a6b; }
+
+    .add-row-btn {
+      margin-top: 6px;
+      padding: 4px 12px;
+      background: #1a3a6b;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .add-row-btn:hover { background: #254d8e; }
+
+    /* ── Checkboxes ── */
+    .checkbox-group { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 400;
+      text-transform: none;
+      font-size: 12px;
+      color: #1a1a1a;
+      cursor: pointer;
+    }
+    .checkbox-group input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; }
+
+    /* ── Credit review two-column layout ── */
+    .credit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 16px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 620px) { .credit-grid { grid-template-columns: 1fr; } }
+
+    /* ── Signature blocks ── */
+    .sig-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .sig-box {
+      flex: 1 1 140px;
+      border: 1px solid #b0b8c5;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+    .sig-box .sig-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1a3a6b;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      margin-bottom: 6px;
+    }
+    .sig-box input { width: 100%; border: none; border-bottom: 1px solid #aaa; background: transparent; padding: 2px 0; font-size: 12px; }
+    .sig-box input:focus { outline: none; border-bottom-color: #1a3a6b; }
+    .sig-date { font-size: 10px; color: #777; margin-top: 6px; }
+
+    /* ── Dividers ── */
+    .divider { border: none; border-top: 1px dashed #ccc; margin: 18px 0 10px; }
+
+    /* ── Footer ── */
+    .form-footer {
+      margin-top: 30px;
+      border-top: 2px solid #1a3a6b;
+      padding-top: 8px;
+      font-size: 10px;
+      color: #555;
+      text-align: center;
+    }
+
+    /* ── Print styles ── */
+    @media print {
+      body { background: #fff; }
+      #action-bar, #save-banner, .add-row-btn { display: none !important; }
+      .page { border: none; padding: 10px 16px; margin: 0; max-width: 100%; }
+      input, textarea, select {
+        border: none !important;
+        border-bottom: 1px solid #555 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 2px 4px !important;
+      }
+      .pdc-table td input { border-bottom: none !important; }
+      .sig-box { border: 1px solid #555; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Action bar ── -->
+<div id="action-bar">
+  <button id="btn-save"  onclick="saveForm()">&#128190; Save for Later</button>
+  <button id="btn-reset" onclick="resetForm()">&#8635; Start Over</button>
+  <button id="btn-print" onclick="window.print()">&#128438; Print / Save PDF</button>
+</div>
+
+<div id="save-banner">&#10003; Form data saved in this browser. It will be restored when you reopen this page.</div>
+
+<!-- ── Form page ── -->
+<div class="page">
+
+  <!-- Header -->
+  <div class="form-header">
+    <div class="logo-block">
+      <strong>From G</strong><br>
+      P.O. Box 279, Abu Dhabi, U.A.E.<br>
+      Tel: 6567000 &nbsp;|&nbsp; Fax: 6567844
+    </div>
+    <h1>Vehicle Credit Facility Approval</h1>
+    <div class="dept-badge">FINANCE<br>DEPARTMENT</div>
+  </div>
+
+  <form id="vcf-form" novalidate>
+
+    <!-- ── 1. Customer / Company Details ── -->
+    <div class="section-title">1. Customer / Company Details</div>
+    <div class="row">
+      <div class="field half">
+        <label for="mk_number">MK Number / Customer Account</label>
+        <input type="text" id="mk_number" name="mk_number" placeholder="e.g. MK-00123" />
+      </div>
+      <div class="field half">
+        <label for="contact_name">Contact Name &amp; Mobile</label>
+        <input type="text" id="contact_name" name="contact_name" placeholder="Full name — 05X XXX XXXX" />
+      </div>
+    </div>
+
+    <!-- ── 2. Vehicle Details ── -->
+    <div class="section-title">2. Vehicle Details</div>
+    <div class="row">
+      <div class="field third">
+        <label for="vsb_number">VSB Number</label>
+        <input type="text" id="vsb_number" name="vsb_number" />
+      </div>
+      <div class="field third">
+        <label for="sales_date">Sales Date</label>
+        <input type="date" id="sales_date" name="sales_date" />
+      </div>
+      <div class="field third">
+        <label for="type_model">Type &amp; Model</label>
+        <input type="text" id="type_model" name="type_model" placeholder="e.g. Toyota Camry 2024" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="field half">
+        <label for="net_price">Net Selling Price Including VAT (AED)</label>
+        <input type="number" id="net_price" name="net_price" min="0" step="0.01" placeholder="0.00" />
+      </div>
+    </div>
+
+    <!-- ── 3. Payment Details ── -->
+    <div class="section-title">3. Payment Details</div>
+
+    <!-- Down Payment -->
+    <div class="row">
+      <div class="field half">
+        <label for="down_payment_amount">Down Payment Amount (AED)</label>
+        <input type="number" id="down_payment_amount" name="down_payment_amount" min="0" step="0.01" placeholder="0.00" />
+      </div>
+      <div class="field half">
+        <label for="down_payment_date">Down Payment Due Date</label>
+        <input type="date" id="down_payment_date" name="down_payment_date" />
+      </div>
+    </div>
+
+    <!-- Payment method checkboxes -->
+    <div class="row">
+      <div class="field full">
+        <label>Payment Method</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="pay_pdc"  name="pay_method" value="pdc"  onchange="toggleSection('pdc-section',  this.checked)" /> Post-Dated Cheques (PDC)</label>
+          <label><input type="checkbox" id="pay_lpo"  name="pay_method" value="lpo"  onchange="toggleSection('lpo-section',  this.checked)" /> LPO (Local Purchase Order)</label>
+          <label><input type="checkbox" id="pay_other" name="pay_method" value="other" onchange="toggleSection('other-section', this.checked)" /> Not Covered by Any of the Above</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDC Details (shown when checked) -->
+    <div id="pdc-section" style="display:none; margin-bottom:10px;">
+      <label style="font-size:11px; font-weight:700; color:#1a3a6b; text-transform:uppercase; display:block; margin-bottom:4px;">PDC Details</label>
+      <table class="pdc-table" id="pdc-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cheque No.</th>
+            <th>Bank</th>
+            <th>Due Date</th>
+            <th>Amount (AED)</th>
+          </tr>
+        </thead>
+        <tbody id="pdc-body">
+          <tr>
+            <td>1</td>
+            <td><input type="text" name="pdc_cheque_1"  placeholder="Cheque number" /></td>
+            <td><input type="text" name="pdc_bank_1"    placeholder="Bank name" /></td>
+            <td><input type="date" name="pdc_date_1" /></td>
+            <td><input type="number" name="pdc_amount_1" placeholder="0.00" step="0.01" min="0" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-row-btn" onclick="addPdcRow()">+ Add Cheque Row</button>
+    </div>
+
+    <!-- LPO section -->
+    <div id="lpo-section" style="display:none; margin-bottom:10px;">
+      <div class="field full">
+        <label for="lpo_details">LPO Details</label>
+        <textarea id="lpo_details" name="lpo_details" rows="3" placeholder="LPO number, issuing authority, amount…"></textarea>
+      </div>
+    </div>
+
+    <!-- Other payment section -->
+    <div id="other-section" style="display:none; margin-bottom:10px;">
+      <div class="field full">
+        <label for="other_payment">Other Payment Details</label>
+        <textarea id="other_payment" name="other_payment" rows="3" placeholder="Describe the payment arrangement…"></textarea>
+      </div>
+    </div>
+
+    <!-- ── 4. Mortgage Details ── -->
+    <div class="section-title">4. Mortgage Details</div>
+    <div class="row">
+      <div class="field full">
+        <label for="mortgage_details">Mortgage Details</label>
+        <textarea id="mortgage_details" name="mortgage_details" placeholder="Enter any mortgage or lien information…"></textarea>
+      </div>
+    </div>
+
+    <!-- ── 5. Special Information ── -->
+    <div class="section-title">5. Special Information</div>
+    <div class="row">
+      <div class="field full">
+        <label for="special_info">Special Information</label>
+        <textarea id="special_info" name="special_info" placeholder="Any special terms, conditions, or notes…"></textarea>
+      </div>
+    </div>
+
+    <!-- ── Sales Approvals ── -->
+    <div class="section-title">Sales Approvals</div>
+    <div class="sig-row">
+      <div class="sig-box">
+        <div class="sig-label">Head of Sales</div>
+        <input type="text" name="sig_head_sales" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_head_sales" /></div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">General Manager</div>
+        <input type="text" name="sig_gm" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_gm" /></div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ── Credit Control Team Review ── -->
+    <div class="section-title">For Credit Control Team Review</div>
+
+    <div class="credit-grid">
+      <div class="field">
+        <label for="deal_value">Deal Value (with VAT) AED</label>
+        <input type="number" id="deal_value" name="deal_value" min="0" step="0.01" placeholder="0.00" />
+      </div>
+      <div class="field">
+        <label for="gp_pct">GP % &amp; Amount</label>
+        <input type="text" id="gp_pct" name="gp_pct" placeholder="e.g. 12% — AED 5,000" />
+      </div>
+      <div class="field">
+        <label for="finance_cost">Finance Cost % &amp; Amount</label>
+        <input type="text" id="finance_cost" name="finance_cost" placeholder="e.g. 3.5% — AED 1,500" />
+      </div>
+      <div class="field">
+        <label for="dp_pct">Down Payment % &amp; Amount</label>
+        <input type="text" id="dp_pct" name="dp_pct" placeholder="e.g. 20% — AED 20,000" />
+      </div>
+      <div class="field">
+        <label for="vat_amount">VAT Amount (5%) AED</label>
+        <input type="number" id="vat_amount" name="vat_amount" min="0" step="0.01" placeholder="0.00" />
+      </div>
+      <div class="field">
+        <label for="tenure">Tenure (Years / Months)</label>
+        <input type="text" id="tenure" name="tenure" placeholder="e.g. 3Y / 36M" />
+      </div>
+      <div class="field">
+        <label for="num_pdcs">Number of PDCs</label>
+        <input type="number" id="num_pdcs" name="num_pdcs" min="0" placeholder="0" />
+      </div>
+      <div class="field">
+        <label for="aecb_score">AECB Score</label>
+        <input type="number" id="aecb_score" name="aecb_score" min="0" max="900" placeholder="e.g. 720" />
+      </div>
+      <div class="field">
+        <label for="established_date">Established Date</label>
+        <input type="date" id="established_date" name="established_date" />
+      </div>
+      <div class="field">
+        <label for="default_history">History of Customer Default</label>
+        <input type="text" id="default_history" name="default_history" placeholder="None / details…" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field full">
+        <label for="credit_supervisor_comments">Credit Supervisor Comments</label>
+        <textarea id="credit_supervisor_comments" name="credit_supervisor_comments"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field full">
+        <label for="credit_controller_comments">Credit &amp; Collection Controller Comments</label>
+        <textarea id="credit_controller_comments" name="credit_controller_comments"></textarea>
+      </div>
+    </div>
+
+    <!-- ── Final Approvals ── -->
+    <div class="section-title">Final Approvals</div>
+    <div class="sig-row">
+      <div class="sig-box">
+        <div class="sig-label">Credit Supervisor</div>
+        <input type="text" name="sig_credit_sup" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_credit_sup" /></div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">Credit &amp; Collection Controller</div>
+        <input type="text" name="sig_credit_ctrl" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_credit_ctrl" /></div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">Group Finance Director</div>
+        <input type="text" name="sig_gfd" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_gfd" /></div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">Chief Financial Officer</div>
+        <input type="text" name="sig_cfo" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_cfo" /></div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">Chairman's Approval</div>
+        <input type="text" name="sig_chairman" placeholder="Name / Signature" />
+        <div class="sig-date">Date: <input type="date" name="date_chairman" /></div>
+      </div>
+    </div>
+
+  </form><!-- /form -->
+
+  <!-- Footer -->
+  <div class="form-footer">
+    FINANCE DEPARTMENT &nbsp;|&nbsp; From G &nbsp;|&nbsp;
+    P.O. Box 279, Abu Dhabi, U.A.E. &nbsp;|&nbsp;
+    Tel: 6567000 &nbsp;|&nbsp; Fax: 6567844
+  </div>
+</div><!-- /.page -->
+
+<script>
+  const STORAGE_KEY = 'vcf_form_data';
+
+  /* ── Toggle payment sections ── */
+  function toggleSection(id, show) {
+    document.getElementById(id).style.display = show ? 'block' : 'none';
+  }
+
+  /* ── Add PDC row ── */
+  let pdcRowCount = 1;
+  function addPdcRow() {
+    pdcRowCount++;
+    const tbody = document.getElementById('pdc-body');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${pdcRowCount}</td>
+      <td><input type="text"   name="pdc_cheque_${pdcRowCount}"  placeholder="Cheque number" /></td>
+      <td><input type="text"   name="pdc_bank_${pdcRowCount}"    placeholder="Bank name" /></td>
+      <td><input type="date"   name="pdc_date_${pdcRowCount}" /></td>
+      <td><input type="number" name="pdc_amount_${pdcRowCount}"  placeholder="0.00" step="0.01" min="0" /></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  /* ── Gather form data ── */
+  function collectFormData() {
+    const form = document.getElementById('vcf-form');
+    const data = {};
+    form.querySelectorAll('input, textarea, select').forEach(el => {
+      if (!el.name) return;
+      if (el.type === 'checkbox') {
+        data[el.name] = data[el.name] || [];
+        if (el.checked) data[el.name].push(el.value);
+      } else {
+        data[el.name] = el.value;
+      }
+    });
+    data['__pdc_row_count'] = pdcRowCount;
+    return data;
+  }
+
+  /* ── Restore form data ── */
+  function restoreFormData(data) {
+    if (!data) return;
+
+    // Rebuild extra PDC rows first
+    const savedCount = parseInt(data['__pdc_row_count'] || 1, 10);
+    while (pdcRowCount < savedCount) addPdcRow();
+
+    const form = document.getElementById('vcf-form');
+    form.querySelectorAll('input, textarea, select').forEach(el => {
+      if (!el.name || !(el.name in data)) return;
+      if (el.type === 'checkbox') {
+        el.checked = Array.isArray(data[el.name])
+          ? data[el.name].includes(el.value)
+          : false;
+        toggleSection(
+          el.value === 'pdc'   ? 'pdc-section'   :
+          el.value === 'lpo'   ? 'lpo-section'   :
+          el.value === 'other' ? 'other-section'  : '',
+          el.checked
+        );
+      } else {
+        el.value = data[el.name];
+      }
+    });
+  }
+
+  /* ── Save for later ── */
+  function saveForm() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectFormData()));
+      const banner = document.getElementById('save-banner');
+      banner.style.display = 'block';
+      setTimeout(() => { banner.style.display = 'none'; }, 3500);
+    } catch (e) {
+      alert('Unable to save: localStorage may be disabled in this browser.');
+    }
+  }
+
+  /* ── Reset / start over ── */
+  function resetForm() {
+    if (!confirm('Are you sure you want to clear all form data and start over?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    // Reset dynamic PDC rows
+    const tbody = document.getElementById('pdc-body');
+    while (tbody.rows.length > 1) tbody.deleteRow(tbody.rows.length - 1);
+    pdcRowCount = 1;
+    document.getElementById('vcf-form').reset();
+    // Hide conditional sections
+    ['pdc-section', 'lpo-section', 'other-section'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+  }
+
+  /* ── Auto-restore on page load ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) restoreFormData(JSON.parse(saved));
+    } catch (e) { /* ignore */ }
+  });
+</script>
+</body>
+</html>
