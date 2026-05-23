@@ -58,7 +58,7 @@
 
     /* ── Page wrapper ── */
     .page {
-      max-width: 880px;
+      max-width: 900px;
       margin: 20px auto 40px;
       background: #fff;
       border: 1px solid #ccc;
@@ -148,31 +148,20 @@
       background: #fff;
     }
 
-    /* Read-only / calculated fields */
-    input[readonly], input[disabled] {
+    /* Readonly / calculated */
+    input[readonly] {
       background: #eef1f6 !important;
-      color: #2a4a8a;
+      color: #1a3a6b;
       font-weight: 700;
       cursor: default;
       border-color: #c8d0de !important;
     }
-
-    .calc-note {
-      font-size: 10px;
-      color: #888;
-      margin-top: 2px;
-      font-style: italic;
-    }
+    .calc-note { font-size: 10px; color: #888; margin-top: 2px; font-style: italic; }
 
     textarea { resize: vertical; min-height: 60px; }
 
-    /* ── Payment method radio-style checkboxes ── */
-    .pay-options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 4px;
-    }
+    /* ── Payment method cards ── */
+    .pay-options { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
     .pay-option {
       display: flex;
       align-items: center;
@@ -185,28 +174,14 @@
       user-select: none;
     }
     .pay-option:hover { background: #f0f4fa; }
-    .pay-option.selected {
-      background: #e8eef9;
-      border-color: #1a3a6b;
-    }
+    .pay-option.selected { background: #e8eef9; border-color: #1a3a6b; }
     .pay-option input[type="checkbox"] {
-      width: 15px; height: 15px;
-      cursor: pointer;
-      accent-color: #1a3a6b;
-      flex-shrink: 0;
+      width: 15px; height: 15px; cursor: pointer;
+      accent-color: #1a3a6b; flex-shrink: 0;
     }
-    .pay-option-label {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-    .pay-option-desc {
-      font-size: 11px;
-      color: #666;
-      margin-left: auto;
-    }
+    .pay-option-label { font-size: 12.5px; font-weight: 600; color: #1a1a1a; }
+    .pay-option-desc  { font-size: 11px; color: #666; margin-left: auto; }
 
-    /* ── Payment sub-sections ── */
     .pay-sub {
       display: none;
       margin: 6px 0 12px 2px;
@@ -233,43 +208,172 @@
       text-transform: uppercase;
       text-align: left;
     }
-    .pdc-table td {
-      border: 1px solid #b0b8c5;
-      padding: 3px 5px;
-    }
+    .pdc-table td { border: 1px solid #b0b8c5; padding: 3px 5px; }
     .pdc-table td.num-cell { text-align: center; color: #555; font-size: 11px; }
     .pdc-table td input {
-      border: none;
-      background: transparent;
-      width: 100%;
-      padding: 3px 4px;
-      font-size: 12px;
+      border: none; background: transparent; width: 100%; padding: 3px 4px; font-size: 12px;
     }
     .pdc-table td input:focus { outline: 1px dashed #1a3a6b; }
     .pdc-table tfoot td {
-      background: #eef1f6;
-      font-weight: 700;
-      font-size: 11px;
-      color: #1a3a6b;
-      padding: 5px 8px;
+      background: #eef1f6; font-weight: 700; font-size: 11px;
+      color: #1a3a6b; padding: 5px 8px;
     }
 
-    .btn-small {
+    /* ── Finance type radio cards ── */
+    .finance-type-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .finance-type-card {
+      flex: 1;
+      border: 2px solid #b0b8c5;
+      border-radius: 6px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+    }
+    .finance-type-card:hover { border-color: #1a3a6b; background: #f7f9fc; }
+    .finance-type-card.active {
+      border-color: #1a3a6b;
+      background: #e8eef9;
+    }
+    .finance-type-card input[type="radio"] {
+      accent-color: #1a3a6b;
+      width: 14px; height: 14px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    .ftc-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1a3a6b;
+      display: inline;
+    }
+    .ftc-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+    .ftc-badge.long  { background: #1a3a6b; color: #fff; }
+    .ftc-badge.short { background: #f0a500; color: #000; }
+    .ftc-desc { font-size: 11px; color: #666; margin-top: 4px; margin-left: 22px; }
+
+    /* ── Finance KPI strip ── */
+    .finance-kpi {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      background: #1a3a6b;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .finance-kpi { grid-template-columns: repeat(2, 1fr); } }
+    .kpi-item { display: flex; flex-direction: column; }
+    .kpi-label { font-size: 9.5px; color: #a8c0e8; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+    .kpi-value { font-size: 14px; font-weight: 800; color: #fff; }
+    .kpi-value.highlight { color: #f0c040; }
+
+    /* ── Amortization table ── */
+    .amort-wrap {
+      max-height: 340px;
+      overflow-y: auto;
+      border: 1px solid #c8d2e8;
+      border-radius: 4px;
       margin-top: 8px;
-      padding: 5px 14px;
+    }
+    .amort-wrap.expanded { max-height: none; }
+
+    .amort-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+    .amort-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
       background: #1a3a6b;
       color: #fff;
-      border: none;
+      padding: 6px 8px;
+      text-align: right;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .amort-table thead th:first-child { text-align: center; }
+    .amort-table tbody tr:nth-child(even) { background: #f5f7fb; }
+    .amort-table tbody tr:hover { background: #e8eef9; }
+    .amort-table td {
+      padding: 5px 8px;
+      border-bottom: 1px solid #e0e4ee;
+      text-align: right;
+      color: #222;
+    }
+    .amort-table td:first-child { text-align: center; color: #666; font-weight: 700; }
+    .amort-table td.interest-cell { color: #c0392b; }
+    .amort-table td.principal-cell { color: #1a7a4a; }
+    .amort-table tfoot td {
+      background: #eef1f6;
+      font-weight: 800;
+      font-size: 12px;
+      color: #1a3a6b;
+      padding: 7px 8px;
+      border-top: 2px solid #1a3a6b;
+      text-align: right;
+    }
+    .amort-table tfoot td:first-child { text-align: center; }
+
+    .amort-empty {
+      text-align: center;
+      color: #999;
+      padding: 30px;
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    /* progress bar inside amort rows */
+    .mini-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 80px;
+    }
+    .mini-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: #e0e4ee;
+      overflow: hidden;
+    }
+    .mini-bar-inner-p { height: 100%; background: #1a7a4a; }
+    .mini-bar-inner-i { height: 100%; background: #c0392b; }
+
+    .amort-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 5px 14px;
+      background: #fff;
+      border: 1px solid #1a3a6b;
+      color: #1a3a6b;
       border-radius: 3px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
     }
-    .btn-small:hover { background: #254d8e; }
-    .btn-small.danger { background: #dc3545; }
-    .btn-small.danger:hover { background: #b02a37; }
+    .amort-toggle:hover { background: #eef1f6; }
 
-    /* ── Credit review summary box ── */
+    /* ── Summary box (credit review) ── */
     .summary-box {
       background: #f0f4fa;
       border: 1px solid #c8d2e8;
@@ -294,46 +398,23 @@
     }
     @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr 1fr; } }
     .summary-item { display: flex; flex-direction: column; }
-    .summary-item .s-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: #5a6a8a;
-      text-transform: uppercase;
-      letter-spacing: .3px;
-      margin-bottom: 2px;
-    }
-    .summary-item .s-value {
-      font-size: 13px;
-      font-weight: 700;
-      color: #1a3a6b;
-    }
+    .summary-item .s-label { font-size: 10px; font-weight: 700; color: #5a6a8a; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 2px; }
+    .summary-item .s-value { font-size: 13px; font-weight: 700; color: #1a3a6b; }
 
-    /* ── Input + calculated pair ── */
+    /* ── Input pair (% + AED) ── */
     .input-pair { display: flex; gap: 6px; align-items: flex-end; }
-    .input-pair .pct-input { flex: 0 0 80px; }
+    .input-pair .pct-input  { flex: 0 0 80px; }
     .input-pair .calc-result { flex: 1; }
 
     /* ── Signature blocks ── */
-    .sig-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
+    .sig-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
     .sig-box {
       flex: 1 1 130px;
       border: 1px solid #b0b8c5;
       border-radius: 4px;
       padding: 10px 12px;
     }
-    .sig-label {
-      font-size: 10px;
-      font-weight: 800;
-      color: #1a3a6b;
-      text-transform: uppercase;
-      letter-spacing: .3px;
-      margin-bottom: 8px;
-    }
+    .sig-label { font-size: 10px; font-weight: 800; color: #1a3a6b; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 8px; }
     .sig-box input[type="text"] {
       width: 100%;
       border: none;
@@ -362,10 +443,19 @@
       border-radius: 0;
     }
 
-    /* ── Divider ── */
+    .btn-small {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 8px; padding: 5px 14px;
+      background: #1a3a6b; color: #fff;
+      border: none; border-radius: 3px;
+      font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .btn-small:hover { background: #254d8e; }
+    .btn-small.danger { background: #dc3545; }
+    .btn-small.danger:hover { background: #b02a37; }
+
     .divider { border: none; border-top: 1px dashed #ccc; margin: 20px 0 12px; }
 
-    /* ── Footer ── */
     .form-footer {
       margin-top: 30px;
       border-top: 2px solid #1a3a6b;
@@ -378,8 +468,8 @@
     /* ── Print ── */
     @media print {
       body { background: #fff; }
-      #action-bar, #save-banner, .btn-small { display: none !important; }
-      .page { border: none; padding: 8px 12px; margin: 0; max-width: 100%; box-shadow: none; }
+      #action-bar, #save-banner, .btn-small, .amort-toggle, .no-print { display: none !important; }
+      .page { border: none; padding: 8px 12px; margin: 0; max-width: 100%; }
       input[type="text"], input[type="date"], input[type="number"], textarea, select {
         border: none !important;
         border-bottom: 1px solid #555 !important;
@@ -387,21 +477,20 @@
         background: transparent !important;
         padding: 1px 2px !important;
       }
-      input[readonly], input[disabled] {
-        background: transparent !important;
-        font-weight: 700;
-      }
-      .pdc-table td input { border-bottom: none !important; }
-      .sig-box { border: 1px solid #555 !important; }
+      input[readonly] { background: transparent !important; font-weight: 700; }
+      .pdc-table td input, .amort-table td { border-bottom: none !important; }
+      .sig-box, .summary-box { border: 1px solid #555 !important; }
       .pay-option { border: 1px solid #555 !important; }
       .pay-sub { border-left: 2px solid #555 !important; background: transparent !important; }
-      .summary-box { background: transparent !important; border: 1px solid #555 !important; }
+      .finance-type-card { border: 1px solid #555 !important; background: transparent !important; }
+      .finance-kpi { background: #1a3a6b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .amort-wrap { max-height: none !important; overflow: visible !important; border: 1px solid #ccc !important; }
+      .amort-table thead th { background: #1a3a6b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── Action bar ── -->
 <div id="action-bar">
   <button id="btn-save"  onclick="saveForm()">&#128190; Save for Later</button>
   <button id="btn-reset" onclick="resetForm()">&#8635; Start Over</button>
@@ -409,7 +498,6 @@
 </div>
 <div id="save-banner">&#10003; Form saved — data will be restored when you reopen this page.</div>
 
-<!-- ── Form ── -->
 <div class="page">
 
   <div class="form-header">
@@ -424,7 +512,9 @@
 
   <form id="vcf-form" novalidate>
 
-    <!-- ── 1. Customer / Company Details ── -->
+    <!-- ══════════════════════════════════════════
+         1. Customer / Company Details
+         ══════════════════════════════════════════ -->
     <div class="section-title">1. Customer / Company Details</div>
     <div class="row">
       <div class="field half">
@@ -437,7 +527,9 @@
       </div>
     </div>
 
-    <!-- ── 2. Vehicle Details ── -->
+    <!-- ══════════════════════════════════════════
+         2. Vehicle Details
+         ══════════════════════════════════════════ -->
     <div class="section-title">2. Vehicle Details</div>
     <div class="row">
       <div class="field third">
@@ -454,68 +546,65 @@
       </div>
     </div>
     <div class="row">
-      <div class="field half">
-        <label for="net_price">Net Selling Price Including VAT (AED)</label>
+      <div class="field third">
+        <label for="net_price">Net Selling Price Incl. VAT (AED)</label>
         <input type="number" id="net_price" name="net_price" min="0" step="0.01" placeholder="0.00"
                oninput="onNetPriceChange()" />
-        <span class="calc-note">Drives deal value &amp; VAT calculation below</span>
+        <span class="calc-note">Drives all calculations below</span>
       </div>
-      <div class="field quarter">
-        <label for="net_price_excl">Price Excl. VAT (AED) — auto</label>
+      <div class="field third">
+        <label for="net_price_excl">Price Excl. VAT — auto (AED)</label>
         <input type="text" id="net_price_excl" readonly placeholder="—" />
       </div>
-      <div class="field quarter">
-        <label for="vat_on_price">VAT Component (5%) AED — auto</label>
+      <div class="field third">
+        <label for="vat_on_price">VAT Component 5% — auto (AED)</label>
         <input type="text" id="vat_on_price" readonly placeholder="—" />
       </div>
     </div>
 
-    <!-- ── 3. Payment Details ── -->
+    <!-- ══════════════════════════════════════════
+         3. Payment Details
+         ══════════════════════════════════════════ -->
     <div class="section-title">3. Payment Details</div>
-
     <div class="row">
-      <div class="field half">
+      <div class="field third">
         <label for="down_payment_amount">Down Payment Amount (AED)</label>
         <input type="number" id="down_payment_amount" name="down_payment_amount"
                min="0" step="0.01" placeholder="0.00"
                oninput="onDownPaymentChange()" />
       </div>
-      <div class="field quarter">
+      <div class="field third">
         <label for="dp_pct_auto">Down Payment % — auto</label>
         <input type="text" id="dp_pct_auto" readonly placeholder="—" />
       </div>
-      <div class="field quarter">
+      <div class="field third">
         <label for="down_payment_date">Down Payment Due Date</label>
         <input type="date" id="down_payment_date" name="down_payment_date" />
       </div>
     </div>
 
-    <!-- Payment method selection -->
+    <!-- Payment method -->
     <div style="margin-bottom:6px;">
       <label style="display:block; margin-bottom:6px;">Payment Method (select all that apply)</label>
       <div class="pay-options">
-
         <label class="pay-option" id="opt-pdc" onclick="handlePayOption('pdc')">
-          <input type="checkbox" id="pay_pdc" name="pay_pdc" value="pdc"
+          <input type="checkbox" id="pay_pdc" name="pay_pdc"
                  onclick="event.stopPropagation(); handlePayOption('pdc')" />
           <span class="pay-option-label">Post-Dated Cheques (PDC)</span>
           <span class="pay-option-desc">Enter cheque details below</span>
         </label>
-
         <label class="pay-option" id="opt-lpo" onclick="handlePayOption('lpo')">
-          <input type="checkbox" id="pay_lpo" name="pay_lpo" value="lpo"
+          <input type="checkbox" id="pay_lpo" name="pay_lpo"
                  onclick="event.stopPropagation(); handlePayOption('lpo')" />
           <span class="pay-option-label">LPO — Local Purchase Order</span>
           <span class="pay-option-desc">Attach LPO reference details</span>
         </label>
-
         <label class="pay-option" id="opt-other" onclick="handlePayOption('other')">
-          <input type="checkbox" id="pay_other" name="pay_other" value="other"
+          <input type="checkbox" id="pay_other" name="pay_other"
                  onclick="event.stopPropagation(); handlePayOption('other')" />
           <span class="pay-option-label">Not Covered by Any of the Above</span>
           <span class="pay-option-desc">Clears PDC / LPO selections</span>
         </label>
-
       </div>
     </div>
 
@@ -529,8 +618,8 @@
             <th>Cheque No.</th>
             <th>Bank</th>
             <th style="width:120px;">Due Date</th>
-            <th style="width:120px;">Amount (AED)</th>
-            <th style="width:28px;" class="no-print"></th>
+            <th style="width:130px;">Amount (AED)</th>
+            <th style="width:30px;" class="no-print"></th>
           </tr>
         </thead>
         <tbody id="pdc-body"></tbody>
@@ -578,8 +667,114 @@
       </div>
     </div>
 
-    <!-- ── 4. Mortgage Details ── -->
-    <div class="section-title">4. Mortgage Details</div>
+    <!-- ══════════════════════════════════════════
+         4. Finance Structure
+         ══════════════════════════════════════════ -->
+    <div class="section-title">4. Finance Structure &amp; Amortization Schedule</div>
+
+    <!-- Finance type cards -->
+    <div class="finance-type-row">
+      <div class="finance-type-card active" id="ftc-long" onclick="selectFinanceType('long')">
+        <input type="radio" name="finance_type" id="ft_long" value="long" checked onclick="event.stopPropagation(); selectFinanceType('long')" />
+        <span class="ftc-title">Long Finance</span>
+        <span class="ftc-badge long">Reducing Balance</span>
+        <div class="ftc-desc">
+          Interest calculated on the <strong>outstanding balance</strong> each month.
+          Monthly EMI stays constant; interest portion decreases over time.
+          Typical tenure: &gt;12 months.
+        </div>
+      </div>
+      <div class="finance-type-card" id="ftc-short" onclick="selectFinanceType('short')">
+        <input type="radio" name="finance_type" id="ft_short" value="short" onclick="event.stopPropagation(); selectFinanceType('short')" />
+        <span class="ftc-title">Short Finance</span>
+        <span class="ftc-badge short">Flat Rate</span>
+        <div class="ftc-desc">
+          Interest calculated on the <strong>original principal</strong> for every month.
+          Equal principal + equal interest per installment.
+          Typical tenure: ≤12 months.
+        </div>
+      </div>
+    </div>
+
+    <!-- Finance inputs -->
+    <div class="row">
+      <div class="field third">
+        <label for="finance_amount">Finance Amount (AED)</label>
+        <input type="text" id="finance_amount" readonly placeholder="= Price − Down Payment" />
+        <span class="calc-note">Auto = Net Price − Down Payment</span>
+      </div>
+      <div class="field third">
+        <label for="finance_rate">Annual Finance Rate (%)</label>
+        <input type="number" id="finance_rate" name="finance_rate"
+               min="0" max="50" step="0.01" placeholder="e.g. 5.00"
+               oninput="buildAmortization()" />
+      </div>
+      <div class="field third">
+        <label for="finance_period_months">Finance Period (Months)</label>
+        <input type="number" id="finance_period_months" name="finance_period_months"
+               min="1" max="120" step="1" placeholder="e.g. 36"
+               oninput="syncTenure(); buildAmortization()" />
+        <span class="calc-note">Enter months directly — updates tenure below</span>
+      </div>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="finance-kpi">
+      <div class="kpi-item">
+        <span class="kpi-label">Finance Amount</span>
+        <span class="kpi-value" id="kpi_principal">AED —</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">Monthly Installment</span>
+        <span class="kpi-value highlight" id="kpi_emi">AED —</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">Total Interest</span>
+        <span class="kpi-value" id="kpi_total_interest">AED —</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">Total Payable</span>
+        <span class="kpi-value" id="kpi_total_payable">AED —</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">Effective Rate (APR)</span>
+        <span class="kpi-value" id="kpi_apr">—</span>
+      </div>
+    </div>
+
+    <!-- Amortization table -->
+    <div style="font-size:11px; font-weight:700; color:#1a3a6b; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">
+      Amortization Schedule
+    </div>
+    <div class="amort-wrap" id="amort-wrap">
+      <div class="amort-empty" id="amort-empty">
+        Enter Finance Amount, Rate and Period above to generate the schedule.
+      </div>
+      <table class="amort-table" id="amort-table" style="display:none;">
+        <thead>
+          <tr>
+            <th style="text-align:center; width:44px;">Month</th>
+            <th>Opening Balance</th>
+            <th>Monthly EMI</th>
+            <th>Interest</th>
+            <th>Principal</th>
+            <th style="width:120px;">Principal / Interest</th>
+            <th>Closing Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amort-body"></tbody>
+        <tfoot id="amort-foot"></tfoot>
+      </table>
+    </div>
+    <button type="button" class="amort-toggle no-print" id="amort-toggle-btn"
+            onclick="toggleAmortExpand()" style="display:none;">
+      &#9660; Show full schedule
+    </button>
+
+    <!-- ══════════════════════════════════════════
+         5. Mortgage Details
+         ══════════════════════════════════════════ -->
+    <div class="section-title">5. Mortgage Details</div>
     <div class="row">
       <div class="field full">
         <label for="mortgage_details">Mortgage Details</label>
@@ -588,8 +783,10 @@
       </div>
     </div>
 
-    <!-- ── 5. Special Information ── -->
-    <div class="section-title">5. Special Information</div>
+    <!-- ══════════════════════════════════════════
+         6. Special Information
+         ══════════════════════════════════════════ -->
+    <div class="section-title">6. Special Information</div>
     <div class="row">
       <div class="field full">
         <label for="special_info">Special Information</label>
@@ -598,7 +795,9 @@
       </div>
     </div>
 
-    <!-- ── Sales Approvals ── -->
+    <!-- ══════════════════════════════════════════
+         Sales Approvals
+         ══════════════════════════════════════════ -->
     <div class="section-title">Sales Approvals</div>
     <div class="sig-row">
       <div class="sig-box">
@@ -615,10 +814,11 @@
 
     <hr class="divider" />
 
-    <!-- ── Credit Control Team Review ── -->
+    <!-- ══════════════════════════════════════════
+         Credit Control Team Review
+         ══════════════════════════════════════════ -->
     <div class="section-title">For Credit Control Team Review</div>
 
-    <!-- Live summary strip -->
     <div class="summary-box">
       <div class="summary-title">Deal Summary — auto-calculated</div>
       <div class="summary-grid">
@@ -635,12 +835,12 @@
           <span class="s-value" id="sum_dp">AED — (—%)</span>
         </div>
         <div class="summary-item">
-          <span class="s-label">GP Amount</span>
-          <span class="s-value" id="sum_gp">AED —</span>
+          <span class="s-label">Finance Amount</span>
+          <span class="s-value" id="sum_finance">AED —</span>
         </div>
         <div class="summary-item">
-          <span class="s-label">Finance Cost</span>
-          <span class="s-value" id="sum_fc">AED —</span>
+          <span class="s-label">Monthly EMI</span>
+          <span class="s-value" id="sum_emi">AED —</span>
         </div>
         <div class="summary-item">
           <span class="s-label">Number of PDCs</span>
@@ -649,7 +849,6 @@
       </div>
     </div>
 
-    <!-- GP & Finance cost input row -->
     <div class="row">
       <div class="field half">
         <label>GP % (enter) &amp; Amount AED (auto)</label>
@@ -681,7 +880,7 @@
       <div class="field third">
         <label for="tenure_years">Tenure — Years (enter)</label>
         <input type="number" id="tenure_years" name="tenure_years" min="0" max="10" step="1"
-               placeholder="e.g. 3" oninput="recalcTenure()" />
+               placeholder="e.g. 3" oninput="onTenureYearsChange()" />
       </div>
       <div class="field third">
         <label for="tenure_months_auto">Tenure — Months (auto)</label>
@@ -696,15 +895,13 @@
     <div class="row">
       <div class="field half">
         <label for="aecb_score">AECB Score</label>
-        <input type="number" id="aecb_score" name="aecb_score" min="0" max="900"
-               placeholder="e.g. 720" />
+        <input type="number" id="aecb_score" name="aecb_score" min="0" max="900" placeholder="e.g. 720" />
       </div>
       <div class="field half">
         <label for="established_date">Established Date</label>
         <input type="date" id="established_date" name="established_date" />
       </div>
     </div>
-
     <div class="row">
       <div class="field full">
         <label for="default_history">History of Customer Default</label>
@@ -712,7 +909,6 @@
                placeholder="None — or describe any prior defaults…" />
       </div>
     </div>
-
     <div class="row">
       <div class="field full">
         <label for="credit_supervisor_comments">Credit Supervisor Comments</label>
@@ -726,7 +922,9 @@
       </div>
     </div>
 
-    <!-- ── Final Approvals ── -->
+    <!-- ══════════════════════════════════════════
+         Final Approvals
+         ══════════════════════════════════════════ -->
     <div class="section-title">Final Approvals</div>
     <div class="sig-row">
       <div class="sig-box">
@@ -763,111 +961,143 @@
     P.O. Box 279, Abu Dhabi, U.A.E. &nbsp;|&nbsp;
     Tel: 6567000 &nbsp;|&nbsp; Fax: 6567844
   </div>
-</div>
+</div><!-- /.page -->
 
 <script>
-/* =========================================================
-   Helpers
-   ========================================================= */
-const STORAGE_KEY = 'vcf_form_v2';
+/* ==========================================================
+   Utilities
+   ========================================================== */
+const STORAGE_KEY = 'vcf_form_v3';
+let amortExpanded = false;
 
-function fmt(n) {
-  if (isNaN(n) || n === null || n === '') return '—';
-  return Number(n).toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function fmtAED(n) {
+  if (!isFinite(n)) return '—';
+  return 'AED ' + n.toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
-function pct(n) {
-  if (isNaN(n) || n === null) return '—';
-  return Number(n).toFixed(2) + '%';
+function fmtNum(n, dp = 2) {
+  if (!isFinite(n)) return '—';
+  return n.toLocaleString('en-AE', { minimumFractionDigits: dp, maximumFractionDigits: dp });
 }
-function val(id) {
+function numVal(id) {
   const el = document.getElementById(id);
   return el ? parseFloat(el.value) || 0 : 0;
 }
-function set(id, text) {
+function setVal(id, v) {
   const el = document.getElementById(id);
-  if (el) el.value = text;
+  if (el) el.value = v;
 }
-function setText(id, text) {
+function setText(id, v) {
   const el = document.getElementById(id);
-  if (el) el.textContent = text;
+  if (el) el.textContent = v;
 }
 
-/* =========================================================
-   Net Price → VAT breakdown
-   ========================================================= */
+/* ==========================================================
+   Finance type selection
+   ========================================================== */
+function selectFinanceType(type) {
+  document.getElementById('ft_long').checked  = (type === 'long');
+  document.getElementById('ft_short').checked = (type === 'short');
+  document.getElementById('ftc-long').classList.toggle('active',  type === 'long');
+  document.getElementById('ftc-short').classList.toggle('active', type === 'short');
+  buildAmortization();
+}
+
+function getFinanceType() {
+  return document.getElementById('ft_short').checked ? 'short' : 'long';
+}
+
+/* ==========================================================
+   Net Price change → VAT breakdown + downstream
+   ========================================================== */
 function onNetPriceChange() {
-  const price = val('net_price');
+  const price = numVal('net_price');
   if (price > 0) {
     const excl = price / 1.05;
     const vat  = price - excl;
-    set('net_price_excl', 'AED ' + fmt(excl));
-    set('vat_on_price',   'AED ' + fmt(vat));
+    setVal('net_price_excl', 'AED ' + fmtNum(excl));
+    setVal('vat_on_price',   'AED ' + fmtNum(vat));
   } else {
-    set('net_price_excl', '');
-    set('vat_on_price', '');
+    setVal('net_price_excl', '');
+    setVal('vat_on_price', '');
   }
   onDownPaymentChange();
   recalcCreditReview();
   updateSummary();
 }
 
-/* =========================================================
-   Down payment → auto %
-   ========================================================= */
+/* ==========================================================
+   Down payment → auto % + finance amount
+   ========================================================== */
 function onDownPaymentChange() {
-  const price = val('net_price');
-  const dp    = val('down_payment_amount');
-  if (price > 0 && dp >= 0) {
-    set('dp_pct_auto', pct((dp / price) * 100));
+  const price = numVal('net_price');
+  const dp    = numVal('down_payment_amount');
+  if (price > 0) {
+    setVal('dp_pct_auto', fmtNum((dp / price) * 100) + '%');
   } else {
-    set('dp_pct_auto', '');
+    setVal('dp_pct_auto', '');
+  }
+  updateFinanceAmount();
+  buildAmortization();
+  updateSummary();
+}
+
+function updateFinanceAmount() {
+  const price = numVal('net_price');
+  const dp    = numVal('down_payment_amount');
+  const fa    = Math.max(0, price - dp);
+  setVal('finance_amount', fa > 0 ? 'AED ' + fmtNum(fa) : '');
+  buildAmortization();
+}
+
+/* ==========================================================
+   Tenure sync — months ↔ years
+   ========================================================== */
+function syncTenure() {
+  const m = numVal('finance_period_months');
+  if (m > 0) {
+    const y = m / 12;
+    setVal('tenure_years', Math.round(y * 100) / 100);
+    setVal('tenure_months_auto', m + ' months');
+  } else {
+    setVal('tenure_years', '');
+    setVal('tenure_months_auto', '');
   }
   updateSummary();
 }
 
-/* =========================================================
-   GP % & Finance cost % → AED amounts
-   ========================================================= */
-function recalcCreditReview() {
-  const price = val('net_price');
-  const gpPct = val('gp_pct');
-  const fcPct = val('finance_cost_pct');
-
-  if (price > 0 && gpPct >= 0) {
-    set('gp_amount', 'AED ' + fmt(price * gpPct / 100));
-  } else {
-    set('gp_amount', '');
-  }
-
-  if (price > 0 && fcPct >= 0) {
-    set('finance_cost_amount', 'AED ' + fmt(price * fcPct / 100));
-  } else {
-    set('finance_cost_amount', '');
-  }
-  updateSummary();
-}
-
-/* =========================================================
-   Tenure years → months
-   ========================================================= */
-function recalcTenure() {
-  const y = val('tenure_years');
+function onTenureYearsChange() {
+  const y = numVal('tenure_years');
   if (y > 0) {
-    set('tenure_months_auto', (y * 12) + ' months');
+    const m = Math.round(y * 12);
+    setVal('finance_period_months', m);
+    setVal('tenure_months_auto', m + ' months');
+    buildAmortization();
   } else {
-    set('tenure_months_auto', '');
+    setVal('finance_period_months', '');
+    setVal('tenure_months_auto', '');
+    buildAmortization();
   }
 }
 
-/* =========================================================
-   PDC table — add row, remove row, running total, count
-   ========================================================= */
+/* ==========================================================
+   GP & Finance cost % → AED
+   ========================================================== */
+function recalcCreditReview() {
+  const price = numVal('net_price');
+  const gp    = numVal('gp_pct');
+  const fc    = numVal('finance_cost_pct');
+  setVal('gp_amount',          price > 0 && gp ? 'AED ' + fmtNum(price * gp / 100)  : '');
+  setVal('finance_cost_amount', price > 0 && fc ? 'AED ' + fmtNum(price * fc / 100) : '');
+}
+
+/* ==========================================================
+   PDC table
+   ========================================================== */
 let pdcRowCount = 0;
 
 function addPdcRow() {
   pdcRowCount++;
   const n = pdcRowCount;
-  const tbody = document.getElementById('pdc-body');
   const tr = document.createElement('tr');
   tr.id = 'pdc-row-' + n;
   tr.innerHTML =
@@ -881,146 +1111,267 @@ function addPdcRow() {
        <button type="button" class="btn-small danger" style="padding:2px 8px; margin:0;"
                onclick="removePdcRow(${n})">✕</button>
      </td>`;
-  tbody.appendChild(tr);
+  document.getElementById('pdc-body').appendChild(tr);
   recalcPdcTotal();
 }
 
 function removePdcRow(n) {
-  const row = document.getElementById('pdc-row-' + n);
-  if (row) row.remove();
+  const r = document.getElementById('pdc-row-' + n);
+  if (r) r.remove();
   recalcPdcTotal();
 }
 
 function recalcPdcTotal() {
-  let total = 0;
-  let count = 0;
+  let total = 0, count = 0;
   document.querySelectorAll('#pdc-body tr').forEach(tr => {
-    const amtInput = tr.querySelector('input[type="number"]');
-    if (amtInput) {
-      total += parseFloat(amtInput.value) || 0;
-      count++;
-    }
+    const a = tr.querySelector('input[type="number"]');
+    if (a) { total += parseFloat(a.value) || 0; count++; }
   });
-  document.getElementById('pdc-total').textContent = 'AED ' + fmt(total);
-  set('num_pdcs_auto', count > 0 ? count + ' cheque(s)' : '');
+  document.getElementById('pdc-total').textContent = 'AED ' + fmtNum(total);
+  setVal('num_pdcs_auto', count > 0 ? count + ' cheque(s)' : '');
   updateSummary();
 }
 
-/* =========================================================
-   Live summary strip
-   ========================================================= */
-function updateSummary() {
-  const price = val('net_price');
-  const dp    = val('down_payment_amount');
-  const gpPct = val('gp_pct');
-  const fcPct = val('finance_cost_pct');
-
-  setText('sum_deal_value', price > 0 ? 'AED ' + fmt(price) : 'AED —');
-  if (price > 0) {
-    const vat = price / 1.05 * 0.05;
-    setText('sum_vat', 'AED ' + fmt(vat));
-  } else {
-    setText('sum_vat', 'AED —');
-  }
-  if (price > 0 && dp >= 0) {
-    setText('sum_dp', 'AED ' + fmt(dp) + ' (' + pct((dp / price) * 100) + ')');
-  } else {
-    setText('sum_dp', 'AED —');
-  }
-  setText('sum_gp', price > 0 && gpPct ? 'AED ' + fmt(price * gpPct / 100) : 'AED —');
-  setText('sum_fc', price > 0 && fcPct ? 'AED ' + fmt(price * fcPct / 100) : 'AED —');
-
-  let pdcCount = document.querySelectorAll('#pdc-body tr').length;
-  setText('sum_pdcs', pdcCount > 0 ? pdcCount : '—');
-}
-
-/* =========================================================
-   Payment option selection
-   — PDC and LPO can both be selected together
-   — "Other" is mutually exclusive with PDC and LPO
-   ========================================================= */
+/* ==========================================================
+   Payment option cards (PDC+LPO combinable; "other" exclusive)
+   ========================================================== */
 function handlePayOption(key) {
   const cb = document.getElementById('pay_' + key);
-  // Toggle the checkbox state
   cb.checked = !cb.checked;
 
   if (key === 'other' && cb.checked) {
-    // Deselect PDC and LPO
     ['pdc', 'lpo'].forEach(k => {
       document.getElementById('pay_' + k).checked = false;
-      document.getElementById('opt-'  + k).classList.remove('selected');
+      document.getElementById('opt-' + k).classList.remove('selected');
       document.getElementById(k + '-section').classList.remove('active');
     });
   }
-
   if ((key === 'pdc' || key === 'lpo') && cb.checked) {
-    // Deselect "other"
     document.getElementById('pay_other').checked = false;
     document.getElementById('opt-other').classList.remove('selected');
     document.getElementById('other-section').classList.remove('active');
   }
-
-  // Sync selected class and sub-section visibility
   ['pdc', 'lpo', 'other'].forEach(k => {
-    const checked = document.getElementById('pay_' + k).checked;
-    document.getElementById('opt-' + k).classList.toggle('selected', checked);
-    document.getElementById(k + '-section').classList.toggle('active', checked);
+    const on = document.getElementById('pay_' + k).checked;
+    document.getElementById('opt-' + k).classList.toggle('selected', on);
+    document.getElementById(k + '-section').classList.toggle('active', on);
   });
-
-  // Ensure at least one PDC row exists when PDC is selected
   if (key === 'pdc' && cb.checked && document.querySelectorAll('#pdc-body tr').length === 0) {
     addPdcRow();
   }
 }
 
-/* =========================================================
-   Collect / restore / save / reset
-   ========================================================= */
-function collectFormData() {
-  const form = document.getElementById('vcf-form');
-  const data = { __pdcRowCount: pdcRowCount };
-  form.querySelectorAll('input:not([readonly]):not([disabled]), textarea, select').forEach(el => {
-    if (!el.name) return;
-    if (el.type === 'checkbox') {
-      data[el.name] = el.checked;
-    } else {
-      data[el.name] = el.value;
+/* ==========================================================
+   Amortization engine
+   ========================================================== */
+function buildAmortization() {
+  const price   = numVal('net_price');
+  const dp      = numVal('down_payment_amount');
+  const principal = Math.max(0, price - dp);
+  const annualRate = numVal('finance_rate');
+  const n          = Math.round(numVal('finance_period_months'));
+  const type       = getFinanceType();
+
+  const empty  = document.getElementById('amort-empty');
+  const table  = document.getElementById('amort-table');
+  const body   = document.getElementById('amort-body');
+  const foot   = document.getElementById('amort-foot');
+  const toggleBtn = document.getElementById('amort-toggle-btn');
+
+  // Update KPI principal
+  setText('kpi_principal', principal > 0 ? fmtAED(principal) : 'AED —');
+
+  if (principal <= 0 || annualRate <= 0 || n <= 0) {
+    empty.style.display = '';
+    table.style.display  = 'none';
+    toggleBtn.style.display = 'none';
+    ['kpi_emi','kpi_total_interest','kpi_total_payable','kpi_apr'].forEach(id => setText(id, '—'));
+    setText('sum_emi', 'AED —');
+    setText('sum_finance', 'AED —');
+    updateSummary();
+    return;
+  }
+
+  const monthlyRate = annualRate / 100 / 12;
+  let emi, rows = [], totalInterest = 0, totalPrincipal = 0;
+
+  if (type === 'long') {
+    /* ── Reducing balance ── */
+    emi = principal * monthlyRate * Math.pow(1 + monthlyRate, n)
+          / (Math.pow(1 + monthlyRate, n) - 1);
+    let balance = principal;
+    for (let m = 1; m <= n; m++) {
+      const interest  = balance * monthlyRate;
+      const principalPmt = emi - interest;
+      const closing   = Math.max(0, balance - principalPmt);
+      rows.push({ m, open: balance, emi, interest, principal: principalPmt, close: closing });
+      totalInterest   += interest;
+      totalPrincipal  += principalPmt;
+      balance = closing;
     }
+  } else {
+    /* ── Flat rate ── */
+    const monthlyInterest   = principal * annualRate / 100 / 12;
+    const monthlyPrincipalP = principal / n;
+    emi = monthlyPrincipalP + monthlyInterest;
+    let balance = principal;
+    for (let m = 1; m <= n; m++) {
+      const closing = Math.max(0, balance - monthlyPrincipalP);
+      rows.push({ m, open: balance, emi, interest: monthlyInterest, principal: monthlyPrincipalP, close: closing });
+      totalInterest  += monthlyInterest;
+      totalPrincipal += monthlyPrincipalP;
+      balance = closing;
+    }
+  }
+
+  const totalPayable = emi * n;
+
+  /* APR for flat rate via Newton-Raphson on IRR */
+  let apr = annualRate;
+  if (type === 'short') {
+    let r = monthlyRate;
+    for (let iter = 0; iter < 100; iter++) {
+      const p1 = Math.pow(1 + r, n);
+      const f  = emi * (p1 - 1) / r / p1 - principal;
+      const df = emi * (n * r * p1 - p1 * (p1 - 1) / p1) / (r * r * p1);
+      const nr = r - f / df;
+      if (!isFinite(nr) || nr <= 0) break;
+      if (Math.abs(nr - r) < 1e-10) { r = nr; break; }
+      r = nr;
+    }
+    apr = r * 12 * 100;
+  }
+
+  /* Update KPIs */
+  setText('kpi_emi',           fmtAED(emi));
+  setText('kpi_total_interest', fmtAED(totalInterest));
+  setText('kpi_total_payable',  fmtAED(totalPayable));
+  setText('kpi_apr',            fmtNum(apr) + '% p.a.' + (type === 'short' ? ' (eff.)' : ''));
+  setText('sum_emi',    fmtAED(emi));
+  setText('sum_finance', fmtAED(principal));
+
+  /* Build table rows */
+  body.innerHTML = '';
+  rows.forEach(({ m, open, emi: e, interest: i, principal: p, close }) => {
+    const pPct = (p / (p + i)) * 100;
+    const iPct = 100 - pPct;
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td>${m}</td>
+       <td>${fmtAED(open)}</td>
+       <td>${fmtAED(e)}</td>
+       <td class="interest-cell">${fmtAED(i)}</td>
+       <td class="principal-cell">${fmtAED(p)}</td>
+       <td>
+         <div class="mini-bar-wrap">
+           <div class="mini-bar">
+             <div class="mini-bar-inner-p" style="width:${pPct.toFixed(1)}%"></div>
+           </div>
+           <span style="font-size:10px; color:#555; white-space:nowrap;">${fmtNum(pPct,0)}%P</span>
+         </div>
+       </td>
+       <td>${fmtAED(close)}</td>`;
+    body.appendChild(tr);
   });
+
+  /* Footer totals */
+  foot.innerHTML =
+    `<tr>
+       <td>Total</td>
+       <td>—</td>
+       <td>${fmtAED(emi * n)}</td>
+       <td class="interest-cell">${fmtAED(totalInterest)}</td>
+       <td class="principal-cell">${fmtAED(totalPrincipal)}</td>
+       <td>—</td>
+       <td>—</td>
+     </tr>`;
+
+  empty.style.display  = 'none';
+  table.style.display  = '';
+  toggleBtn.style.display = n > 12 ? '' : 'none';
+
+  updateSummary();
+}
+
+function toggleAmortExpand() {
+  amortExpanded = !amortExpanded;
+  const wrap = document.getElementById('amort-wrap');
+  const btn  = document.getElementById('amort-toggle-btn');
+  wrap.classList.toggle('expanded', amortExpanded);
+  btn.textContent = amortExpanded ? '▲ Collapse schedule' : '▼ Show full schedule';
+}
+
+/* ==========================================================
+   Summary strip
+   ========================================================== */
+function updateSummary() {
+  const price = numVal('net_price');
+  const dp    = numVal('down_payment_amount');
+  const fa    = Math.max(0, price - dp);
+
+  setText('sum_deal_value', price > 0 ? fmtAED(price) : 'AED —');
+  setText('sum_vat',        price > 0 ? fmtAED(price / 1.05 * 0.05) : 'AED —');
+  setText('sum_dp',
+    price > 0
+      ? fmtAED(dp) + ' (' + fmtNum((dp / price) * 100) + '%)'
+      : 'AED —');
+  setText('sum_finance', fa > 0 ? fmtAED(fa) : 'AED —');
+
+  const pdcCount = document.querySelectorAll('#pdc-body tr').length;
+  setText('sum_pdcs', pdcCount > 0 ? pdcCount : '—');
+}
+
+/* ==========================================================
+   Save / Reset / Restore
+   ========================================================== */
+function collectFormData() {
+  const data = {
+    __pdcRowCount: pdcRowCount,
+    __financeType: getFinanceType()
+  };
+  document.getElementById('vcf-form')
+    .querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
+      if (!el.name) return;
+      if (el.type === 'radio') {
+        if (el.checked) data[el.name] = el.value;
+      } else if (el.type === 'checkbox') {
+        data[el.name] = el.checked;
+      } else {
+        data[el.name] = el.value;
+      }
+    });
   return data;
 }
 
 function restoreFormData(data) {
   if (!data) return;
+  for (let i = 0; i < (data.__pdcRowCount || 0); i++) addPdcRow();
 
-  // Rebuild PDC rows
-  const saved = parseInt(data.__pdcRowCount || 0, 10);
-  for (let i = 0; i < saved; i++) addPdcRow();
+  document.getElementById('vcf-form')
+    .querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
+      if (!el.name || !(el.name in data)) return;
+      if (el.type === 'radio') {
+        el.checked = el.value === data[el.name];
+      } else if (el.type === 'checkbox') {
+        el.checked = !!data[el.name];
+      } else {
+        el.value = data[el.name];
+      }
+    });
 
-  const form = document.getElementById('vcf-form');
-  form.querySelectorAll('input:not([readonly]):not([disabled]), textarea, select').forEach(el => {
-    if (!el.name || !(el.name in data)) return;
-    if (el.type === 'checkbox') {
-      el.checked = !!data[el.name];
-    } else {
-      el.value = data[el.name];
-    }
-  });
+  selectFinanceType(data.__financeType || 'long');
 
-  // Restore payment option UI state
   ['pdc', 'lpo', 'other'].forEach(k => {
-    const cb = document.getElementById('pay_' + k);
-    if (cb && cb.checked) {
-      document.getElementById('opt-' + k).classList.add('selected');
-      document.getElementById(k + '-section').classList.add('active');
-    }
+    const on = document.getElementById('pay_' + k).checked;
+    document.getElementById('opt-' + k).classList.toggle('selected', on);
+    document.getElementById(k + '-section').classList.toggle('active', on);
   });
 
-  // Re-run calculations
   onNetPriceChange();
   recalcCreditReview();
-  recalcTenure();
+  syncTenure();
   recalcPdcTotal();
+  buildAmortization();
 }
 
 function saveForm() {
@@ -1028,9 +1379,9 @@ function saveForm() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(collectFormData()));
     const b = document.getElementById('save-banner');
     b.style.display = 'block';
-    setTimeout(() => { b.style.display = 'none'; }, 3500);
+    setTimeout(() => b.style.display = 'none', 3500);
   } catch (e) {
-    alert('Save failed — localStorage may be disabled in this browser.');
+    alert('Save failed — localStorage may be disabled.');
   }
 }
 
@@ -1038,37 +1389,42 @@ function resetForm() {
   if (!confirm('Clear all form data and start a new form?')) return;
   localStorage.removeItem(STORAGE_KEY);
 
-  // Remove all PDC rows
   document.getElementById('pdc-body').innerHTML = '';
   pdcRowCount = 0;
-
-  // Reset all inputs
   document.getElementById('vcf-form').reset();
+  selectFinanceType('long');
 
-  // Clear readonly fields
-  ['net_price_excl','vat_on_price','dp_pct_auto','gp_amount',
-   'finance_cost_amount','tenure_months_auto','num_pdcs_auto'].forEach(id => set(id, ''));
+  ['net_price_excl','vat_on_price','dp_pct_auto','finance_amount',
+   'gp_amount','finance_cost_amount','tenure_months_auto','num_pdcs_auto'].forEach(id => setVal(id, ''));
 
-  // Reset payment option UI
   ['pdc','lpo','other'].forEach(k => {
     document.getElementById('opt-' + k).classList.remove('selected');
     document.getElementById(k + '-section').classList.remove('active');
   });
 
-  // Reset summary strip
-  ['sum_deal_value','sum_vat','sum_dp','sum_gp','sum_fc'].forEach(id => setText(id, 'AED —'));
-  setText('sum_pdcs', '—');
   document.getElementById('pdc-total').textContent = 'AED 0.00';
+  document.getElementById('amort-body').innerHTML = '';
+  document.getElementById('amort-foot').innerHTML = '';
+  document.getElementById('amort-empty').style.display = '';
+  document.getElementById('amort-table').style.display  = 'none';
+  document.getElementById('amort-toggle-btn').style.display = 'none';
+
+  ['kpi_principal','kpi_emi','kpi_total_interest','kpi_total_payable']
+    .forEach(id => setText(id, 'AED —'));
+  setText('kpi_apr', '—');
+  ['sum_deal_value','sum_vat','sum_dp','sum_finance','sum_emi']
+    .forEach(id => setText(id, 'AED —'));
+  setText('sum_pdcs', '—');
 }
 
-/* =========================================================
-   Init — restore saved data on load
-   ========================================================= */
+/* ==========================================================
+   Init
+   ========================================================== */
 window.addEventListener('DOMContentLoaded', () => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) restoreFormData(JSON.parse(saved));
-  } catch (e) { /* ignore corrupt data */ }
+  } catch (e) { /* ignore */ }
 });
 </script>
 </body>
