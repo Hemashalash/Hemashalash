@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vehicle Credit Facility Approval</title>
   <style>
-    /* ── Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -15,55 +14,55 @@
       color: #1a1a1a;
     }
 
-    /* ── Action bar (hidden when printing) ── */
+    /* ── Action bar ── */
     #action-bar {
       position: sticky;
       top: 0;
       z-index: 100;
       display: flex;
       gap: 10px;
+      align-items: center;
       justify-content: flex-end;
       padding: 10px 24px;
       background: #1a3a6b;
-      box-shadow: 0 2px 6px rgba(0,0,0,.25);
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
     }
-
     #action-bar button {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       border: none;
       border-radius: 4px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: opacity .15s, transform .1s;
+      transition: filter .15s, transform .1s;
     }
-    #action-bar button:hover  { opacity: .88; }
+    #action-bar button:hover  { filter: brightness(1.12); }
     #action-bar button:active { transform: scale(.97); }
-
-    #btn-print  { background: #e8a900; color: #1a1a1a; }
-    #btn-reset  { background: #dc3545; color: #fff; }
-    #btn-save   { background: #28a745; color: #fff; }
+    #btn-print { background: #f0a500; color: #000; }
+    #btn-reset { background: #dc3545; color: #fff; }
+    #btn-save  { background: #28a745; color: #fff; }
 
     #save-banner {
       display: none;
       text-align: center;
-      padding: 8px;
+      padding: 7px;
       background: #d4edda;
       color: #155724;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 13px;
+      border-bottom: 1px solid #b8dbc4;
     }
 
     /* ── Page wrapper ── */
     .page {
-      max-width: 860px;
-      margin: 20px auto;
+      max-width: 880px;
+      margin: 20px auto 40px;
       background: #fff;
       border: 1px solid #ccc;
-      padding: 30px 36px 40px;
+      padding: 28px 36px 36px;
     }
 
     /* ── Header ── */
@@ -75,55 +74,53 @@
       padding-bottom: 10px;
       margin-bottom: 18px;
     }
-    .form-header .logo-block { font-size: 11px; color: #555; line-height: 1.5; }
+    .logo-block { font-size: 11px; color: #555; line-height: 1.6; min-width: 160px; }
     .form-header h1 {
-      font-size: 17px;
-      font-weight: 700;
-      text-align: center;
-      color: #1a3a6b;
       flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #1a3a6b;
       text-transform: uppercase;
-      letter-spacing: .5px;
+      letter-spacing: .6px;
+      padding: 0 10px;
     }
     .dept-badge {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       color: #1a3a6b;
       text-align: right;
-      line-height: 1.4;
+      line-height: 1.5;
+      min-width: 100px;
     }
 
-    /* ── Section headings ── */
+    /* ── Section titles ── */
     .section-title {
       background: #1a3a6b;
       color: #fff;
       font-weight: 700;
-      font-size: 12px;
+      font-size: 11.5px;
       padding: 5px 10px;
-      margin: 20px 0 8px;
+      margin: 22px 0 10px;
       text-transform: uppercase;
-      letter-spacing: .4px;
+      letter-spacing: .5px;
     }
 
-    /* ── Grid rows ── */
+    /* ── Field grid ── */
     .row {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 10px;
       flex-wrap: wrap;
     }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 180px;
-    }
-    .field.full  { flex: 1 1 100%; }
-    .field.half  { flex: 1 1 45%; }
-    .field.third { flex: 1 1 28%; }
+    .field         { display: flex; flex-direction: column; flex: 1 1 160px; }
+    .field.full    { flex: 1 1 100%; }
+    .field.half    { flex: 1 1 45%; }
+    .field.third   { flex: 1 1 28%; }
+    .field.quarter { flex: 1 1 20%; }
 
     label {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #1a3a6b;
       margin-bottom: 3px;
@@ -134,8 +131,6 @@
     input[type="text"],
     input[type="date"],
     input[type="number"],
-    input[type="tel"],
-    input[type="email"],
     textarea,
     select {
       width: 100%;
@@ -144,7 +139,8 @@
       border-radius: 3px;
       font-size: 12px;
       background: #fafbfc;
-      transition: border-color .15s;
+      color: #1a1a1a;
+      transition: border-color .15s, background .15s;
     }
     input:focus, textarea:focus, select:focus {
       outline: none;
@@ -152,93 +148,222 @@
       background: #fff;
     }
 
-    textarea { resize: vertical; min-height: 62px; }
+    /* Read-only / calculated fields */
+    input[readonly], input[disabled] {
+      background: #eef1f6 !important;
+      color: #2a4a8a;
+      font-weight: 700;
+      cursor: default;
+      border-color: #c8d0de !important;
+    }
 
-    /* ── Payment table ── */
+    .calc-note {
+      font-size: 10px;
+      color: #888;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    textarea { resize: vertical; min-height: 60px; }
+
+    /* ── Payment method radio-style checkboxes ── */
+    .pay-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .pay-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid #b0b8c5;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .1s, border-color .1s;
+      user-select: none;
+    }
+    .pay-option:hover { background: #f0f4fa; }
+    .pay-option.selected {
+      background: #e8eef9;
+      border-color: #1a3a6b;
+    }
+    .pay-option input[type="checkbox"] {
+      width: 15px; height: 15px;
+      cursor: pointer;
+      accent-color: #1a3a6b;
+      flex-shrink: 0;
+    }
+    .pay-option-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .pay-option-desc {
+      font-size: 11px;
+      color: #666;
+      margin-left: auto;
+    }
+
+    /* ── Payment sub-sections ── */
+    .pay-sub {
+      display: none;
+      margin: 6px 0 12px 2px;
+      padding: 12px 14px;
+      border-left: 3px solid #1a3a6b;
+      background: #f7f9fc;
+      border-radius: 0 4px 4px 0;
+    }
+    .pay-sub.active { display: block; }
+
+    /* ── PDC table ── */
     .pdc-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 6px;
       font-size: 12px;
+      margin-top: 6px;
     }
     .pdc-table th {
       background: #dde3ef;
       color: #1a3a6b;
       border: 1px solid #b0b8c5;
       padding: 5px 8px;
-      text-align: left;
-      font-size: 11px;
+      font-size: 10.5px;
       text-transform: uppercase;
+      text-align: left;
     }
     .pdc-table td {
       border: 1px solid #b0b8c5;
-      padding: 4px 6px;
+      padding: 3px 5px;
     }
-    .pdc-table td input { border: none; background: transparent; width: 100%; padding: 2px 4px; }
+    .pdc-table td.num-cell { text-align: center; color: #555; font-size: 11px; }
+    .pdc-table td input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      padding: 3px 4px;
+      font-size: 12px;
+    }
     .pdc-table td input:focus { outline: 1px dashed #1a3a6b; }
+    .pdc-table tfoot td {
+      background: #eef1f6;
+      font-weight: 700;
+      font-size: 11px;
+      color: #1a3a6b;
+      padding: 5px 8px;
+    }
 
-    .add-row-btn {
-      margin-top: 6px;
-      padding: 4px 12px;
+    .btn-small {
+      margin-top: 8px;
+      padding: 5px 14px;
       background: #1a3a6b;
       color: #fff;
       border: none;
       border-radius: 3px;
       font-size: 11px;
+      font-weight: 600;
       cursor: pointer;
     }
-    .add-row-btn:hover { background: #254d8e; }
+    .btn-small:hover { background: #254d8e; }
+    .btn-small.danger { background: #dc3545; }
+    .btn-small.danger:hover { background: #b02a37; }
 
-    /* ── Checkboxes ── */
-    .checkbox-group { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 400;
-      text-transform: none;
-      font-size: 12px;
-      color: #1a1a1a;
-      cursor: pointer;
+    /* ── Credit review summary box ── */
+    .summary-box {
+      background: #f0f4fa;
+      border: 1px solid #c8d2e8;
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
     }
-    .checkbox-group input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; }
-
-    /* ── Credit review two-column layout ── */
-    .credit-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px 16px;
+    .summary-box .summary-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1a3a6b;
+      text-transform: uppercase;
+      letter-spacing: .4px;
       margin-bottom: 10px;
+      border-bottom: 1px solid #c8d2e8;
+      padding-bottom: 5px;
     }
-    @media (max-width: 620px) { .credit-grid { grid-template-columns: 1fr; } }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 16px;
+    }
+    @media (max-width: 640px) { .summary-grid { grid-template-columns: 1fr 1fr; } }
+    .summary-item { display: flex; flex-direction: column; }
+    .summary-item .s-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #5a6a8a;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      margin-bottom: 2px;
+    }
+    .summary-item .s-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a3a6b;
+    }
+
+    /* ── Input + calculated pair ── */
+    .input-pair { display: flex; gap: 6px; align-items: flex-end; }
+    .input-pair .pct-input { flex: 0 0 80px; }
+    .input-pair .calc-result { flex: 1; }
 
     /* ── Signature blocks ── */
     .sig-row {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
       margin-top: 10px;
     }
     .sig-box {
-      flex: 1 1 140px;
+      flex: 1 1 130px;
       border: 1px solid #b0b8c5;
       border-radius: 4px;
       padding: 10px 12px;
     }
-    .sig-box .sig-label {
+    .sig-label {
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 800;
       color: #1a3a6b;
       text-transform: uppercase;
       letter-spacing: .3px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-    .sig-box input { width: 100%; border: none; border-bottom: 1px solid #aaa; background: transparent; padding: 2px 0; font-size: 12px; }
-    .sig-box input:focus { outline: none; border-bottom-color: #1a3a6b; }
-    .sig-date { font-size: 10px; color: #777; margin-top: 6px; }
+    .sig-box input[type="text"] {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #aaa;
+      background: transparent;
+      padding: 2px 0;
+      font-size: 12px;
+      border-radius: 0;
+    }
+    .sig-box input[type="text"]:focus { outline: none; border-bottom-color: #1a3a6b; }
+    .sig-date {
+      font-size: 10px;
+      color: #777;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sig-date input[type="date"] {
+      flex: 1;
+      border: none;
+      border-bottom: 1px solid #aaa;
+      background: transparent;
+      font-size: 11px;
+      padding: 1px 0;
+      border-radius: 0;
+    }
 
-    /* ── Dividers ── */
-    .divider { border: none; border-top: 1px dashed #ccc; margin: 18px 0 10px; }
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px dashed #ccc; margin: 20px 0 12px; }
 
     /* ── Footer ── */
     .form-footer {
@@ -246,24 +371,31 @@
       border-top: 2px solid #1a3a6b;
       padding-top: 8px;
       font-size: 10px;
-      color: #555;
+      color: #666;
       text-align: center;
     }
 
-    /* ── Print styles ── */
+    /* ── Print ── */
     @media print {
       body { background: #fff; }
-      #action-bar, #save-banner, .add-row-btn { display: none !important; }
-      .page { border: none; padding: 10px 16px; margin: 0; max-width: 100%; }
-      input, textarea, select {
+      #action-bar, #save-banner, .btn-small { display: none !important; }
+      .page { border: none; padding: 8px 12px; margin: 0; max-width: 100%; box-shadow: none; }
+      input[type="text"], input[type="date"], input[type="number"], textarea, select {
         border: none !important;
         border-bottom: 1px solid #555 !important;
         border-radius: 0 !important;
         background: transparent !important;
-        padding: 2px 4px !important;
+        padding: 1px 2px !important;
+      }
+      input[readonly], input[disabled] {
+        background: transparent !important;
+        font-weight: 700;
       }
       .pdc-table td input { border-bottom: none !important; }
-      .sig-box { border: 1px solid #555; }
+      .sig-box { border: 1px solid #555 !important; }
+      .pay-option { border: 1px solid #555 !important; }
+      .pay-sub { border-left: 2px solid #555 !important; background: transparent !important; }
+      .summary-box { background: transparent !important; border: 1px solid #555 !important; }
     }
   </style>
 </head>
@@ -275,13 +407,11 @@
   <button id="btn-reset" onclick="resetForm()">&#8635; Start Over</button>
   <button id="btn-print" onclick="window.print()">&#128438; Print / Save PDF</button>
 </div>
+<div id="save-banner">&#10003; Form saved — data will be restored when you reopen this page.</div>
 
-<div id="save-banner">&#10003; Form data saved in this browser. It will be restored when you reopen this page.</div>
-
-<!-- ── Form page ── -->
+<!-- ── Form ── -->
 <div class="page">
 
-  <!-- Header -->
   <div class="form-header">
     <div class="logo-block">
       <strong>From G</strong><br>
@@ -326,76 +456,125 @@
     <div class="row">
       <div class="field half">
         <label for="net_price">Net Selling Price Including VAT (AED)</label>
-        <input type="number" id="net_price" name="net_price" min="0" step="0.01" placeholder="0.00" />
+        <input type="number" id="net_price" name="net_price" min="0" step="0.01" placeholder="0.00"
+               oninput="onNetPriceChange()" />
+        <span class="calc-note">Drives deal value &amp; VAT calculation below</span>
+      </div>
+      <div class="field quarter">
+        <label for="net_price_excl">Price Excl. VAT (AED) — auto</label>
+        <input type="text" id="net_price_excl" readonly placeholder="—" />
+      </div>
+      <div class="field quarter">
+        <label for="vat_on_price">VAT Component (5%) AED — auto</label>
+        <input type="text" id="vat_on_price" readonly placeholder="—" />
       </div>
     </div>
 
     <!-- ── 3. Payment Details ── -->
     <div class="section-title">3. Payment Details</div>
 
-    <!-- Down Payment -->
     <div class="row">
       <div class="field half">
         <label for="down_payment_amount">Down Payment Amount (AED)</label>
-        <input type="number" id="down_payment_amount" name="down_payment_amount" min="0" step="0.01" placeholder="0.00" />
+        <input type="number" id="down_payment_amount" name="down_payment_amount"
+               min="0" step="0.01" placeholder="0.00"
+               oninput="onDownPaymentChange()" />
       </div>
-      <div class="field half">
+      <div class="field quarter">
+        <label for="dp_pct_auto">Down Payment % — auto</label>
+        <input type="text" id="dp_pct_auto" readonly placeholder="—" />
+      </div>
+      <div class="field quarter">
         <label for="down_payment_date">Down Payment Due Date</label>
         <input type="date" id="down_payment_date" name="down_payment_date" />
       </div>
     </div>
 
-    <!-- Payment method checkboxes -->
-    <div class="row">
-      <div class="field full">
-        <label>Payment Method</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" id="pay_pdc"  name="pay_method" value="pdc"  onchange="toggleSection('pdc-section',  this.checked)" /> Post-Dated Cheques (PDC)</label>
-          <label><input type="checkbox" id="pay_lpo"  name="pay_method" value="lpo"  onchange="toggleSection('lpo-section',  this.checked)" /> LPO (Local Purchase Order)</label>
-          <label><input type="checkbox" id="pay_other" name="pay_method" value="other" onchange="toggleSection('other-section', this.checked)" /> Not Covered by Any of the Above</label>
+    <!-- Payment method selection -->
+    <div style="margin-bottom:6px;">
+      <label style="display:block; margin-bottom:6px;">Payment Method (select all that apply)</label>
+      <div class="pay-options">
+
+        <label class="pay-option" id="opt-pdc" onclick="handlePayOption('pdc')">
+          <input type="checkbox" id="pay_pdc" name="pay_pdc" value="pdc"
+                 onclick="event.stopPropagation(); handlePayOption('pdc')" />
+          <span class="pay-option-label">Post-Dated Cheques (PDC)</span>
+          <span class="pay-option-desc">Enter cheque details below</span>
+        </label>
+
+        <label class="pay-option" id="opt-lpo" onclick="handlePayOption('lpo')">
+          <input type="checkbox" id="pay_lpo" name="pay_lpo" value="lpo"
+                 onclick="event.stopPropagation(); handlePayOption('lpo')" />
+          <span class="pay-option-label">LPO — Local Purchase Order</span>
+          <span class="pay-option-desc">Attach LPO reference details</span>
+        </label>
+
+        <label class="pay-option" id="opt-other" onclick="handlePayOption('other')">
+          <input type="checkbox" id="pay_other" name="pay_other" value="other"
+                 onclick="event.stopPropagation(); handlePayOption('other')" />
+          <span class="pay-option-label">Not Covered by Any of the Above</span>
+          <span class="pay-option-desc">Clears PDC / LPO selections</span>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- PDC sub-section -->
+    <div class="pay-sub" id="pdc-section">
+      <div style="font-size:11px; font-weight:700; color:#1a3a6b; text-transform:uppercase; margin-bottom:6px;">PDC Details</div>
+      <table class="pdc-table" id="pdc-table">
+        <thead>
+          <tr>
+            <th style="width:32px;">#</th>
+            <th>Cheque No.</th>
+            <th>Bank</th>
+            <th style="width:120px;">Due Date</th>
+            <th style="width:120px;">Amount (AED)</th>
+            <th style="width:28px;" class="no-print"></th>
+          </tr>
+        </thead>
+        <tbody id="pdc-body"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" style="text-align:right;">Total PDC Amount:</td>
+            <td id="pdc-total">AED 0.00</td>
+            <td class="no-print"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button type="button" class="btn-small" onclick="addPdcRow()">+ Add Cheque</button>
+    </div>
+
+    <!-- LPO sub-section -->
+    <div class="pay-sub" id="lpo-section">
+      <div class="row">
+        <div class="field half">
+          <label for="lpo_number">LPO Number</label>
+          <input type="text" id="lpo_number" name="lpo_number" placeholder="LPO reference number" />
+        </div>
+        <div class="field half">
+          <label for="lpo_authority">Issuing Authority</label>
+          <input type="text" id="lpo_authority" name="lpo_authority" placeholder="Government entity / company" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="field half">
+          <label for="lpo_amount">LPO Amount (AED)</label>
+          <input type="number" id="lpo_amount" name="lpo_amount" min="0" step="0.01" placeholder="0.00" />
+        </div>
+        <div class="field half">
+          <label for="lpo_expiry">LPO Expiry Date</label>
+          <input type="date" id="lpo_expiry" name="lpo_expiry" />
         </div>
       </div>
     </div>
 
-    <!-- PDC Details (shown when checked) -->
-    <div id="pdc-section" style="display:none; margin-bottom:10px;">
-      <label style="font-size:11px; font-weight:700; color:#1a3a6b; text-transform:uppercase; display:block; margin-bottom:4px;">PDC Details</label>
-      <table class="pdc-table" id="pdc-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cheque No.</th>
-            <th>Bank</th>
-            <th>Due Date</th>
-            <th>Amount (AED)</th>
-          </tr>
-        </thead>
-        <tbody id="pdc-body">
-          <tr>
-            <td>1</td>
-            <td><input type="text" name="pdc_cheque_1"  placeholder="Cheque number" /></td>
-            <td><input type="text" name="pdc_bank_1"    placeholder="Bank name" /></td>
-            <td><input type="date" name="pdc_date_1" /></td>
-            <td><input type="number" name="pdc_amount_1" placeholder="0.00" step="0.01" min="0" /></td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class="add-row-btn" onclick="addPdcRow()">+ Add Cheque Row</button>
-    </div>
-
-    <!-- LPO section -->
-    <div id="lpo-section" style="display:none; margin-bottom:10px;">
+    <!-- Other sub-section -->
+    <div class="pay-sub" id="other-section">
       <div class="field full">
-        <label for="lpo_details">LPO Details</label>
-        <textarea id="lpo_details" name="lpo_details" rows="3" placeholder="LPO number, issuing authority, amount…"></textarea>
-      </div>
-    </div>
-
-    <!-- Other payment section -->
-    <div id="other-section" style="display:none; margin-bottom:10px;">
-      <div class="field full">
-        <label for="other_payment">Other Payment Details</label>
-        <textarea id="other_payment" name="other_payment" rows="3" placeholder="Describe the payment arrangement…"></textarea>
+        <label for="other_payment">Describe Payment Arrangement</label>
+        <textarea id="other_payment" name="other_payment" rows="3"
+                  placeholder="Provide full details of the payment arrangement…"></textarea>
       </div>
     </div>
 
@@ -404,7 +583,8 @@
     <div class="row">
       <div class="field full">
         <label for="mortgage_details">Mortgage Details</label>
-        <textarea id="mortgage_details" name="mortgage_details" placeholder="Enter any mortgage or lien information…"></textarea>
+        <textarea id="mortgage_details" name="mortgage_details"
+                  placeholder="Enter any mortgage or lien information…"></textarea>
       </div>
     </div>
 
@@ -413,7 +593,8 @@
     <div class="row">
       <div class="field full">
         <label for="special_info">Special Information</label>
-        <textarea id="special_info" name="special_info" placeholder="Any special terms, conditions, or notes…"></textarea>
+        <textarea id="special_info" name="special_info"
+                  placeholder="Any special terms, conditions, or notes…"></textarea>
       </div>
     </div>
 
@@ -437,46 +618,98 @@
     <!-- ── Credit Control Team Review ── -->
     <div class="section-title">For Credit Control Team Review</div>
 
-    <div class="credit-grid">
-      <div class="field">
-        <label for="deal_value">Deal Value (with VAT) AED</label>
-        <input type="number" id="deal_value" name="deal_value" min="0" step="0.01" placeholder="0.00" />
+    <!-- Live summary strip -->
+    <div class="summary-box">
+      <div class="summary-title">Deal Summary — auto-calculated</div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="s-label">Deal Value (incl. VAT)</span>
+          <span class="s-value" id="sum_deal_value">AED —</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">VAT Amount (5%)</span>
+          <span class="s-value" id="sum_vat">AED —</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">Down Payment</span>
+          <span class="s-value" id="sum_dp">AED — (—%)</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">GP Amount</span>
+          <span class="s-value" id="sum_gp">AED —</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">Finance Cost</span>
+          <span class="s-value" id="sum_fc">AED —</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">Number of PDCs</span>
+          <span class="s-value" id="sum_pdcs">—</span>
+        </div>
       </div>
-      <div class="field">
-        <label for="gp_pct">GP % &amp; Amount</label>
-        <input type="text" id="gp_pct" name="gp_pct" placeholder="e.g. 12% — AED 5,000" />
+    </div>
+
+    <!-- GP & Finance cost input row -->
+    <div class="row">
+      <div class="field half">
+        <label>GP % (enter) &amp; Amount AED (auto)</label>
+        <div class="input-pair">
+          <div class="pct-input">
+            <input type="number" id="gp_pct" name="gp_pct" min="0" max="100" step="0.01"
+                   placeholder="%" oninput="recalcCreditReview()" />
+          </div>
+          <div class="calc-result">
+            <input type="text" id="gp_amount" readonly placeholder="AED —" />
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label for="finance_cost">Finance Cost % &amp; Amount</label>
-        <input type="text" id="finance_cost" name="finance_cost" placeholder="e.g. 3.5% — AED 1,500" />
+      <div class="field half">
+        <label>Finance Cost % (enter) &amp; Amount AED (auto)</label>
+        <div class="input-pair">
+          <div class="pct-input">
+            <input type="number" id="finance_cost_pct" name="finance_cost_pct" min="0" step="0.01"
+                   placeholder="%" oninput="recalcCreditReview()" />
+          </div>
+          <div class="calc-result">
+            <input type="text" id="finance_cost_amount" readonly placeholder="AED —" />
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label for="dp_pct">Down Payment % &amp; Amount</label>
-        <input type="text" id="dp_pct" name="dp_pct" placeholder="e.g. 20% — AED 20,000" />
+    </div>
+
+    <div class="row">
+      <div class="field third">
+        <label for="tenure_years">Tenure — Years (enter)</label>
+        <input type="number" id="tenure_years" name="tenure_years" min="0" max="10" step="1"
+               placeholder="e.g. 3" oninput="recalcTenure()" />
       </div>
-      <div class="field">
-        <label for="vat_amount">VAT Amount (5%) AED</label>
-        <input type="number" id="vat_amount" name="vat_amount" min="0" step="0.01" placeholder="0.00" />
+      <div class="field third">
+        <label for="tenure_months_auto">Tenure — Months (auto)</label>
+        <input type="text" id="tenure_months_auto" readonly placeholder="—" />
       </div>
-      <div class="field">
-        <label for="tenure">Tenure (Years / Months)</label>
-        <input type="text" id="tenure" name="tenure" placeholder="e.g. 3Y / 36M" />
+      <div class="field third">
+        <label for="num_pdcs_auto">Number of PDCs (auto)</label>
+        <input type="text" id="num_pdcs_auto" readonly placeholder="—" />
       </div>
-      <div class="field">
-        <label for="num_pdcs">Number of PDCs</label>
-        <input type="number" id="num_pdcs" name="num_pdcs" min="0" placeholder="0" />
-      </div>
-      <div class="field">
+    </div>
+
+    <div class="row">
+      <div class="field half">
         <label for="aecb_score">AECB Score</label>
-        <input type="number" id="aecb_score" name="aecb_score" min="0" max="900" placeholder="e.g. 720" />
+        <input type="number" id="aecb_score" name="aecb_score" min="0" max="900"
+               placeholder="e.g. 720" />
       </div>
-      <div class="field">
+      <div class="field half">
         <label for="established_date">Established Date</label>
         <input type="date" id="established_date" name="established_date" />
       </div>
-      <div class="field">
+    </div>
+
+    <div class="row">
+      <div class="field full">
         <label for="default_history">History of Customer Default</label>
-        <input type="text" id="default_history" name="default_history" placeholder="None / details…" />
+        <input type="text" id="default_history" name="default_history"
+               placeholder="None — or describe any prior defaults…" />
       </div>
     </div>
 
@@ -523,118 +756,320 @@
       </div>
     </div>
 
-  </form><!-- /form -->
+  </form>
 
-  <!-- Footer -->
   <div class="form-footer">
     FINANCE DEPARTMENT &nbsp;|&nbsp; From G &nbsp;|&nbsp;
     P.O. Box 279, Abu Dhabi, U.A.E. &nbsp;|&nbsp;
     Tel: 6567000 &nbsp;|&nbsp; Fax: 6567844
   </div>
-</div><!-- /.page -->
+</div>
 
 <script>
-  const STORAGE_KEY = 'vcf_form_data';
+/* =========================================================
+   Helpers
+   ========================================================= */
+const STORAGE_KEY = 'vcf_form_v2';
 
-  /* ── Toggle payment sections ── */
-  function toggleSection(id, show) {
-    document.getElementById(id).style.display = show ? 'block' : 'none';
+function fmt(n) {
+  if (isNaN(n) || n === null || n === '') return '—';
+  return Number(n).toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function pct(n) {
+  if (isNaN(n) || n === null) return '—';
+  return Number(n).toFixed(2) + '%';
+}
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? parseFloat(el.value) || 0 : 0;
+}
+function set(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.value = text;
+}
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+/* =========================================================
+   Net Price → VAT breakdown
+   ========================================================= */
+function onNetPriceChange() {
+  const price = val('net_price');
+  if (price > 0) {
+    const excl = price / 1.05;
+    const vat  = price - excl;
+    set('net_price_excl', 'AED ' + fmt(excl));
+    set('vat_on_price',   'AED ' + fmt(vat));
+  } else {
+    set('net_price_excl', '');
+    set('vat_on_price', '');
+  }
+  onDownPaymentChange();
+  recalcCreditReview();
+  updateSummary();
+}
+
+/* =========================================================
+   Down payment → auto %
+   ========================================================= */
+function onDownPaymentChange() {
+  const price = val('net_price');
+  const dp    = val('down_payment_amount');
+  if (price > 0 && dp >= 0) {
+    set('dp_pct_auto', pct((dp / price) * 100));
+  } else {
+    set('dp_pct_auto', '');
+  }
+  updateSummary();
+}
+
+/* =========================================================
+   GP % & Finance cost % → AED amounts
+   ========================================================= */
+function recalcCreditReview() {
+  const price = val('net_price');
+  const gpPct = val('gp_pct');
+  const fcPct = val('finance_cost_pct');
+
+  if (price > 0 && gpPct >= 0) {
+    set('gp_amount', 'AED ' + fmt(price * gpPct / 100));
+  } else {
+    set('gp_amount', '');
   }
 
-  /* ── Add PDC row ── */
-  let pdcRowCount = 1;
-  function addPdcRow() {
-    pdcRowCount++;
-    const tbody = document.getElementById('pdc-body');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${pdcRowCount}</td>
-      <td><input type="text"   name="pdc_cheque_${pdcRowCount}"  placeholder="Cheque number" /></td>
-      <td><input type="text"   name="pdc_bank_${pdcRowCount}"    placeholder="Bank name" /></td>
-      <td><input type="date"   name="pdc_date_${pdcRowCount}" /></td>
-      <td><input type="number" name="pdc_amount_${pdcRowCount}"  placeholder="0.00" step="0.01" min="0" /></td>
-    `;
-    tbody.appendChild(tr);
+  if (price > 0 && fcPct >= 0) {
+    set('finance_cost_amount', 'AED ' + fmt(price * fcPct / 100));
+  } else {
+    set('finance_cost_amount', '');
   }
+  updateSummary();
+}
 
-  /* ── Gather form data ── */
-  function collectFormData() {
-    const form = document.getElementById('vcf-form');
-    const data = {};
-    form.querySelectorAll('input, textarea, select').forEach(el => {
-      if (!el.name) return;
-      if (el.type === 'checkbox') {
-        data[el.name] = data[el.name] || [];
-        if (el.checked) data[el.name].push(el.value);
-      } else {
-        data[el.name] = el.value;
-      }
-    });
-    data['__pdc_row_count'] = pdcRowCount;
-    return data;
+/* =========================================================
+   Tenure years → months
+   ========================================================= */
+function recalcTenure() {
+  const y = val('tenure_years');
+  if (y > 0) {
+    set('tenure_months_auto', (y * 12) + ' months');
+  } else {
+    set('tenure_months_auto', '');
   }
+}
 
-  /* ── Restore form data ── */
-  function restoreFormData(data) {
-    if (!data) return;
+/* =========================================================
+   PDC table — add row, remove row, running total, count
+   ========================================================= */
+let pdcRowCount = 0;
 
-    // Rebuild extra PDC rows first
-    const savedCount = parseInt(data['__pdc_row_count'] || 1, 10);
-    while (pdcRowCount < savedCount) addPdcRow();
+function addPdcRow() {
+  pdcRowCount++;
+  const n = pdcRowCount;
+  const tbody = document.getElementById('pdc-body');
+  const tr = document.createElement('tr');
+  tr.id = 'pdc-row-' + n;
+  tr.innerHTML =
+    `<td class="num-cell">${n}</td>
+     <td><input type="text"   name="pdc_cheque_${n}" placeholder="Cheque No." /></td>
+     <td><input type="text"   name="pdc_bank_${n}"   placeholder="Bank name" /></td>
+     <td><input type="date"   name="pdc_date_${n}" /></td>
+     <td><input type="number" name="pdc_amount_${n}" placeholder="0.00" step="0.01" min="0"
+               oninput="recalcPdcTotal()" /></td>
+     <td class="no-print" style="text-align:center;">
+       <button type="button" class="btn-small danger" style="padding:2px 8px; margin:0;"
+               onclick="removePdcRow(${n})">✕</button>
+     </td>`;
+  tbody.appendChild(tr);
+  recalcPdcTotal();
+}
 
-    const form = document.getElementById('vcf-form');
-    form.querySelectorAll('input, textarea, select').forEach(el => {
-      if (!el.name || !(el.name in data)) return;
-      if (el.type === 'checkbox') {
-        el.checked = Array.isArray(data[el.name])
-          ? data[el.name].includes(el.value)
-          : false;
-        toggleSection(
-          el.value === 'pdc'   ? 'pdc-section'   :
-          el.value === 'lpo'   ? 'lpo-section'   :
-          el.value === 'other' ? 'other-section'  : '',
-          el.checked
-        );
-      } else {
-        el.value = data[el.name];
-      }
-    });
-  }
+function removePdcRow(n) {
+  const row = document.getElementById('pdc-row-' + n);
+  if (row) row.remove();
+  recalcPdcTotal();
+}
 
-  /* ── Save for later ── */
-  function saveForm() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectFormData()));
-      const banner = document.getElementById('save-banner');
-      banner.style.display = 'block';
-      setTimeout(() => { banner.style.display = 'none'; }, 3500);
-    } catch (e) {
-      alert('Unable to save: localStorage may be disabled in this browser.');
+function recalcPdcTotal() {
+  let total = 0;
+  let count = 0;
+  document.querySelectorAll('#pdc-body tr').forEach(tr => {
+    const amtInput = tr.querySelector('input[type="number"]');
+    if (amtInput) {
+      total += parseFloat(amtInput.value) || 0;
+      count++;
     }
-  }
+  });
+  document.getElementById('pdc-total').textContent = 'AED ' + fmt(total);
+  set('num_pdcs_auto', count > 0 ? count + ' cheque(s)' : '');
+  updateSummary();
+}
 
-  /* ── Reset / start over ── */
-  function resetForm() {
-    if (!confirm('Are you sure you want to clear all form data and start over?')) return;
-    localStorage.removeItem(STORAGE_KEY);
-    // Reset dynamic PDC rows
-    const tbody = document.getElementById('pdc-body');
-    while (tbody.rows.length > 1) tbody.deleteRow(tbody.rows.length - 1);
-    pdcRowCount = 1;
-    document.getElementById('vcf-form').reset();
-    // Hide conditional sections
-    ['pdc-section', 'lpo-section', 'other-section'].forEach(id => {
-      document.getElementById(id).style.display = 'none';
+/* =========================================================
+   Live summary strip
+   ========================================================= */
+function updateSummary() {
+  const price = val('net_price');
+  const dp    = val('down_payment_amount');
+  const gpPct = val('gp_pct');
+  const fcPct = val('finance_cost_pct');
+
+  setText('sum_deal_value', price > 0 ? 'AED ' + fmt(price) : 'AED —');
+  if (price > 0) {
+    const vat = price / 1.05 * 0.05;
+    setText('sum_vat', 'AED ' + fmt(vat));
+  } else {
+    setText('sum_vat', 'AED —');
+  }
+  if (price > 0 && dp >= 0) {
+    setText('sum_dp', 'AED ' + fmt(dp) + ' (' + pct((dp / price) * 100) + ')');
+  } else {
+    setText('sum_dp', 'AED —');
+  }
+  setText('sum_gp', price > 0 && gpPct ? 'AED ' + fmt(price * gpPct / 100) : 'AED —');
+  setText('sum_fc', price > 0 && fcPct ? 'AED ' + fmt(price * fcPct / 100) : 'AED —');
+
+  let pdcCount = document.querySelectorAll('#pdc-body tr').length;
+  setText('sum_pdcs', pdcCount > 0 ? pdcCount : '—');
+}
+
+/* =========================================================
+   Payment option selection
+   — PDC and LPO can both be selected together
+   — "Other" is mutually exclusive with PDC and LPO
+   ========================================================= */
+function handlePayOption(key) {
+  const cb = document.getElementById('pay_' + key);
+  // Toggle the checkbox state
+  cb.checked = !cb.checked;
+
+  if (key === 'other' && cb.checked) {
+    // Deselect PDC and LPO
+    ['pdc', 'lpo'].forEach(k => {
+      document.getElementById('pay_' + k).checked = false;
+      document.getElementById('opt-'  + k).classList.remove('selected');
+      document.getElementById(k + '-section').classList.remove('active');
     });
   }
 
-  /* ── Auto-restore on page load ── */
-  window.addEventListener('DOMContentLoaded', () => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) restoreFormData(JSON.parse(saved));
-    } catch (e) { /* ignore */ }
+  if ((key === 'pdc' || key === 'lpo') && cb.checked) {
+    // Deselect "other"
+    document.getElementById('pay_other').checked = false;
+    document.getElementById('opt-other').classList.remove('selected');
+    document.getElementById('other-section').classList.remove('active');
+  }
+
+  // Sync selected class and sub-section visibility
+  ['pdc', 'lpo', 'other'].forEach(k => {
+    const checked = document.getElementById('pay_' + k).checked;
+    document.getElementById('opt-' + k).classList.toggle('selected', checked);
+    document.getElementById(k + '-section').classList.toggle('active', checked);
   });
+
+  // Ensure at least one PDC row exists when PDC is selected
+  if (key === 'pdc' && cb.checked && document.querySelectorAll('#pdc-body tr').length === 0) {
+    addPdcRow();
+  }
+}
+
+/* =========================================================
+   Collect / restore / save / reset
+   ========================================================= */
+function collectFormData() {
+  const form = document.getElementById('vcf-form');
+  const data = { __pdcRowCount: pdcRowCount };
+  form.querySelectorAll('input:not([readonly]):not([disabled]), textarea, select').forEach(el => {
+    if (!el.name) return;
+    if (el.type === 'checkbox') {
+      data[el.name] = el.checked;
+    } else {
+      data[el.name] = el.value;
+    }
+  });
+  return data;
+}
+
+function restoreFormData(data) {
+  if (!data) return;
+
+  // Rebuild PDC rows
+  const saved = parseInt(data.__pdcRowCount || 0, 10);
+  for (let i = 0; i < saved; i++) addPdcRow();
+
+  const form = document.getElementById('vcf-form');
+  form.querySelectorAll('input:not([readonly]):not([disabled]), textarea, select').forEach(el => {
+    if (!el.name || !(el.name in data)) return;
+    if (el.type === 'checkbox') {
+      el.checked = !!data[el.name];
+    } else {
+      el.value = data[el.name];
+    }
+  });
+
+  // Restore payment option UI state
+  ['pdc', 'lpo', 'other'].forEach(k => {
+    const cb = document.getElementById('pay_' + k);
+    if (cb && cb.checked) {
+      document.getElementById('opt-' + k).classList.add('selected');
+      document.getElementById(k + '-section').classList.add('active');
+    }
+  });
+
+  // Re-run calculations
+  onNetPriceChange();
+  recalcCreditReview();
+  recalcTenure();
+  recalcPdcTotal();
+}
+
+function saveForm() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collectFormData()));
+    const b = document.getElementById('save-banner');
+    b.style.display = 'block';
+    setTimeout(() => { b.style.display = 'none'; }, 3500);
+  } catch (e) {
+    alert('Save failed — localStorage may be disabled in this browser.');
+  }
+}
+
+function resetForm() {
+  if (!confirm('Clear all form data and start a new form?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+
+  // Remove all PDC rows
+  document.getElementById('pdc-body').innerHTML = '';
+  pdcRowCount = 0;
+
+  // Reset all inputs
+  document.getElementById('vcf-form').reset();
+
+  // Clear readonly fields
+  ['net_price_excl','vat_on_price','dp_pct_auto','gp_amount',
+   'finance_cost_amount','tenure_months_auto','num_pdcs_auto'].forEach(id => set(id, ''));
+
+  // Reset payment option UI
+  ['pdc','lpo','other'].forEach(k => {
+    document.getElementById('opt-' + k).classList.remove('selected');
+    document.getElementById(k + '-section').classList.remove('active');
+  });
+
+  // Reset summary strip
+  ['sum_deal_value','sum_vat','sum_dp','sum_gp','sum_fc'].forEach(id => setText(id, 'AED —'));
+  setText('sum_pdcs', '—');
+  document.getElementById('pdc-total').textContent = 'AED 0.00';
+}
+
+/* =========================================================
+   Init — restore saved data on load
+   ========================================================= */
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) restoreFormData(JSON.parse(saved));
+  } catch (e) { /* ignore corrupt data */ }
+});
 </script>
 </body>
 </html>
