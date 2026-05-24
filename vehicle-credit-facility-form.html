@@ -34,8 +34,8 @@
 
     /* ── Page ── */
     .page {
-      max-width: 940px; margin: 18px auto 40px; background: #fff;
-      border: 1px solid #ccc; padding: 26px 34px 34px;
+      max-width: 960px; margin: 18px auto 40px; background: #fff;
+      border: 1px solid #ccc; padding: 26px 34px 36px;
     }
 
     /* ── Header ── */
@@ -50,7 +50,7 @@
     }
     .dept-badge { font-size: 11px; font-weight: 800; color: #1a3a6b; text-align: right; line-height: 1.5; min-width: 95px; }
 
-    /* ── Sections ── */
+    /* ── Section titles ── */
     .section-title {
       background: #1a3a6b; color: #fff; font-weight: 700; font-size: 11.5px;
       padding: 5px 10px; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: .5px;
@@ -91,7 +91,19 @@
     input.error { border-color: #dc3545 !important; background: #fff5f5 !important; }
     textarea { resize: vertical; min-height: 56px; }
 
-    /* ── Pay cards ── */
+    /* ── Payment breakdown table ── */
+    .price-breakdown {
+      width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px;
+    }
+    .price-breakdown td { padding: 5px 10px; border: 1px solid #dde3ef; }
+    .price-breakdown tr:nth-child(even) { background: #f5f7fb; }
+    .price-breakdown .lbl { color: #1a3a6b; font-weight: 700; font-size: 11px; text-transform: uppercase; width: 55%; }
+    .price-breakdown .val { text-align: right; font-weight: 700; color: #1a1a1a; }
+    .price-breakdown .total-row td { background: #1a3a6b; color: #fff; font-weight: 800; }
+    .price-breakdown .upfront-row td { background: #fff3cd; color: #856404; font-weight: 700; }
+    .price-breakdown .finance-row td { background: #d4edda; color: #155724; font-weight: 800; }
+
+    /* ── Pay option cards ── */
     .pay-options { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
     .pay-option {
       display: flex; align-items: center; gap: 10px; padding: 8px 12px;
@@ -121,30 +133,67 @@
     .pdc-table td input:focus { outline: 1px dashed #1a3a6b; }
     .pdc-table tfoot td { background: #eef1f6; font-weight: 700; font-size: 11px; color: #1a3a6b; padding: 5px 7px; }
 
-    /* ── Finance type cards ── */
-    .ft-row { display: flex; gap: 12px; margin-bottom: 12px; }
-    .ft-card {
-      flex: 1; border: 2px solid #b0b8c5; border-radius: 6px;
-      padding: 11px 14px; cursor: pointer; transition: border-color .15s, background .15s; user-select: none;
+    /* ── Finance duration pills ── */
+    .duration-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; }
+    .dur-label { font-size: 10.5px; font-weight: 700; color: #1a3a6b; text-transform: uppercase; margin-right: 4px; }
+    .dur-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 16px; border: 2px solid #b0b8c5; border-radius: 20px;
+      cursor: pointer; font-size: 12px; font-weight: 600; color: #555;
+      transition: border-color .15s, background .15s; user-select: none;
     }
-    .ft-card:hover { border-color: #1a3a6b; background: #f7f9fc; }
-    .ft-card.active { border-color: #1a3a6b; background: #e8eef9; }
-    .ft-card input[type="radio"] { accent-color: #1a3a6b; width: 14px; height: 14px; vertical-align: middle; margin-right: 7px; }
-    .ft-title { font-size: 13px; font-weight: 800; color: #1a3a6b; }
-    .ft-badge {
-      display: inline-block; margin-left: 7px; padding: 1px 8px;
-      border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; vertical-align: middle;
+    .dur-pill input[type="radio"] { accent-color: #1a3a6b; width: 13px; height: 13px; }
+    .dur-pill.active { border-color: #1a3a6b; background: #e8eef9; color: #1a3a6b; }
+    .dur-auto { font-size: 10px; color: #888; margin-left: 8px; font-style: italic; }
+
+    /* ── Rate comparison panel ── */
+    .rate-compare {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border: 2px solid #1a3a6b; border-radius: 6px; overflow: hidden;
+      margin: 12px 0 14px;
     }
-    .ft-badge.long  { background: #1a3a6b; color: #fff; }
-    .ft-badge.short { background: #f0a500; color: #000; }
-    .ft-desc { font-size: 11px; color: #555; margin-top: 5px; margin-left: 21px; line-height: 1.6; }
+    .rate-col {
+      padding: 14px 16px;
+      transition: background .15s;
+    }
+    .rate-col.primary   { background: #e8eef9; }
+    .rate-col.secondary { background: #f7f9fc; border-left: 1px solid #c8d2e8; }
+    .rate-col-header {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid #c8d2e8;
+    }
+    .rate-col-header input[type="radio"] { accent-color: #1a3a6b; width: 15px; height: 15px; cursor: pointer; }
+    .rate-col-title { font-size: 12.5px; font-weight: 800; color: #1a3a6b; }
+    .rate-col-badge {
+      margin-left: auto; font-size: 9.5px; font-weight: 700; padding: 2px 8px;
+      border-radius: 10px; text-transform: uppercase;
+    }
+    .badge-reducing { background: #1a3a6b; color: #fff; }
+    .badge-flat     { background: #f0a500; color: #000; }
+    .badge-primary  { background: #28a745; color: #fff; }
+
+    .rate-input-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .rate-input-row label { margin: 0; min-width: 110px; }
+    .rate-input-row input[type="number"] { flex: 1; }
+    .rate-equiv-note { font-size: 9.5px; color: #888; font-style: italic; margin-top: 2px; }
+
+    .rate-metric { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+    .rate-metric .rm-label { font-size: 10.5px; color: #555; }
+    .rate-metric .rm-val   { font-size: 13px; font-weight: 800; color: #1a3a6b; }
+    .rate-metric .rm-val.interest { color: #c0392b; }
+    .rate-metric .rm-val.principal { color: #1a7a4a; }
+    .rate-metric .rm-val.emi { color: #1a3a6b; font-size: 15px; }
+    .rate-compare-footer {
+      grid-column: 1/-1; background: #f0f4fa; padding: 7px 14px;
+      font-size: 10.5px; color: #555; border-top: 1px solid #c8d2e8;
+      display: flex; align-items: center; gap: 6px;
+    }
 
     /* ── KPI strip ── */
     .kpi-strip {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+      display: grid; grid-template-columns: repeat(5, 1fr);
       background: #1a3a6b; border-radius: 5px; margin-bottom: 14px; overflow: hidden;
     }
-    @media (max-width: 680px) { .kpi-strip { grid-template-columns: repeat(3, 1fr); } }
     .kpi-item { display: flex; flex-direction: column; padding: 10px 14px; border-right: 1px solid rgba(255,255,255,.15); }
     .kpi-item:last-child { border-right: none; }
     .kpi-label { font-size: 9px; color: #a0bce0; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
@@ -187,7 +236,7 @@
     }
     .toggle-btn:hover { text-decoration: underline; }
 
-    /* ── DSCR / summary ── */
+    /* ── Summary / DSCR box ── */
     .summary-box {
       background: #f0f4fa; border: 1px solid #c8d2e8;
       border-radius: 4px; padding: 12px 14px; margin-bottom: 12px;
@@ -197,11 +246,10 @@
       letter-spacing: .4px; margin-bottom: 9px; border-bottom: 1px solid #c8d2e8; padding-bottom: 5px;
     }
     .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px 14px; }
-    @media (max-width: 600px) { .summary-grid { grid-template-columns: 1fr 1fr; } }
     .s-item .s-label { font-size: 10px; font-weight: 700; color: #5a6a8a; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 2px; }
     .s-item .s-value { font-size: 13px; font-weight: 700; color: #1a3a6b; }
 
-    /* ── Input pair ── */
+    /* ── Input pair (% + AED) ── */
     .input-pair { display: flex; gap: 6px; }
     .pct-in  { flex: 0 0 72px; }
     .aed-out { flex: 1; }
@@ -230,16 +278,15 @@
     .btn-s.danger { background: #dc3545; }
     .btn-s.danger:hover { background: #b02a37; }
 
+    .years-badge {
+      display: inline-block; background: #1a3a6b; color: #fff;
+      padding: 2px 9px; border-radius: 10px; font-size: 10.5px; font-weight: 700; margin-top: 3px;
+    }
+
     .divider { border: none; border-top: 1px dashed #ccc; margin: 18px 0 10px; }
     .form-footer {
       margin-top: 28px; border-top: 2px solid #1a3a6b;
       padding-top: 7px; font-size: 10px; color: #666; text-align: center;
-    }
-
-    /* ── Years-in-business badge ── */
-    .years-badge {
-      display: inline-block; background: #1a3a6b; color: #fff;
-      padding: 2px 9px; border-radius: 10px; font-size: 10.5px; font-weight: 700; margin-top: 3px;
     }
 
     /* ── Print ── */
@@ -254,11 +301,16 @@
       input[readonly], input.ok, input.warn, input.error { background: transparent !important; }
       .pdc-table td input { border-bottom: none !important; }
       .sig-box, .summary-box { border: 1px solid #555 !important; }
-      .pay-option, .ft-card { border: 1px solid #555 !important; background: transparent !important; }
+      .pay-option { border: 1px solid #555 !important; background: transparent !important; }
       .pay-sub { border-left: 2px solid #555 !important; background: transparent !important; }
       .kpi-strip { background: #1a3a6b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .rate-compare { border: 1px solid #555 !important; }
+      .rate-col.primary { background: #eef1f6 !important; }
       .amort-scroll { max-height: none !important; overflow: visible !important; }
       .amort-table thead th { background: #1a3a6b !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .price-breakdown .total-row td, .price-breakdown .upfront-row td, .price-breakdown .finance-row td {
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
     }
   </style>
 </head>
@@ -275,15 +327,15 @@
 <div class="page">
   <div class="form-header">
     <div class="logo-block"><strong>From G</strong><br>P.O. Box 279, Abu Dhabi, U.A.E.<br>Tel: 6567000 | Fax: 6567844</div>
-    <h1>Vehicle Credit Facility Approval<br><span style="font-size:11px;font-weight:600;letter-spacing:.3px;color:#3a5a9b">Corporate Finance</span></h1>
+    <h1>Vehicle Credit Facility Approval<br>
+      <span style="font-size:11px;font-weight:600;letter-spacing:.3px;color:#3a5a9b">Corporate Finance</span>
+    </h1>
     <div class="dept-badge">FINANCE<br>DEPARTMENT</div>
   </div>
 
   <form id="vcf-form" novalidate>
 
-    <!-- ═══════════════════════════════════════
-         1. COMPANY DETAILS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ 1. COMPANY DETAILS ═══ -->
     <div class="section-title">1. Company / Customer Details <span class="section-tag">Corporate</span></div>
     <div class="row">
       <div class="field half">
@@ -292,7 +344,7 @@
       </div>
       <div class="field quarter">
         <label for="company_type">Company Type</label>
-        <select id="company_type" name="company_type">
+        <select id="company_type" name="company_type" onchange="onDPChange()">
           <option value="">— Select —</option>
           <option>LLC (Limited Liability Co.)</option>
           <option>PJSC (Public Joint Stock Co.)</option>
@@ -314,14 +366,14 @@
         <input type="text" id="trade_license" name="trade_license" placeholder="e.g. CN-1234567 / DED" />
       </div>
       <div class="field third">
-        <label for="tl_expiry">Trade License Expiry Date</label>
+        <label for="tl_expiry">Trade License Expiry</label>
         <input type="date" id="tl_expiry" name="tl_expiry" oninput="checkTLExpiry()" />
-        <span class="hint" id="tl-hint">License must be valid through finance tenure</span>
+        <span class="hint" id="tl-hint">Must be valid through the full finance tenure</span>
       </div>
       <div class="field third">
         <label for="established_date">Date of Establishment</label>
-        <input type="date" id="established_date" name="established_date" oninput="calcYearsInBusiness()" />
-        <div id="years-badge" style="display:none"><span class="years-badge" id="years-in-biz"></span></div>
+        <input type="date" id="established_date" name="established_date" oninput="calcYIB()" />
+        <div id="yib-badge" style="display:none"><span class="years-badge" id="yib-text"></span></div>
         <span class="hint" id="est-hint">UAE banks require min. 2 years trading history</span>
       </div>
     </div>
@@ -340,9 +392,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         2. VEHICLE DETAILS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ 2. VEHICLE DETAILS ═══ -->
     <div class="section-title">2. Vehicle Details</div>
     <div class="row">
       <div class="field quarter">
@@ -374,63 +424,88 @@
         <label for="net_price">Net Selling Price Incl. VAT (AED)</label>
         <input type="number" id="net_price" name="net_price" min="0" step="0.01"
                placeholder="0.00" oninput="onPriceChange()" />
-        <span class="hint">UAE VAT 5% — Federal Decree-Law No. 8/2017</span>
+        <span class="hint">VAT (5%) is paid separately — Federal Decree-Law No. 8/2017</span>
       </div>
       <div class="field third">
-        <label for="price_excl_vat">Price Excl. VAT — auto (AED)</label>
+        <label for="price_excl_vat">Base Price Excl. VAT — auto (AED)</label>
         <input type="text" id="price_excl_vat" readonly placeholder="—" />
+        <span class="hint">= Net Price ÷ 1.05 — down payment is % of this</span>
       </div>
       <div class="field third">
-        <label for="vat_component">VAT Component (5%) — auto (AED)</label>
+        <label for="vat_component">VAT 5% — auto (AED)</label>
         <input type="text" id="vat_component" readonly placeholder="—" />
+        <span class="hint">Paid upfront separately from the finance amount</span>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         3. PAYMENT DETAILS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ 3. PAYMENT DETAILS ═══ -->
     <div class="section-title">3. Payment Details</div>
+
+    <!-- Down payment input row -->
     <div class="row">
-      <div class="field third">
-        <label for="down_payment">Down Payment Amount (AED)</label>
-        <input type="number" id="down_payment" name="down_payment" min="0" step="0.01"
-               placeholder="0.00" oninput="onDPChange()" />
-        <span class="hint" id="dp-hint">Minimum 20% for private corporate; 10% for Gov./Semi-Gov. entities</span>
+      <div class="field quarter">
+        <label for="dp_pct_input">Down Payment % of Base Price</label>
+        <input type="number" id="dp_pct_input" name="dp_pct_input"
+               min="0" max="100" step="0.01" placeholder="e.g. 25"
+               oninput="dpFromPct()" />
+        <span class="hint" id="dp-hint">Min 20% (private corp) | Min 10% (Gov./Semi-Gov.)</span>
       </div>
-      <div class="field third">
-        <label for="dp_pct_display">Down Payment % — auto</label>
-        <input type="text" id="dp_pct_display" readonly placeholder="—" />
+      <div class="field quarter">
+        <label for="dp_amount_input">Down Payment Amount (AED)</label>
+        <input type="number" id="dp_amount_input" name="dp_amount_input"
+               min="0" step="0.01" placeholder="0.00"
+               oninput="dpFromAmount()" />
       </div>
-      <div class="field third">
+      <div class="field quarter">
         <label for="dp_due_date">Down Payment Due Date</label>
         <input type="date" id="dp_due_date" name="dp_due_date" />
       </div>
+      <div class="field quarter">
+        <label>&nbsp;</label>
+        <span class="hint" style="margin-top:8px">Enter either % or amount — the other auto-fills</span>
+      </div>
     </div>
 
-    <label style="display:block;margin-bottom:6px;font-size:10.5px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.3px;">
-      Payment Method
-    </label>
-    <div class="pay-options">
-      <label class="pay-option" id="opt-pdc" onclick="handlePay('pdc')">
-        <input type="checkbox" id="pay_pdc" name="pay_pdc" onclick="event.stopPropagation();handlePay('pdc')" />
-        <span class="pay-option-label">Post-Dated Cheques (PDC)</span>
-        <span class="pay-option-desc">Enter cheque schedule below</span>
-      </label>
-      <label class="pay-option" id="opt-lpo" onclick="handlePay('lpo')">
-        <input type="checkbox" id="pay_lpo" name="pay_lpo" onclick="event.stopPropagation();handlePay('lpo')" />
-        <span class="pay-option-label">LPO — Local Purchase Order</span>
-        <span class="pay-option-desc">Government / semi-gov. entities</span>
-      </label>
-      <label class="pay-option" id="opt-bt" onclick="handlePay('bt')">
-        <input type="checkbox" id="pay_bt" name="pay_bt" onclick="event.stopPropagation();handlePay('bt')" />
-        <span class="pay-option-label">Bank Transfer / Direct Debit</span>
-        <span class="pay-option-desc">Auto-debit from company account</span>
-      </label>
-      <label class="pay-option" id="opt-other" onclick="handlePay('other')">
-        <input type="checkbox" id="pay_other" name="pay_other" onclick="event.stopPropagation();handlePay('other')" />
-        <span class="pay-option-label">Other Arrangement</span>
-        <span class="pay-option-desc">Clears above selections</span>
-      </label>
+    <!-- Price breakdown table -->
+    <table class="price-breakdown" id="price-breakdown" style="display:none">
+      <tr><td class="lbl">Base Price (Excl. VAT)</td>      <td class="val" id="pb_base">—</td></tr>
+      <tr><td class="lbl">Down Payment (% of Base)</td>   <td class="val" id="pb_dp">—</td></tr>
+      <tr class="upfront-row">
+        <td class="lbl">VAT 5% (paid separately)</td>      <td class="val" id="pb_vat">—</td>
+      </tr>
+      <tr class="upfront-row">
+        <td class="lbl">Total Upfront Payment (DP + VAT)</td><td class="val" id="pb_upfront">—</td>
+      </tr>
+      <tr class="finance-row">
+        <td class="lbl">&#9654; Finance Amount (Base − DP)</td><td class="val" id="pb_finance">—</td>
+      </tr>
+    </table>
+
+    <!-- Payment method -->
+    <div style="margin-top:12px">
+      <label style="display:block;margin-bottom:6px;font-size:10.5px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.3px;">Payment Method</label>
+      <div class="pay-options">
+        <label class="pay-option" id="opt-pdc"   onclick="handlePay('pdc')">
+          <input type="checkbox" id="pay_pdc"   name="pay_pdc"   onclick="event.stopPropagation();handlePay('pdc')" />
+          <span class="pay-option-label">Post-Dated Cheques (PDC)</span>
+          <span class="pay-option-desc">Enter cheque schedule below</span>
+        </label>
+        <label class="pay-option" id="opt-lpo"   onclick="handlePay('lpo')">
+          <input type="checkbox" id="pay_lpo"   name="pay_lpo"   onclick="event.stopPropagation();handlePay('lpo')" />
+          <span class="pay-option-label">LPO — Local Purchase Order</span>
+          <span class="pay-option-desc">Government / semi-gov. entities</span>
+        </label>
+        <label class="pay-option" id="opt-bt"    onclick="handlePay('bt')">
+          <input type="checkbox" id="pay_bt"    name="pay_bt"    onclick="event.stopPropagation();handlePay('bt')" />
+          <span class="pay-option-label">Bank Transfer / Direct Debit</span>
+          <span class="pay-option-desc">Auto-debit from company account</span>
+        </label>
+        <label class="pay-option" id="opt-other" onclick="handlePay('other')">
+          <input type="checkbox" id="pay_other" name="pay_other" onclick="event.stopPropagation();handlePay('other')" />
+          <span class="pay-option-label">Other Arrangement</span>
+          <span class="pay-option-desc">Clears above selections</span>
+        </label>
+      </div>
     </div>
 
     <!-- PDC sub -->
@@ -454,112 +529,160 @@
     <!-- LPO sub -->
     <div class="pay-sub" id="lpo-section">
       <div class="row">
-        <div class="field half">
-          <label for="lpo_number">LPO Number</label>
-          <input type="text" id="lpo_number" name="lpo_number" placeholder="LPO reference" />
-        </div>
-        <div class="field half">
-          <label for="lpo_authority">Issuing Authority / Ministry</label>
-          <input type="text" id="lpo_authority" name="lpo_authority" placeholder="e.g. Ministry of Finance, ADNOC" />
-        </div>
+        <div class="field half"><label for="lpo_number">LPO Number</label>
+          <input type="text" id="lpo_number" name="lpo_number" placeholder="LPO reference" /></div>
+        <div class="field half"><label for="lpo_authority">Issuing Authority / Ministry</label>
+          <input type="text" id="lpo_authority" name="lpo_authority" placeholder="e.g. Ministry of Finance, ADNOC" /></div>
       </div>
       <div class="row">
-        <div class="field half">
-          <label for="lpo_amount">LPO Amount (AED)</label>
-          <input type="number" id="lpo_amount" name="lpo_amount" min="0" step="0.01" placeholder="0.00" />
-        </div>
-        <div class="field half">
-          <label for="lpo_expiry">LPO Expiry Date</label>
-          <input type="date" id="lpo_expiry" name="lpo_expiry" />
-        </div>
+        <div class="field half"><label for="lpo_amount">LPO Amount (AED)</label>
+          <input type="number" id="lpo_amount" name="lpo_amount" min="0" step="0.01" placeholder="0.00" /></div>
+        <div class="field half"><label for="lpo_expiry">LPO Expiry Date</label>
+          <input type="date" id="lpo_expiry" name="lpo_expiry" /></div>
       </div>
     </div>
 
     <!-- Bank Transfer sub -->
     <div class="pay-sub" id="bt-section">
       <div class="row">
-        <div class="field half">
-          <label for="bt_bank">Bank Name</label>
-          <input type="text" id="bt_bank" name="bt_bank" placeholder="e.g. Emirates NBD, ADCB, FAB" />
-        </div>
-        <div class="field half">
-          <label for="bt_iban">Company IBAN</label>
-          <input type="text" id="bt_iban" name="bt_iban" placeholder="AE XX XXXX XXXX XXXX XXXX XXX" />
-        </div>
+        <div class="field half"><label for="bt_bank">Bank Name</label>
+          <input type="text" id="bt_bank" name="bt_bank" placeholder="e.g. Emirates NBD, ADCB, FAB" /></div>
+        <div class="field half"><label for="bt_iban">Company IBAN</label>
+          <input type="text" id="bt_iban" name="bt_iban" placeholder="AE XX XXXX XXXX XXXX XXXX XXX" /></div>
       </div>
     </div>
 
     <!-- Other sub -->
     <div class="pay-sub" id="other-section">
-      <div class="field full">
-        <label for="other_payment">Describe Payment Arrangement</label>
-        <textarea id="other_payment" name="other_payment" rows="2" placeholder="Full details of the payment arrangement…"></textarea>
-      </div>
+      <div class="field full"><label for="other_payment">Describe Payment Arrangement</label>
+        <textarea id="other_payment" name="other_payment" rows="2" placeholder="Full details…"></textarea></div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         4. FINANCE STRUCTURE & AMORTIZATION
-         ═══════════════════════════════════════ -->
-    <div class="section-title">4. Finance Structure &amp; Amortization Schedule <span class="section-tag">UAE Corporate Rates</span></div>
+    <!-- ═══ 4. FINANCE STRUCTURE ═══ -->
+    <div class="section-title">4. Finance Structure &amp; Amortization <span class="section-tag">Dual-Rate Comparison</span></div>
 
-    <div class="ft-row">
-      <div class="ft-card active" id="ftc-long" onclick="setFinType('long')">
-        <input type="radio" name="finance_type" id="ft_long" value="long" checked
-               onclick="event.stopPropagation();setFinType('long')" />
-        <span class="ft-title">Long Finance</span><span class="ft-badge long">Reducing Balance</span>
-        <div class="ft-desc">
-          Interest charged on the <strong>outstanding balance</strong> each month. EMI is constant;
-          interest component decreases and principal component grows over time.<br>
-          <em>UAE corporate rate: 4.00%–8.00% p.a. reducing balance. Max tenure: 60 months (UAE CB).</em>
-        </div>
-      </div>
-      <div class="ft-card" id="ftc-short" onclick="setFinType('short')">
-        <input type="radio" name="finance_type" id="ft_short" value="short"
-               onclick="event.stopPropagation();setFinType('short')" />
-        <span class="ft-title">Short Finance</span><span class="ft-badge short">Flat Rate</span>
-        <div class="ft-desc">
-          Interest charged on the <strong>original principal</strong> for every installment. Equal
-          interest + equal principal throughout.<br>
-          <em>UAE corporate flat rate: 2.49%–4.00% p.a. Effective APR ≈ 1.8× flat rate. Max tenure: 12 months.</em>
-        </div>
-      </div>
+    <!-- Finance Duration (label only — does not affect calculation) -->
+    <div class="duration-row">
+      <span class="dur-label">Finance Duration:</span>
+      <label class="dur-pill active" id="dur-long" onclick="setDuration('long')">
+        <input type="radio" name="fin_duration" id="dur_long" value="long" checked
+               onclick="event.stopPropagation();setDuration('long')" />
+        Long Finance (&gt;12 months)
+      </label>
+      <label class="dur-pill" id="dur-short" onclick="setDuration('short')">
+        <input type="radio" name="fin_duration" id="dur_short" value="short"
+               onclick="event.stopPropagation();setDuration('short')" />
+        Short Finance (≤12 months)
+      </label>
+      <span class="dur-auto" id="dur-auto-note">Auto-detected from period entered below</span>
     </div>
 
+    <!-- Finance inputs row -->
     <div class="row">
       <div class="field third">
-        <label for="finance_principal">Finance Amount — auto (AED)</label>
-        <input type="text" id="finance_principal" readonly placeholder="= Net Price − Down Payment" />
-        <span class="hint">Amount to be financed after down payment</span>
-      </div>
-      <div class="field third">
-        <label for="finance_rate">Annual Finance Rate (%)</label>
-        <input type="number" id="finance_rate" name="finance_rate"
-               min="0" max="30" step="0.01" placeholder="e.g. 5.75"
-               oninput="rateCheck();buildAmort()" />
-        <span class="hint" id="rate-hint">UAE corporate: reducing 4.00%–8.00% | flat 2.49%–4.00%</span>
+        <label for="fin_principal_display">Finance Amount — auto (AED)</label>
+        <input type="text" id="fin_principal_display" readonly placeholder="= Base Price − Down Payment" />
+        <span class="hint">VAT excluded — paid separately upfront</span>
       </div>
       <div class="field third">
         <label for="finance_months">Finance Period (Months)</label>
         <input type="number" id="finance_months" name="finance_months"
                min="1" max="120" step="1" placeholder="e.g. 48"
-               oninput="monthsSync();tenureCheck();buildAmort()" />
+               oninput="onMonthsChange()" />
         <span class="hint" id="tenure-hint">UAE CB max 60 months for corporate vehicle finance</span>
+      </div>
+      <div class="field third">
+        <label for="tenure_disp">Tenure Display — auto</label>
+        <input type="text" id="tenure_disp" readonly placeholder="—" />
       </div>
     </div>
 
-    <!-- KPI strip -->
-    <div class="kpi-strip">
-      <div class="kpi-item"><span class="kpi-label">Finance Amount</span><span class="kpi-val" id="kpi_principal">AED —</span></div>
-      <div class="kpi-item"><span class="kpi-label">Monthly Installment (EMI)</span><span class="kpi-val hl" id="kpi_emi">AED —</span></div>
-      <div class="kpi-item"><span class="kpi-label">Total Interest</span><span class="kpi-val" id="kpi_interest">AED —</span></div>
-      <div class="kpi-item"><span class="kpi-label">Total Payable</span><span class="kpi-val" id="kpi_payable">AED —</span></div>
-      <div class="kpi-item"><span class="kpi-label">Effective APR</span><span class="kpi-val" id="kpi_apr">—</span></div>
+    <!-- ═══ RATE COMPARISON PANEL ═══ -->
+    <div style="font-size:10.5px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">
+      Rate Comparison — Enter either rate; the equivalent auto-fills. Select ● to set primary schedule.
+    </div>
+    <div class="rate-compare">
+
+      <!-- LEFT: Reducing Balance -->
+      <div class="rate-col primary" id="col-reducing">
+        <div class="rate-col-header">
+          <input type="radio" name="primary_method" id="pm_reducing" value="reducing" checked
+                 onchange="setPrimary('reducing')" />
+          <span class="rate-col-title">Reducing Balance</span>
+          <span class="rate-col-badge badge-reducing">Amortizing</span>
+          <span class="rate-col-badge badge-primary" id="badge-primary-r">● Primary</span>
+        </div>
+        <div class="rate-input-row">
+          <label for="rate_reducing">Annual Rate</label>
+          <input type="number" id="rate_reducing" name="rate_reducing"
+                 min="0" max="30" step="0.01" placeholder="% p.a."
+                 oninput="onReducingChange()" />
+          <span style="font-size:11px;color:#555;white-space:nowrap">% p.a.</span>
+        </div>
+        <div class="rate-equiv-note" id="note-reducing">UAE corporate range: 4.00%–8.00% p.a.</div>
+        <div style="margin-top:10px">
+          <div class="rate-metric"><span class="rm-label">Monthly EMI</span>      <span class="rm-val emi" id="r_emi">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Total Interest</span>   <span class="rm-val interest" id="r_interest">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Total Payable</span>    <span class="rm-val" id="r_payable">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Effective APR</span>    <span class="rm-val" id="r_apr">—</span></div>
+          <div class="rate-metric" style="margin-top:6px;padding-top:6px;border-top:1px dashed #c8d2e8">
+            <span class="rm-label" style="font-size:9.5px;color:#888">Equiv. Flat Rate</span>
+            <span class="rm-val" style="font-size:11px;color:#888" id="r_equiv_flat">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Flat Rate -->
+      <div class="rate-col secondary" id="col-flat">
+        <div class="rate-col-header">
+          <input type="radio" name="primary_method" id="pm_flat" value="flat"
+                 onchange="setPrimary('flat')" />
+          <span class="rate-col-title">Flat Rate</span>
+          <span class="rate-col-badge badge-flat">Simple Interest</span>
+          <span class="rate-col-badge badge-primary" id="badge-primary-f" style="display:none">● Primary</span>
+        </div>
+        <div class="rate-input-row">
+          <label for="rate_flat">Annual Rate</label>
+          <input type="number" id="rate_flat" name="rate_flat"
+                 min="0" max="30" step="0.01" placeholder="% p.a."
+                 oninput="onFlatChange()" />
+          <span style="font-size:11px;color:#555;white-space:nowrap">% p.a.</span>
+        </div>
+        <div class="rate-equiv-note" id="note-flat">UAE corporate range: 2.49%–4.00% p.a.</div>
+        <div style="margin-top:10px">
+          <div class="rate-metric"><span class="rm-label">Monthly EMI</span>      <span class="rm-val emi" id="f_emi">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Total Interest</span>   <span class="rm-val interest" id="f_interest">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Total Payable</span>    <span class="rm-val" id="f_payable">—</span></div>
+          <div class="rate-metric"><span class="rm-label">Effective APR</span>    <span class="rm-val" id="f_apr">—</span></div>
+          <div class="rate-metric" style="margin-top:6px;padding-top:6px;border-top:1px dashed #c8d2e8">
+            <span class="rm-label" style="font-size:9.5px;color:#888">Equiv. Reducing Rate</span>
+            <span class="rm-val" style="font-size:11px;color:#888" id="f_equiv_reducing">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rate-compare-footer">
+        <span>&#9432;</span>
+        <span>
+          <strong>Reducing Balance</strong>: interest on outstanding balance each month — EMI constant, interest share falls over time. &nbsp;|&nbsp;
+          <strong>Flat Rate</strong>: interest on original principal throughout — equal interest + equal principal every month.
+          Effective APR of flat rate ≈ 1.8× the quoted flat rate.
+        </span>
+      </div>
     </div>
 
-    <!-- Amortization table -->
-    <div style="font-size:11px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">
-      Amortization Schedule
+    <!-- KPI strip (primary method) -->
+    <div class="kpi-strip">
+      <div class="kpi-item"><span class="kpi-label">Finance Amount</span>        <span class="kpi-val"    id="kpi_principal">AED —</span></div>
+      <div class="kpi-item"><span class="kpi-label">Monthly EMI (Primary)</span> <span class="kpi-val hl" id="kpi_emi">AED —</span></div>
+      <div class="kpi-item"><span class="kpi-label">Total Interest</span>        <span class="kpi-val"    id="kpi_interest">AED —</span></div>
+      <div class="kpi-item"><span class="kpi-label">Total Payable</span>         <span class="kpi-val"    id="kpi_payable">AED —</span></div>
+      <div class="kpi-item"><span class="kpi-label">Effective APR</span>         <span class="kpi-val"    id="kpi_apr">—</span></div>
     </div>
+
+    <!-- Amortization table (primary method) -->
+    <div style="font-size:11px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;"
+         id="amort-title">Amortization Schedule</div>
     <div class="amort-container">
       <div class="amort-scroll" id="amort-scroll">
         <div class="amort-empty" id="amort-empty">Enter Finance Amount, Rate and Period above to generate the schedule.</div>
@@ -583,32 +706,26 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         5. MORTGAGE DETAILS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ 5. MORTGAGE DETAILS ═══ -->
     <div class="section-title">5. Mortgage / Security Details</div>
     <div class="row">
       <div class="field full">
         <label for="mortgage_details">Mortgage &amp; Security Details</label>
         <textarea id="mortgage_details" name="mortgage_details"
-          placeholder="Vehicle registration lien, comprehensive insurance requirement, board resolution, any collateral or personal guarantee details…"></textarea>
+          placeholder="Vehicle registration lien, comprehensive insurance, board resolution, collateral, personal guarantee…"></textarea>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         6. SPECIAL INFORMATION
-         ═══════════════════════════════════════ -->
+    <!-- ═══ 6. SPECIAL INFORMATION ═══ -->
     <div class="section-title">6. Special Information</div>
     <div class="row">
       <div class="field full">
         <label for="special_info">Special Terms / Conditions / Notes</label>
-        <textarea id="special_info" name="special_info" placeholder="Any special conditions, waivers, or notes relevant to this facility…"></textarea>
+        <textarea id="special_info" name="special_info" placeholder="Any special conditions, waivers, or notes…"></textarea>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         SALES APPROVALS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ SALES APPROVALS ═══ -->
     <div class="section-title">Sales Approvals</div>
     <div class="sig-row">
       <div class="sig-box">
@@ -625,69 +742,56 @@
 
     <hr class="divider" />
 
-    <!-- ═══════════════════════════════════════
-         CREDIT CONTROL REVIEW
-         ═══════════════════════════════════════ -->
+    <!-- ═══ CREDIT CONTROL REVIEW ═══ -->
     <div class="section-title">For Credit Control Team Review <span class="section-tag">Corporate Assessment</span></div>
 
-    <!-- Auto-calculated deal summary -->
     <div class="summary-box">
       <div class="summary-title">Deal Summary — auto-calculated</div>
       <div class="summary-grid">
-        <div class="s-item"><div class="s-label">Deal Value (incl. VAT)</div><div class="s-value" id="sum_price">AED —</div></div>
-        <div class="s-item"><div class="s-label">VAT Amount (5%)</div><div class="s-value" id="sum_vat">AED —</div></div>
-        <div class="s-item"><div class="s-label">Down Payment</div><div class="s-value" id="sum_dp">AED — (—%)</div></div>
-        <div class="s-item"><div class="s-label">Finance Amount</div><div class="s-value" id="sum_fin">AED —</div></div>
-        <div class="s-item"><div class="s-label">Monthly EMI</div><div class="s-value" id="sum_emi">AED —</div></div>
-        <div class="s-item"><div class="s-label">No. of PDCs</div><div class="s-value" id="sum_pdcs">—</div></div>
+        <div class="s-item"><div class="s-label">Net Selling Price (incl. VAT)</div><div class="s-value" id="sum_price">AED —</div></div>
+        <div class="s-item"><div class="s-label">Base Price (excl. VAT)</div>      <div class="s-value" id="sum_base">AED —</div></div>
+        <div class="s-item"><div class="s-label">VAT 5% (paid separately)</div>   <div class="s-value" id="sum_vat">AED —</div></div>
+        <div class="s-item"><div class="s-label">Down Payment (% of Base)</div>   <div class="s-value" id="sum_dp">AED — (—%)</div></div>
+        <div class="s-item"><div class="s-label">Finance Amount</div>              <div class="s-value" id="sum_fin">AED —</div></div>
+        <div class="s-item"><div class="s-label">Monthly EMI (Primary Rate)</div> <div class="s-value" id="sum_emi">AED —</div></div>
+        <div class="s-item"><div class="s-label">No. of PDCs</div>                <div class="s-value" id="sum_pdcs">—</div></div>
+        <div class="s-item"><div class="s-label">Reducing Rate</div>              <div class="s-value" id="sum_rrate">—</div></div>
+        <div class="s-item"><div class="s-label">Flat Rate (equiv.)</div>         <div class="s-value" id="sum_frate">—</div></div>
       </div>
     </div>
 
-    <!-- GP & Finance cost -->
     <div class="row">
       <div class="field half">
         <label>GP % &amp; Amount AED — auto</label>
         <div class="input-pair">
-          <div class="pct-in">
-            <input type="number" id="gp_pct" name="gp_pct" min="0" max="100" step="0.01" placeholder="%" oninput="calcGPFC()" />
-          </div>
-          <div class="aed-out">
-            <input type="text" id="gp_aed" readonly placeholder="AED —" />
-          </div>
+          <div class="pct-in"><input type="number" id="gp_pct" name="gp_pct" min="0" max="100" step="0.01" placeholder="%" oninput="calcGPFC()" /></div>
+          <div class="aed-out"><input type="text" id="gp_aed" readonly placeholder="AED —" /></div>
         </div>
       </div>
       <div class="field half">
         <label>Finance Cost % &amp; Amount AED — auto</label>
         <div class="input-pair">
-          <div class="pct-in">
-            <input type="number" id="fc_pct" name="fc_pct" min="0" step="0.01" placeholder="%" oninput="calcGPFC()" />
-          </div>
-          <div class="aed-out">
-            <input type="text" id="fc_aed" readonly placeholder="AED —" />
-          </div>
+          <div class="pct-in"><input type="number" id="fc_pct" name="fc_pct" min="0" step="0.01" placeholder="%" oninput="calcGPFC()" /></div>
+          <div class="aed-out"><input type="text" id="fc_aed" readonly placeholder="AED —" /></div>
         </div>
       </div>
     </div>
 
-    <!-- Corporate financial assessment -->
     <div class="row">
       <div class="field third">
         <label for="annual_turnover">Annual Turnover (AED)</label>
-        <input type="number" id="annual_turnover" name="annual_turnover" min="0" step="1000"
-               placeholder="0.00" oninput="calcDSCR()" />
+        <input type="number" id="annual_turnover" name="annual_turnover" min="0" step="1000" placeholder="0.00" oninput="calcDSCR()" />
         <span class="hint">From latest audited financials</span>
       </div>
       <div class="field third">
-        <label for="net_operating_income">Annual Net Operating Income (AED)</label>
-        <input type="number" id="net_operating_income" name="net_operating_income"
-               min="0" step="1000" placeholder="0.00" oninput="calcDSCR()" />
-        <span class="hint">EBITDA / net profit from financials</span>
+        <label for="net_op_income">Annual Net Operating Income (AED)</label>
+        <input type="number" id="net_op_income" name="net_op_income" min="0" step="1000" placeholder="0.00" oninput="calcDSCR()" />
+        <span class="hint">EBITDA / net profit from audited accounts</span>
       </div>
       <div class="field third">
-        <label for="existing_debt_service">Existing Annual Debt Service (AED)</label>
-        <input type="number" id="existing_debt_service" name="existing_debt_service"
-               min="0" step="1000" placeholder="0.00" oninput="calcDSCR()" />
-        <span class="hint">Total existing loan repayments p.a.</span>
+        <label for="existing_ds">Existing Annual Debt Service (AED)</label>
+        <input type="number" id="existing_ds" name="existing_ds" min="0" step="1000" placeholder="0.00" oninput="calcDSCR()" />
+        <span class="hint">Total existing annual loan repayments</span>
       </div>
     </div>
 
@@ -695,41 +799,23 @@
       <div class="field third">
         <label for="dscr_display">DSCR — auto</label>
         <input type="text" id="dscr_display" readonly placeholder="—" />
-        <span class="hint" id="dscr-hint">Debt Service Coverage Ratio = Net Operating Income ÷ Total Annual Debt Service. UAE banks min: 1.25×</span>
+        <span class="hint" id="dscr-hint">= Net Operating Income ÷ Total Annual Debt Service. UAE banks min: 1.25×</span>
       </div>
       <div class="field third">
         <label for="existing_facilities">Total Existing Credit Facilities (AED)</label>
-        <input type="number" id="existing_facilities" name="existing_facilities"
-               min="0" step="1000" placeholder="0.00" />
+        <input type="number" id="existing_facilities" name="existing_facilities" min="0" step="1000" placeholder="0.00" />
       </div>
       <div class="field third">
         <label for="aecb_score">AECB Company Score</label>
-        <input type="number" id="aecb_score" name="aecb_score" min="300" max="900"
-               placeholder="300–900" oninput="aecbCheck()" />
-        <span class="hint" id="aecb-hint">Al Etihad Credit Bureau — corporate profile score</span>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="field third">
-        <label for="tenure_years_disp">Tenure — Years — auto</label>
-        <input type="text" id="tenure_years_disp" readonly placeholder="—" />
-      </div>
-      <div class="field third">
-        <label for="tenure_months_disp">Tenure — Months — auto</label>
-        <input type="text" id="tenure_months_disp" readonly placeholder="—" />
-      </div>
-      <div class="field third">
-        <label for="num_pdcs_disp">Number of PDCs — auto</label>
-        <input type="text" id="num_pdcs_disp" readonly placeholder="—" />
+        <input type="number" id="aecb_score" name="aecb_score" min="300" max="900" placeholder="300–900" oninput="aecbCheck()" />
+        <span class="hint" id="aecb-hint">Al Etihad Credit Bureau corporate profile score</span>
       </div>
     </div>
 
     <div class="row">
       <div class="field full">
         <label for="credit_history">Company Credit History</label>
-        <input type="text" id="credit_history" name="credit_history"
-               placeholder="Clean — or describe any defaults, restructuring, or disputes…" />
+        <input type="text" id="credit_history" name="credit_history" placeholder="Clean — or describe any defaults, restructuring, or disputes…" />
       </div>
     </div>
     <div class="row">
@@ -745,9 +831,7 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════
-         FINAL APPROVALS
-         ═══════════════════════════════════════ -->
+    <!-- ═══ FINAL APPROVALS ═══ -->
     <div class="section-title">Final Approvals</div>
     <div class="sig-row">
       <div class="sig-box">
@@ -782,14 +866,14 @@
     FINANCE DEPARTMENT &nbsp;|&nbsp; From G &nbsp;|&nbsp;
     P.O. Box 279, Abu Dhabi, U.A.E. &nbsp;|&nbsp; Tel: 6567000 &nbsp;|&nbsp; Fax: 6567844
   </div>
-</div><!-- /.page -->
+</div>
 
 <script>
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
    UTILITIES
-   ═══════════════════════════════════════════════════════ */
-const SKEY = 'vcf_corp_v1';
-let pdcCount = 0, amortExpanded = false;
+   ═══════════════════════════════════════════════════════════════ */
+const SKEY = 'vcf_corp_v2';
+let pdcCount = 0, amortExpanded = false, _syncing = false;
 
 function n(id) {
   const e = document.getElementById(id);
@@ -797,15 +881,17 @@ function n(id) {
   const v = parseFloat(e.value);
   return isFinite(v) ? v : 0;
 }
-/* Format with thousands separators and fixed decimal places */
+
+/* Format number with commas and fixed decimal places */
 function fmt(v, dp = 2) {
   if (!isFinite(v)) return '—';
-  const s = Math.abs(v).toFixed(dp);
-  const [int, dec] = s.split('.');
-  const intFmt = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return (v < 0 ? '-' : '') + intFmt + (dp > 0 ? '.' + dec : '');
+  const abs = Math.abs(v).toFixed(dp);
+  const [intPart, decPart] = abs.split('.');
+  const intFmt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return (v < 0 ? '-' : '') + intFmt + (dp > 0 ? '.' + decPart : '');
 }
-function fmtAED(v) { return isFinite(v) && v !== null ? 'AED ' + fmt(v) : 'AED —'; }
+function fmtAED(v) { return isFinite(v) ? 'AED ' + fmt(v) : 'AED —'; }
+
 function setV(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
 function setT(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
 function fldCls(id, cls) {
@@ -814,337 +900,355 @@ function fldCls(id, cls) {
   e.classList.remove('ok','warn','error');
   if (cls) e.classList.add(cls);
 }
-function hintCls(id, cls, txt) {
+function hintSet(id, cls, txt) {
   const e = document.getElementById(id);
   if (!e) return;
   if (txt !== undefined) e.textContent = txt;
-  e.className = 'hint' + (cls ? ' ' + cls : '');
+  e.className = 'hint' + (cls ? ' '+cls : '');
 }
 
-/* ═══════════════════════════════════════════════════════
-   VAT  —  Net price includes 5% VAT
-   price_excl = net_price / 1.05
-   vat        = net_price - price_excl  = net_price × (5/105)
-   ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   FINANCE MATH FUNCTIONS
+   ═══════════════════════════════════════════════════════════════
+
+   Reducing Balance EMI:
+     r   = annualRate / 100 / 12          (monthly rate)
+     EMI = P × r × (1+r)^n / ((1+r)^n − 1)
+
+   Flat Rate EMI:
+     monthlyInterest  = P × annualRate / 100 / 12   ← on original P, fixed every month
+     monthlyPrincipal = P / n                         ← equal every month
+     EMI              = monthlyPrincipal + monthlyInterest
+
+   Reducing → Flat (equivalent flat rate):
+     totalInterest  = EMI_reducing × n − P
+     flatRateAnnual = totalInterest × 12 / P / n × 100
+
+   Flat → Reducing (effective APR via Newton-Raphson):
+     Solve: EMI_flat × (1 − (1+r)^−n) / r = P  for monthly r
+     Then APR = r × 12 × 100
+   ═══════════════════════════════════════════════════════════════ */
+
+function reducingEMI(P, annualRate, n) {
+  if (P <= 0 || annualRate <= 0 || n < 1) return 0;
+  const r = annualRate / 100 / 12;
+  const f = Math.pow(1 + r, n);
+  return P * r * f / (f - 1);
+}
+
+function flatEMI(P, annualRate, n) {
+  if (P <= 0 || annualRate <= 0 || n < 1) return 0;
+  return P / n + P * annualRate / 100 / 12;
+}
+
+/* Given a reducing rate, compute the EQUIVALENT flat rate */
+function reducingToFlat(P, reducingRate, n) {
+  const emi       = reducingEMI(P, reducingRate, n);
+  const totalInt  = emi * n - P;
+  return totalInt * 12 / P / n * 100;           // flat rate % p.a.
+}
+
+/* Given a flat rate, compute the EQUIVALENT reducing rate (APR) via N-R */
+function flatToReducing(P, flatRate, n) {
+  const emi = flatEMI(P, flatRate, n);
+  if (emi <= 0) return 0;
+  const pv = r => r === 0 ? emi * n : emi * (1 - Math.pow(1 + r, -n)) / r;
+  let r = (flatRate / 100 / 12) * 1.85;           // starting guess ≈ 1.85× flat monthly
+  for (let i = 0; i < 300; i++) {
+    const h  = Math.max(r * 1e-7, 1e-13);
+    const f  = pv(r) - P;
+    const df = (pv(r + h) - pv(r - h)) / (2 * h);
+    if (!isFinite(df) || Math.abs(df) < 1e-20) break;
+    const r2 = r - f / df;
+    if (!isFinite(r2) || r2 <= 0) break;
+    if (Math.abs(r2 - r) < 1e-12) { r = r2; break; }
+    r = r2;
+  }
+  return r * 12 * 100;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRICE / VAT
+   net_price includes 5% VAT
+   base = net_price / 1.05
+   vat  = net_price − base  = net_price × 5/105
+   ═══════════════════════════════════════════════════════════════ */
+function getBase() { return n('net_price') / 1.05; }
+function getVAT()  { return n('net_price') - getBase(); }
+
 function onPriceChange() {
-  const p = n('net_price');
-  if (p > 0) {
-    const excl = p / 1.05;
-    setV('price_excl_vat',  'AED ' + fmt(excl));
-    setV('vat_component',   'AED ' + fmt(p - excl));
+  const price = n('net_price');
+  if (price > 0) {
+    const base = price / 1.05;
+    const vat  = price - base;
+    setV('price_excl_vat', 'AED ' + fmt(base));
+    setV('vat_component',  'AED ' + fmt(vat));
   } else {
     setV('price_excl_vat', ''); setV('vat_component', '');
   }
-  onDPChange(); calcGPFC(); updateSummary();
+  // re-run DP from existing % or amount
+  if (n('dp_pct_input') > 0) dpFromPct();
+  else dpFromAmount();
+  calcGPFC(); updateSummary();
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
    DOWN PAYMENT
-   Min 20% private corporate, 10% gov./semi-gov.
-   ═══════════════════════════════════════════════════════ */
-function onDPChange() {
-  const p  = n('net_price');
-  const dp = n('down_payment');
-  const ct = document.getElementById('company_type').value;
-  const isGov = ct.toLowerCase().includes('gov');
+   Calculated on BASE PRICE (excl. VAT)
+   VAT is shown separately as "paid upfront"
+   Finance Amount = Base − Down Payment
+   ═══════════════════════════════════════════════════════════════ */
+function dpFromPct() {
+  if (_syncing) return;
+  _syncing = true;
+  const base = getBase();
+  const pct  = n('dp_pct_input');
+  const amt  = base * pct / 100;
+  if (base > 0 && pct >= 0) setV('dp_amount_input', fmt(amt));
+  _syncing = false;
+  applyDP();
+}
+
+function dpFromAmount() {
+  if (_syncing) return;
+  _syncing = true;
+  const base = getBase();
+  const amt  = n('dp_amount_input');
+  if (base > 0 && amt >= 0) setV('dp_pct_input', fmt(amt / base * 100));
+  _syncing = false;
+  applyDP();
+}
+
+function applyDP() {
+  const price  = n('net_price');
+  const base   = getBase();
+  const vat    = getVAT();
+  const dp     = n('dp_amount_input');
+  const pct    = base > 0 ? dp / base * 100 : 0;
+  const finance = Math.max(0, base - dp);
+  const upfront = dp + vat;
+
+  const ct     = document.getElementById('company_type').value.toLowerCase();
+  const isGov  = ct.includes('gov');
   const minPct = isGov ? 10 : 20;
 
-  if (p > 0 && dp >= 0) {
-    const pct = (dp / p) * 100;
-    setV('dp_pct_display', fmt(pct) + '%');
-    if (pct < minPct) {
-      fldCls('down_payment', 'error');
-      hintCls('dp-hint','error',
-        '⚠ Below minimum ' + minPct + '% for ' + (isGov ? 'Gov./Semi-Gov.' : 'corporate') +
-        ' — required AED ' + fmt(p * minPct / 100));
+  if (base > 0 && dp >= 0) {
+    fldCls('dp_amount_input', pct < minPct ? 'error' : 'ok');
+    fldCls('dp_pct_input',    pct < minPct ? 'error' : 'ok');
+    hintSet('dp-hint',
+      pct < minPct ? 'error' : 'ok',
+      pct < minPct
+        ? `⚠ Below ${minPct}% minimum (${isGov?'Gov./Semi-Gov.':'corporate'}) — min AED ${fmt(base*minPct/100)}`
+        : `✓ Meets ${minPct}% minimum for ${isGov?'Gov./Semi-Gov.':'corporate'}`
+    );
+    // Show breakdown table
+    document.getElementById('price-breakdown').style.display = '';
+    setT('pb_base',    fmtAED(base));
+    setT('pb_dp',      fmtAED(dp)  + ' (' + fmt(pct) + '% of base)');
+    setT('pb_vat',     fmtAED(vat));
+    setT('pb_upfront', fmtAED(upfront));
+    setT('pb_finance', fmtAED(finance));
+  } else {
+    document.getElementById('price-breakdown').style.display = 'none';
+    fldCls('dp_amount_input',''); fldCls('dp_pct_input','');
+    hintSet('dp-hint','','Min 20% (private corp) | Min 10% (Gov./Semi-Gov.)');
+  }
+
+  setV('fin_principal_display', finance > 0 ? 'AED ' + fmt(finance) : '');
+  setT('kpi_principal', finance > 0 ? fmtAED(finance) : 'AED —');
+  updateSummary(); runBothRates();
+}
+
+function onDPChange() { dpFromPct(); }   // triggered by company type change
+
+/* ═══════════════════════════════════════════════════════════════
+   FINANCE DURATION (label only)
+   Auto-detect from months; user can override
+   ═══════════════════════════════════════════════════════════════ */
+function setDuration(type) {
+  document.getElementById('dur_long').checked  = type === 'long';
+  document.getElementById('dur_short').checked = type === 'short';
+  document.getElementById('dur-long').classList.toggle('active',  type === 'long');
+  document.getElementById('dur-short').classList.toggle('active', type === 'short');
+}
+
+function autoDetectDuration(months) {
+  if (months <= 0) return;
+  const detected = months > 12 ? 'long' : 'short';
+  setDuration(detected);
+  document.getElementById('dur-auto-note').textContent =
+    'Auto-detected: ' + (detected==='long' ? 'Long (>12M)' : 'Short (≤12M)') + ' from ' + months + ' months';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRIMARY METHOD (Reducing / Flat)
+   ═══════════════════════════════════════════════════════════════ */
+function getPrimary() { return document.getElementById('pm_flat').checked ? 'flat' : 'reducing'; }
+
+function setPrimary(m) {
+  document.getElementById('pm_reducing').checked = m === 'reducing';
+  document.getElementById('pm_flat').checked     = m === 'flat';
+  document.getElementById('col-reducing').classList.toggle('primary',   m === 'reducing');
+  document.getElementById('col-reducing').classList.toggle('secondary', m !== 'reducing');
+  document.getElementById('col-flat').classList.toggle('primary',   m === 'flat');
+  document.getElementById('col-flat').classList.toggle('secondary', m !== 'flat');
+  document.getElementById('badge-primary-r').style.display = m === 'reducing' ? '' : 'none';
+  document.getElementById('badge-primary-f').style.display = m === 'flat'     ? '' : 'none';
+  buildAmort();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RATE INPUTS — enter one, equivalent auto-fills the other
+   ═══════════════════════════════════════════════════════════════ */
+function onReducingChange() {
+  if (_syncing) return;
+  setPrimary('reducing');
+  runBothRates();
+}
+
+function onFlatChange() {
+  if (_syncing) return;
+  setPrimary('flat');
+  runBothRates();
+}
+
+/* Recalculate both columns and sync equivalents */
+function runBothRates() {
+  const P       = getFinancePrincipal();
+  const months  = Math.round(n('finance_months'));
+  const rRate   = n('rate_reducing');
+  const fRate   = n('rate_flat');
+  const primary = getPrimary();
+
+  if (P <= 0 || months < 1) {
+    clearRatePanel(); buildAmort(); return;
+  }
+
+  _syncing = true;
+
+  /* If reducing is primary and has a value → fill equivalent flat */
+  if (primary === 'reducing' && rRate > 0) {
+    const equivFlat = reducingToFlat(P, rRate, months);
+    setV('rate_flat', fmt(equivFlat));
+    fillReducingCol(P, rRate, months);
+    fillFlatCol(P, equivFlat, months, true);
+  }
+  /* If flat is primary and has a value → fill equivalent reducing */
+  else if (primary === 'flat' && fRate > 0) {
+    const equivRed = flatToReducing(P, fRate, months);
+    setV('rate_reducing', fmt(equivRed));
+    fillReducingCol(P, equivRed, months, true);
+    fillFlatCol(P, fRate, months);
+  }
+  /* Both may have been entered independently */
+  else {
+    if (rRate > 0) fillReducingCol(P, rRate, months);
+    else clearCol('r');
+    if (fRate > 0) fillFlatCol(P, fRate, months);
+    else clearCol('f');
+  }
+
+  _syncing = false;
+  rateRangeHints();
+  buildAmort();
+  updateSummary();
+}
+
+function getFinancePrincipal() {
+  const base = getBase();
+  const dp   = n('dp_amount_input');
+  return Math.max(0, base - dp);
+}
+
+function fillReducingCol(P, rate, months, isEquiv) {
+  const emi      = reducingEMI(P, rate, months);
+  const totInt   = emi * months - P;
+  const totPay   = emi * months;
+  const equivF   = reducingToFlat(P, rate, months);
+  setT('r_emi',        fmtAED(emi));
+  setT('r_interest',   fmtAED(totInt));
+  setT('r_payable',    fmtAED(totPay));
+  setT('r_apr',        fmt(rate) + '% p.a.');
+  setT('r_equiv_flat', fmt(equivF) + '% p.a. flat');
+  document.getElementById('note-reducing').textContent =
+    isEquiv ? '← Equivalent reducing rate (auto-computed)' : 'UAE corporate range: 4.00%–8.00% p.a.';
+}
+
+function fillFlatCol(P, rate, months, isEquiv) {
+  const emi     = flatEMI(P, rate, months);
+  const totInt  = rate * P / 100 / 12 * months;   // = P × rate/100 × months/12
+  const totPay  = emi * months;
+  const effAPR  = flatToReducing(P, rate, months);
+  const equivR  = effAPR;
+  setT('f_emi',            fmtAED(emi));
+  setT('f_interest',       fmtAED(totInt));
+  setT('f_payable',        fmtAED(totPay));
+  setT('f_apr',            fmt(effAPR) + '% p.a. eff.');
+  setT('f_equiv_reducing', fmt(equivR) + '% p.a. reducing');
+  document.getElementById('note-flat').textContent =
+    isEquiv ? '← Equivalent flat rate (auto-computed)' : 'UAE corporate range: 2.49%–4.00% p.a.';
+}
+
+function clearCol(prefix) {
+  ['emi','interest','payable','apr'].forEach(k => setT(prefix+'_'+k, '—'));
+  if (prefix==='r') setT('r_equiv_flat','—');
+  if (prefix==='f') setT('f_equiv_reducing','—');
+}
+
+function clearRatePanel() {
+  clearCol('r'); clearCol('f');
+  ['kpi_emi','kpi_interest','kpi_payable'].forEach(id=>setT(id,'AED —'));
+  setT('kpi_apr','—'); setT('sum_emi','AED —');
+}
+
+function rateRangeHints() {
+  const rRate = n('rate_reducing');
+  const fRate = n('rate_flat');
+  // Reducing range check
+  if (rRate > 0) {
+    fldCls('rate_reducing', rRate < 4 || rRate > 8 ? 'warn' : 'ok');
+  } else fldCls('rate_reducing','');
+  // Flat range check
+  if (fRate > 0) {
+    fldCls('rate_flat', fRate < 2.49 || fRate > 4 ? 'warn' : 'ok');
+  } else fldCls('rate_flat','');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MONTHS / TENURE
+   ═══════════════════════════════════════════════════════════════ */
+function onMonthsChange() {
+  const m = Math.round(n('finance_months'));
+  if (m > 0) {
+    const y = Math.floor(m / 12), mo = m % 12;
+    setV('tenure_disp', (y > 0 ? y+'yr ' : '') + (mo > 0 ? mo+'mo' : ''));
+    autoDetectDuration(m);
+    if (m > 60) {
+      hintSet('tenure-hint','error','⚠ Exceeds UAE CB 60-month limit — requires Group Finance Director approval');
+      fldCls('finance_months','error');
+    } else if (m > 48) {
+      hintSet('tenure-hint','warn','⚠ 49–60 months — within limit; additional credit justification required');
+      fldCls('finance_months','warn');
     } else {
-      fldCls('down_payment', 'ok');
-      hintCls('dp-hint','ok','✓ Down payment meets minimum ' + minPct + '% requirement');
+      hintSet('tenure-hint','ok','✓ Within UAE CB 60-month limit');
+      fldCls('finance_months','ok');
     }
   } else {
-    setV('dp_pct_display',''); fldCls('down_payment','');
-    hintCls('dp-hint','','Minimum 20% for private corporate; 10% for Gov./Semi-Gov. entities');
+    setV('tenure_disp',''); fldCls('finance_months','');
+    hintSet('tenure-hint','','UAE CB max 60 months for corporate vehicle finance');
   }
-  updateFinPrincipal(); buildAmort(); updateSummary();
-}
-
-function updateFinPrincipal() {
-  const p  = n('net_price');
-  const dp = n('down_payment');
-  const fa = Math.max(0, p - dp);
-  setV('finance_principal', fa > 0 ? 'AED ' + fmt(fa) : '');
-  setT('kpi_principal', fa > 0 ? fmtAED(fa) : 'AED —');
-  setT('sum_fin', fa > 0 ? fmtAED(fa) : 'AED —');
-}
-
-/* ═══════════════════════════════════════════════════════
-   TRADE LICENSE EXPIRY CHECK
-   ═══════════════════════════════════════════════════════ */
-function checkTLExpiry() {
-  const tlDate = document.getElementById('tl_expiry').value;
-  const mths   = n('finance_months');
-  if (!tlDate) { hintCls('tl-hint','','License must be valid through finance tenure'); fldCls('tl_expiry',''); return; }
-  const exp    = new Date(tlDate);
-  const today  = new Date();
-  const finEnd = new Date(today); finEnd.setMonth(finEnd.getMonth() + mths);
-  if (exp <= today) {
-    hintCls('tl-hint','error','⚠ Trade license is EXPIRED — renewal required before processing');
-    fldCls('tl_expiry','error');
-  } else if (mths > 0 && exp < finEnd) {
-    hintCls('tl-hint','warn','⚠ License expires before end of finance tenure — renewal letter required');
-    fldCls('tl_expiry','warn');
-  } else {
-    hintCls('tl-hint','ok','✓ Trade license valid through finance period');
-    fldCls('tl_expiry','ok');
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   YEARS IN BUSINESS
-   ═══════════════════════════════════════════════════════ */
-function calcYearsInBusiness() {
-  const estDate = document.getElementById('established_date').value;
-  const badge   = document.getElementById('years-badge');
-  const span    = document.getElementById('years-in-biz');
-  if (!estDate) { badge.style.display='none'; hintCls('est-hint','','UAE banks require min. 2 years trading history'); return; }
-  const yrs = (new Date() - new Date(estDate)) / (365.25 * 24 * 3600 * 1000);
-  const y   = Math.floor(yrs);
-  const m   = Math.floor((yrs - y) * 12);
-  span.textContent = y + ' yr' + (y !== 1 ? 's' : '') + (m > 0 ? ' ' + m + ' mo' : '') + ' in business';
-  badge.style.display = '';
-  if (y < 2) {
-    hintCls('est-hint','error','⚠ Below 2 years — most UAE banks require minimum 2 years of trading history');
-  } else if (y < 3) {
-    hintCls('est-hint','warn','⚠ Less than 3 years — some banks may require additional financial guarantees');
-  } else {
-    hintCls('est-hint','ok','✓ Established business — meets UAE bank trading history requirements');
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   FINANCE TYPE
-   ═══════════════════════════════════════════════════════ */
-function setFinType(type) {
-  document.getElementById('ft_long').checked  = type === 'long';
-  document.getElementById('ft_short').checked = type === 'short';
-  document.getElementById('ftc-long').classList.toggle('active',  type === 'long');
-  document.getElementById('ftc-short').classList.toggle('active', type === 'short');
-  rateCheck(); buildAmort();
-}
-function getFinType() { return document.getElementById('ft_short').checked ? 'short' : 'long'; }
-
-/* ═══════════════════════════════════════════════════════
-   RATE VALIDATION — UAE corporate norms
-   Long  (Reducing Balance): 4.00% – 8.00% p.a.
-   Short (Flat Rate):        2.49% – 4.00% p.a.
-   ═══════════════════════════════════════════════════════ */
-function rateCheck() {
-  const rate = n('finance_rate');
-  const type = getFinType();
-  if (rate <= 0) {
-    hintCls('rate-hint','',
-      type === 'long'
-        ? 'UAE corporate reducing balance: 4.00%–8.00% p.a.'
-        : 'UAE corporate flat rate: 2.49%–4.00% p.a. (eff. APR ≈ 1.8× flat rate)');
-    fldCls('finance_rate',''); return;
-  }
-  if (type === 'long') {
-    if      (rate < 4.00) { hintCls('rate-hint','warn','⚠ Below typical UAE corporate reducing rate (min 4.00%)'); fldCls('finance_rate','warn'); }
-    else if (rate > 8.00) { hintCls('rate-hint','warn','⚠ Above typical UAE corporate reducing rate (max 8.00%) — verify with credit policy'); fldCls('finance_rate','warn'); }
-    else                  { hintCls('rate-hint','ok', '✓ Within UAE corporate reducing balance range (4.00%–8.00%)'); fldCls('finance_rate','ok'); }
-  } else {
-    if      (rate < 2.49) { hintCls('rate-hint','warn','⚠ Below typical UAE corporate flat rate (min 2.49%)'); fldCls('finance_rate','warn'); }
-    else if (rate > 4.00) { hintCls('rate-hint','warn','⚠ Above typical UAE corporate flat rate (max 4.00%) — verify with credit policy'); fldCls('finance_rate','warn'); }
-    else                  { hintCls('rate-hint','ok', '✓ Within UAE corporate flat rate range (2.49%–4.00%)'); fldCls('finance_rate','ok'); }
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   TENURE VALIDATION — UAE CB max 60 months corporate
-   ═══════════════════════════════════════════════════════ */
-function tenureCheck() {
-  const m = n('finance_months');
-  if (m <= 0) { hintCls('tenure-hint','','UAE CB max 60 months for corporate vehicle finance'); fldCls('finance_months',''); return; }
-  if (m > 60)      { hintCls('tenure-hint','error','⚠ Exceeds UAE CB 60-month limit — requires Group Finance Director approval'); fldCls('finance_months','error'); }
-  else if (m > 48) { hintCls('tenure-hint','warn','⚠ 49–60 months: within limit but requires additional credit justification'); fldCls('finance_months','warn'); }
-  else             { hintCls('tenure-hint','ok','✓ Within UAE CB limit of 60 months'); fldCls('finance_months','ok'); }
-}
-
-/* ═══════════════════════════════════════════════════════
-   TENURE SYNC  (months ↔ years display)
-   ═══════════════════════════════════════════════════════ */
-function monthsSync() {
-  const m = n('finance_months');
-  setV('tenure_years_disp',  m > 0 ? fmt(m / 12) + ' yrs' : '');
-  setV('tenure_months_disp', m > 0 ? m + ' months' : '');
   checkTLExpiry();
-}
-function yearsToMonths() {  // called from credit review section if needed
-  const y = n('tenure_years_disp');
-  if (y > 0) { setV('finance_months', Math.round(y * 12)); monthsSync(); tenureCheck(); buildAmort(); }
+  runBothRates();
 }
 
-/* ═══════════════════════════════════════════════════════
-   AECB CORPORATE SCORE
-   ═══════════════════════════════════════════════════════ */
-function aecbCheck() {
-  const s = n('aecb_score');
-  if (s <= 0) { hintCls('aecb-hint','','Al Etihad Credit Bureau — corporate profile score'); fldCls('aecb_score',''); return; }
-  if      (s < 550) { hintCls('aecb-hint','error','✗ Poor (< 550) — high credit risk, facility likely declined'); fldCls('aecb_score','error'); }
-  else if (s < 650) { hintCls('aecb-hint','warn', '⚠ Fair (550–649) — elevated risk, additional collateral may be required'); fldCls('aecb_score','warn'); }
-  else if (s < 750) { hintCls('aecb-hint','ok',   '✓ Good (650–749) — acceptable corporate risk profile'); fldCls('aecb_score','ok'); }
-  else              { hintCls('aecb-hint','ok',   '✓ Excellent (750+) — preferred corporate risk profile'); fldCls('aecb_score','ok'); }
-}
-
-/* ═══════════════════════════════════════════════════════
-   DSCR  — Debt Service Coverage Ratio
-   DSCR = Annual Net Operating Income
-          ÷ (Existing Annual Debt Service + New Annual EMI)
-   UAE bank minimum: 1.25×
-   ═══════════════════════════════════════════════════════ */
-function calcDSCR() {
-  const noi      = n('net_operating_income');
-  const existing = n('existing_debt_service');
-
-  /* Get annual EMI from KPI text — parse "AED 5,523.45" */
-  const emiTxt = document.getElementById('kpi_emi').textContent;
-  const emiMon = parseFloat(emiTxt.replace(/[^0-9.]/g,'')) || 0;
-  const newAnnual = emiMon * 12;
-
-  const totalDS = existing + newAnnual;
-
-  if (noi > 0 && totalDS > 0) {
-    const dscr = noi / totalDS;
-    setV('dscr_display', fmt(dscr) + 'x');
-    if (dscr < 1.00) {
-      fldCls('dscr_display','error');
-      hintCls('dscr-hint','error','✗ DSCR ' + fmt(dscr) + 'x — below 1.0× means cash flow cannot cover debt; facility declined');
-    } else if (dscr < 1.25) {
-      fldCls('dscr_display','error');
-      hintCls('dscr-hint','error','⚠ DSCR ' + fmt(dscr) + 'x — below UAE bank minimum 1.25× — additional security required');
-    } else if (dscr < 1.5) {
-      fldCls('dscr_display','warn');
-      hintCls('dscr-hint','warn','⚠ DSCR ' + fmt(dscr) + 'x — acceptable but tight (min 1.25×); consider requesting additional collateral');
-    } else {
-      fldCls('dscr_display','ok');
-      hintCls('dscr-hint','ok','✓ DSCR ' + fmt(dscr) + 'x — strong debt coverage; meets UAE bank minimum 1.25×');
-    }
-  } else {
-    setV('dscr_display',''); fldCls('dscr_display','');
-    hintCls('dscr-hint','','Debt Service Coverage Ratio = Net Operating Income ÷ Total Annual Debt Service. UAE banks min: 1.25×');
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   GP & FINANCE COST
-   ═══════════════════════════════════════════════════════ */
-function calcGPFC() {
-  const p = n('net_price');
-  setV('gp_aed', p > 0 && n('gp_pct') ? 'AED ' + fmt(p * n('gp_pct') / 100) : '');
-  setV('fc_aed', p > 0 && n('fc_pct') ? 'AED ' + fmt(p * n('fc_pct') / 100) : '');
-}
-
-/* ═══════════════════════════════════════════════════════
-   PDC TABLE
-   ═══════════════════════════════════════════════════════ */
-function addPdcRow() {
-  pdcCount++;
-  const id = pdcCount;
-  const tr = document.createElement('tr');
-  tr.id = 'pdc-r-' + id;
-  tr.innerHTML =
-    `<td class="nc">${id}</td>
-     <td><input type="text"   name="pdc_ch_${id}" placeholder="Cheque No." /></td>
-     <td><input type="text"   name="pdc_bk_${id}" placeholder="Bank name" /></td>
-     <td><input type="date"   name="pdc_dt_${id}" /></td>
-     <td><input type="number" name="pdc_am_${id}" placeholder="0.00" step="0.01" min="0" oninput="pdcTotal()" /></td>
-     <td class="no-print" style="text-align:center">
-       <button type="button" class="btn-s danger" style="padding:2px 8px;margin:0" onclick="removePdc(${id})">✕</button></td>`;
-  document.getElementById('pdc-body').appendChild(tr);
-  pdcTotal();
-}
-function removePdc(id) {
-  const r = document.getElementById('pdc-r-' + id); if (r) r.remove(); pdcTotal();
-}
-function pdcTotal() {
-  let tot = 0, cnt = 0;
-  document.querySelectorAll('#pdc-body tr').forEach(tr => {
-    const a = tr.querySelector('input[type="number"]');
-    if (a) { tot += parseFloat(a.value)||0; cnt++; }
-  });
-  document.getElementById('pdc-total').textContent = 'AED ' + fmt(tot);
-  setV('num_pdcs_disp', cnt > 0 ? cnt + ' cheque(s)' : '');
-  setT('sum_pdcs', cnt > 0 ? cnt : '—');
-}
-
-/* ═══════════════════════════════════════════════════════
-   PAYMENT OPTION CARDS
-   PDC + LPO + BT can combine; "other" is exclusive
-   ═══════════════════════════════════════════════════════ */
-function handlePay(key) {
-  const cb = document.getElementById('pay_' + key);
-  cb.checked = !cb.checked;
-  if (key === 'other' && cb.checked) {
-    ['pdc','lpo','bt'].forEach(k => {
-      document.getElementById('pay_'+k).checked = false;
-      document.getElementById('opt-'+k).classList.remove('selected');
-      document.getElementById(k+'-section').classList.remove('active');
-    });
-  }
-  if (key !== 'other' && cb.checked) {
-    document.getElementById('pay_other').checked = false;
-    document.getElementById('opt-other').classList.remove('selected');
-    document.getElementById('other-section').classList.remove('active');
-  }
-  ['pdc','lpo','bt','other'].forEach(k => {
-    const on = document.getElementById('pay_'+k).checked;
-    document.getElementById('opt-'+k).classList.toggle('selected', on);
-    document.getElementById(k+'-section').classList.toggle('active', on);
-  });
-  if (key === 'pdc' && cb.checked && document.querySelectorAll('#pdc-body tr').length === 0)
-    addPdcRow();
-}
-
-/* ═══════════════════════════════════════════════════════
-   SUMMARY STRIP
-   ═══════════════════════════════════════════════════════ */
-function updateSummary() {
-  const p  = n('net_price');
-  const dp = n('down_payment');
-  setT('sum_price', p  > 0 ? fmtAED(p) : 'AED —');
-  setT('sum_vat',   p  > 0 ? fmtAED(p - p/1.05) : 'AED —');
-  setT('sum_dp',    p  > 0 ? fmtAED(dp) + ' (' + fmt((dp/p)*100) + '%)' : 'AED —');
-}
-
-/* ═══════════════════════════════════════════════════════
-   AMORTIZATION ENGINE
-   ───────────────────────────────────────────────────────
-   LONG  — Reducing Balance:
-     r   = annualRate / 100 / 12
-     EMI = P × r × (1+r)^n / ((1+r)^n − 1)
-     Month m:
-       Interest  = openingBalance × r
-       Principal = EMI − Interest
-       Closing   = Opening − Principal
-
-   SHORT — Flat Rate:
-     monthlyInt  = P × annualRate / 100 / 12   [constant every month]
-     monthlyPrin = P / n                         [constant every month]
-     EMI         = monthlyPrin + monthlyInt       [constant]
-     Month m:
-       Closing = Opening − monthlyPrin
-
-   Effective APR for Flat Rate (Newton-Raphson, numerical derivative):
-     Solve: EMI × (1 − (1+r)^−n) / r = P  for monthly rate r
-     Starting guess: r = annualRate/100/12 × 1.85 (flat APR ≈ 1.85× flat rate)
-   ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   AMORTIZATION TABLE  (built for the PRIMARY method)
+   ═══════════════════════════════════════════════════════════════ */
 function buildAmort() {
-  const p      = n('net_price');
-  const dp     = n('down_payment');
-  const P      = Math.max(0, p - dp);          // finance principal
-  const rate   = n('finance_rate');             // annual % (reducing or flat)
+  const P      = getFinancePrincipal();
   const months = Math.round(n('finance_months'));
-  const type   = getFinType();
+  const pm     = getPrimary();
+  const rate   = pm === 'reducing' ? n('rate_reducing') : n('rate_flat');
 
   const empty = document.getElementById('amort-empty');
   const table = document.getElementById('amort-table');
@@ -1155,73 +1259,60 @@ function buildAmort() {
   function clear() {
     empty.style.display=''; table.style.display='none'; fbar.style.display='none';
     ['kpi_emi','kpi_interest','kpi_payable'].forEach(id=>setT(id,'AED —'));
-    setT('kpi_apr','—'); setT('sum_emi','AED —'); updateFinPrincipal();
+    setT('kpi_apr','—'); setT('sum_emi','AED —');
   }
 
   if (P <= 0 || rate <= 0 || months < 1) { clear(); calcDSCR(); return; }
 
-  const r = rate / 100 / 12;   // monthly rate (decimal)
-  let emi, rows = [], totInt = 0;
+  let emi, rows=[], totInt=0;
 
-  if (type === 'long') {
-    /* ── Reducing Balance ── */
-    const factor = Math.pow(1 + r, months);
-    emi = P * r * factor / (factor - 1);
+  if (pm === 'reducing') {
+    /* ── Reducing Balance Schedule ── */
+    const r = rate / 100 / 12;
+    const f = Math.pow(1 + r, months);
+    emi = P * r * f / (f - 1);
     let bal = P;
     for (let m = 1; m <= months; m++) {
-      const interest  = bal * r;                            // interest on outstanding balance
-      const principal = emi - interest;                     // principal portion
-      const closing   = m === months ? 0 : bal - principal; // last month closes to 0
-      rows.push({ m, open: bal, emi, interest, principal, close: Math.max(0, closing) });
+      const interest  = bal * r;              // interest = balance × monthly rate
+      const principal = emi - interest;       // principal = EMI − interest
+      const closing   = m === months ? 0 : Math.max(0, bal - principal);
+      rows.push({ m, open: bal, emi, interest, principal, close: closing });
       totInt += interest;
-      bal = Math.max(0, closing);
+      bal = closing;
     }
   } else {
-    /* ── Flat Rate ── */
-    const mInt  = P * rate / 100 / 12;   // fixed monthly interest (on original P)
-    const mPrin = P / months;             // fixed monthly principal
+    /* ── Flat Rate Schedule ── */
+    const mInt  = P * rate / 100 / 12;   // constant monthly interest on original P
+    const mPrin = P / months;             // constant monthly principal
     emi = mPrin + mInt;
     let bal = P;
     for (let m = 1; m <= months; m++) {
-      const closing = m === months ? 0 : bal - mPrin;
-      rows.push({ m, open: bal, emi, interest: mInt, principal: mPrin, close: Math.max(0, closing) });
+      const closing = m === months ? 0 : Math.max(0, bal - mPrin);
+      rows.push({ m, open: bal, emi, interest: mInt, principal: mPrin, close: closing });
       totInt += mInt;
-      bal = Math.max(0, closing);
+      bal = closing;
     }
   }
 
-  const totPayable = emi * months;
+  const totPay = emi * months;
+  const apr    = pm === 'reducing' ? rate : flatToReducing(P, rate, months);
 
-  /* ── Effective APR for flat rate (Newton-Raphson, central-difference derivative) ── */
-  let apr = rate;
-  if (type === 'short') {
-    let r2 = r * 1.85;   // flat APR ≈ 1.85× flat annual rate → good starting guess
-    const pv = (rv) => rv === 0 ? emi * months
-                                : emi * (1 - Math.pow(1 + rv, -months)) / rv;
-    for (let i = 0; i < 300; i++) {
-      const h   = Math.max(r2 * 1e-7, 1e-12);
-      const f   = pv(r2) - P;
-      const dfd = (pv(r2 + h) - pv(r2 - h)) / (2 * h);
-      if (!isFinite(dfd) || Math.abs(dfd) < 1e-20) break;
-      const r3 = r2 - f / dfd;
-      if (!isFinite(r3) || r3 <= 0) break;
-      if (Math.abs(r3 - r2) < 1e-12) { r2 = r3; break; }
-      r2 = r3;
-    }
-    apr = r2 * 12 * 100;
-  }
-
-  /* ── KPI strip ── */
+  /* KPI strip */
   setT('kpi_principal', fmtAED(P));
   setT('kpi_emi',       fmtAED(emi));
   setT('kpi_interest',  fmtAED(totInt));
-  setT('kpi_payable',   fmtAED(totPayable));
-  setT('kpi_apr',       fmt(apr) + '% p.a.' + (type==='short' ? ' eff.' : ''));
+  setT('kpi_payable',   fmtAED(totPay));
+  setT('kpi_apr',       fmt(apr) + '% p.a.' + (pm==='flat' ? ' eff.' : ''));
   setT('sum_emi',       fmtAED(emi));
 
-  /* ── Table rows ── */
+  /* Amort title */
+  document.getElementById('amort-title').textContent =
+    'Amortization Schedule — ' + (pm==='reducing' ? 'Reducing Balance' : 'Flat Rate') +
+    ' @ ' + fmt(rate) + '% p.a.';
+
+  /* Table rows */
   body.innerHTML = '';
-  rows.forEach(({ m, open, emi: e, interest: i, principal: pc, close }) => {
+  rows.forEach(({ m, open, emi:e, interest:i, principal:pc, close }) => {
     const pPct = (pc / (pc + i)) * 100;
     const tr = document.createElement('tr');
     tr.innerHTML =
@@ -1239,17 +1330,15 @@ function buildAmort() {
   });
 
   foot.innerHTML =
-    `<tr><td>Σ</td><td>—</td><td>${fmtAED(totPayable)}</td>
+    `<tr><td>Σ</td><td>—</td><td>${fmtAED(totPay)}</td>
      <td class="i-cell">${fmtAED(totInt)}</td>
      <td class="p-cell">${fmtAED(P)}</td>
      <td>—</td><td>—</td></tr>`;
 
-  empty.style.display = 'none';
-  table.style.display = '';
-  fbar.style.display  = 'flex';
+  empty.style.display='none'; table.style.display=''; fbar.style.display='flex';
   document.getElementById('amort-info').textContent =
-    months + ' installments  •  ' + (type==='long' ? 'Reducing Balance' : 'Flat Rate') +
-    '  •  Rate ' + fmt(rate) + '% p.a.';
+    months + ' installments · ' + (pm==='reducing'?'Reducing Balance':'Flat Rate') +
+    ' · ' + fmt(rate) + '% p.a.' + (pm==='flat' ? ' (eff. '+fmt(apr)+'%)' : '');
 
   calcDSCR();
 }
@@ -1260,205 +1349,320 @@ function toggleAmort() {
   document.getElementById('toggle-btn').textContent = amortExpanded ? '▲ Collapse' : '▼ Show full schedule';
 }
 
-/* ═══════════════════════════════════════════════════════
-   EXAMPLE DATA — UAE corporate scenario
-   Company: Al Falah Trading LLC, Abu Dhabi
-   Vehicle: Mercedes-Benz GLE 350 AMG Line 2024
-
-   Calculation check:
-   Net Price incl. VAT = AED 315,000
-   Price excl. VAT     = 315,000 / 1.05 = AED 300,000
-   VAT (5%)            = 315,000 − 300,000 = AED 15,000
-   Down Payment (25%)  = AED 78,750
-   Finance Amount      = 315,000 − 78,750 = AED 236,250
-   Rate: 5.75% p.a. reducing balance, 48 months
-   r = 5.75/100/12 = 0.0047916̄7
-   (1+r)^48 = 1.0047917^48 ≈ 1.25892
-   EMI = 236,250 × 0.0047917 × 1.25892 / (1.25892 − 1)
-       = 236,250 × 0.006033 / 0.25892
-       = 236,250 × 0.023298
-       ≈ AED 5,504.57
-   Total payable = 5,504.57 × 48 = AED 264,219.36
-   Total interest = 264,219.36 − 236,250 = AED 27,969.36
-   DSCR: NOI 600,000 / (existing 84,000 + new 66,055) = 600,000 / 150,055 = 3.999×
-   ═══════════════════════════════════════════════════════ */
-function loadExample() {
-  resetForm(true);
-
-  // 1. Company
-  setV('company_name',      'Al Falah Trading LLC');
-  document.getElementById('company_type').value = 'LLC (Limited Liability Co.)';
-  setV('mk_number',         'MK-2024-07341');
-  setV('trade_license',     'CN-4872913 / ADDED Abu Dhabi');
-  setV('tl_expiry',         '2027-06-30');
-  setV('established_date',  '2014-03-15');
-  setV('authorized_person', 'Khalid Mohammed Al Falah');
-  setV('contact_mobile',    '050 312 7894');
-  setV('emirates_id',       '784-1985-1234567-1');
-
-  // 2. Vehicle
-  setV('vsb_number',    'VSB-GLE350-2024-007');
-  setV('sales_date',    '2026-05-23');
-  setV('type_model',    'Mercedes-Benz GLE 350 AMG Line 2024');
-  document.getElementById('vehicle_purpose').value = 'Executive / Management Use';
-  setV('net_price',     '315000');
-
-  // 3. Payment — 25% down = AED 78,750
-  setV('down_payment',  '78750');
-  setV('dp_due_date',   '2026-05-23');
-  document.getElementById('pay_pdc').checked = false;
-  handlePay('pdc');
-  // Fill first PDC row (EMI ≈ AED 5,504.57)
-  const firstRow = document.querySelector('#pdc-body tr');
-  if (firstRow) {
-    firstRow.querySelectorAll('input')[0].value = 'CHQ-ABD-100001';
-    firstRow.querySelectorAll('input')[1].value = 'Emirates NBD';
-    firstRow.querySelectorAll('input')[2].value = '2026-06-23';
-    firstRow.querySelectorAll('input')[3].value = '5504.57';
-  }
-  // Add 2 more sample cheques
-  const bankList  = ['Emirates NBD','ADCB'];
-  const dateList  = ['2026-07-23','2026-08-23'];
-  for (let i = 0; i < 2; i++) {
-    addPdcRow();
-    const rows = document.querySelectorAll('#pdc-body tr');
-    const last = rows[rows.length - 1];
-    last.querySelectorAll('input')[0].value = 'CHQ-ABD-10000' + (i+2);
-    last.querySelectorAll('input')[1].value = bankList[i];
-    last.querySelectorAll('input')[2].value = dateList[i];
-    last.querySelectorAll('input')[3].value = '5504.57';
-  }
-  pdcTotal();
-
-  // 4. Finance — Long Finance, 5.75% reducing, 48 months
-  setFinType('long');
-  setV('finance_rate',    '5.75');
-  setV('finance_months',  '48');
-
-  // 5. Mortgage / Special
-  setV('mortgage_details',
-    'Vehicle to be registered under company name. Comprehensive insurance mandatory throughout tenure. ' +
-    'Bank lien to be noted on Mulkiya (vehicle registration). Board resolution authorizing financing attached.');
-  setV('special_info',
-    'Fleet addition for executive management use. Company holds active accounts with Emirates NBD and ADCB. ' +
-    'No existing vehicle finance. Board resolution and audited accounts for FY2024 provided.');
-
-  // Credit review
-  setV('gp_pct',               '9');
-  setV('fc_pct',               '2.5');
-  setV('annual_turnover',      '8500000');
-  setV('net_operating_income', '600000');   // annual EBITDA/NOI
-  setV('existing_debt_service','84000');    // AED 7,000/mo × 12
-  setV('existing_facilities',  '250000');
-  setV('aecb_score',           '772');
-  setV('credit_history',
-    'Clean AECB record. No defaults, restructuring or disputes. Strong banking relationship ' +
-    'with Emirates NBD for 8 years. Trade reference confirmed.');
-  setV('cs_comments',
-    'Al Falah Trading LLC presents a strong corporate credit profile. DSCR comfortably above ' +
-    'minimum 1.25×. AECB score Excellent (772). Trade license valid through entire tenure. ' +
-    'Down payment of 25% exceeds the 20% minimum. Recommend approval.');
-  setV('cc_comments',
-    'Deal value, GP margin and finance cost confirmed within approved dealer rate schedule. ' +
-    'Finance rate 5.75% p.a. reducing balance — within UAE corporate market range. Approved for processing.');
-
-  // Fire all calculations
-  onPriceChange();
-  calcYearsInBusiness();
-  checkTLExpiry();
-  rateCheck();
-  monthsSync();
-  tenureCheck();
-  calcGPFC();
-  aecbCheck();
-  buildAmort();
-  calcDSCR();
+/* ═══════════════════════════════════════════════════════════════
+   GP / FC / SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+function calcGPFC() {
+  const p = n('net_price');
+  setV('gp_aed', p>0 && n('gp_pct') ? 'AED '+fmt(p*n('gp_pct')/100) : '');
+  setV('fc_aed', p>0 && n('fc_pct') ? 'AED '+fmt(p*n('fc_pct')/100) : '');
 }
 
-/* ═══════════════════════════════════════════════════════
-   SAVE / RESET / RESTORE
-   ═══════════════════════════════════════════════════════ */
-function collectData() {
-  const data = { _pdcCount: pdcCount, _finType: getFinType() };
-  document.getElementById('vcf-form')
-    .querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
-      if (!el.name) return;
-      if      (el.type === 'checkbox') data[el.name] = el.checked;
-      else if (el.type === 'radio')    data[el.name] = el.checked ? el.value : (data[el.name] || '');
-      else data[el.name] = el.value;
+function updateSummary() {
+  const price   = n('net_price');
+  const base    = getBase();
+  const vat     = getVAT();
+  const dp      = n('dp_amount_input');
+  const pct     = base>0 ? dp/base*100 : 0;
+  const finance = Math.max(0, base - dp);
+  setT('sum_price', price>0   ? fmtAED(price)    : 'AED —');
+  setT('sum_base',  base>0    ? fmtAED(base)     : 'AED —');
+  setT('sum_vat',   vat>0     ? fmtAED(vat)      : 'AED —');
+  setT('sum_dp',    base>0    ? fmtAED(dp)+' ('+fmt(pct)+'% of base)' : 'AED —');
+  setT('sum_fin',   finance>0 ? fmtAED(finance)  : 'AED —');
+  // Rate summary
+  const rr = n('rate_reducing'), fr = n('rate_flat');
+  setT('sum_rrate', rr>0 ? fmt(rr)+'% p.a. reducing' : '—');
+  setT('sum_frate', fr>0 ? fmt(fr)+'% p.a. flat'     : '—');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DSCR  = Annual Net Operating Income ÷ Total Annual Debt Service
+   Total annual DS = existing debt service + (primary EMI × 12)
+   UAE bank minimum: 1.25×
+   ═══════════════════════════════════════════════════════════════ */
+function calcDSCR() {
+  const noi      = n('net_op_income');
+  const existing = n('existing_ds');
+  const emiTxt   = document.getElementById('kpi_emi').textContent;
+  const emiMon   = parseFloat(emiTxt.replace(/[^0-9.]/g,'')) || 0;
+  const totalDS  = existing + emiMon * 12;
+  if (noi > 0 && totalDS > 0) {
+    const dscr = noi / totalDS;
+    setV('dscr_display', fmt(dscr)+'x');
+    if      (dscr < 1.00) { fldCls('dscr_display','error'); hintSet('dscr-hint','error','✗ DSCR '+fmt(dscr)+'x — cash flow cannot cover debt; facility likely declined'); }
+    else if (dscr < 1.25) { fldCls('dscr_display','error'); hintSet('dscr-hint','error','⚠ DSCR '+fmt(dscr)+'x — below UAE bank minimum 1.25× — additional security required'); }
+    else if (dscr < 1.50) { fldCls('dscr_display','warn');  hintSet('dscr-hint','warn', '⚠ DSCR '+fmt(dscr)+'x — acceptable but tight; consider requesting collateral'); }
+    else                  { fldCls('dscr_display','ok');    hintSet('dscr-hint','ok',   '✓ DSCR '+fmt(dscr)+'x — strong coverage; meets UAE bank minimum 1.25×'); }
+  } else {
+    setV('dscr_display',''); fldCls('dscr_display','');
+    hintSet('dscr-hint','','= Net Operating Income ÷ Total Annual Debt Service. UAE banks min: 1.25×');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRADE LICENSE EXPIRY
+   ═══════════════════════════════════════════════════════════════ */
+function checkTLExpiry() {
+  const tlDate = document.getElementById('tl_expiry').value;
+  const months = n('finance_months');
+  if (!tlDate) { hintSet('tl-hint','','Must be valid through the full finance tenure'); fldCls('tl_expiry',''); return; }
+  const exp    = new Date(tlDate);
+  const today  = new Date(); today.setHours(0,0,0,0);
+  const finEnd = new Date(today); finEnd.setMonth(finEnd.getMonth() + Math.round(months));
+  if (exp <= today) {
+    hintSet('tl-hint','error','⚠ Trade license EXPIRED — renewal required before processing'); fldCls('tl_expiry','error');
+  } else if (months > 0 && exp < finEnd) {
+    hintSet('tl-hint','warn','⚠ License expires before finance tenure ends — renewal letter required'); fldCls('tl_expiry','warn');
+  } else {
+    hintSet('tl-hint','ok','✓ Trade license valid through finance period'); fldCls('tl_expiry','ok');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   YEARS IN BUSINESS
+   ═══════════════════════════════════════════════════════════════ */
+function calcYIB() {
+  const val = document.getElementById('established_date').value;
+  const badge = document.getElementById('yib-badge');
+  if (!val) { badge.style.display='none'; hintSet('est-hint','','UAE banks require min. 2 years trading history'); return; }
+  const yrs = (new Date() - new Date(val)) / (365.25*24*3600*1000);
+  const y=Math.floor(yrs), mo=Math.floor((yrs-y)*12);
+  document.getElementById('yib-text').textContent = y+'yr'+(y!==1?'s':'')+(mo?' '+mo+'mo':'')+' in business';
+  badge.style.display='';
+  if      (y < 2) { hintSet('est-hint','error','⚠ Below 2 years — most UAE banks require min. 2 years trading history'); }
+  else if (y < 3) { hintSet('est-hint','warn', '⚠ Less than 3 years — some banks may require additional guarantees'); }
+  else            { hintSet('est-hint','ok',   '✓ Established business — meets UAE bank trading history requirements'); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AECB CORPORATE SCORE
+   ═══════════════════════════════════════════════════════════════ */
+function aecbCheck() {
+  const s = n('aecb_score');
+  if (!s) { hintSet('aecb-hint','','Al Etihad Credit Bureau corporate profile score'); fldCls('aecb_score',''); return; }
+  if      (s < 550) { fldCls('aecb_score','error'); hintSet('aecb-hint','error','✗ Poor (<550) — high risk; facility likely declined'); }
+  else if (s < 650) { fldCls('aecb_score','warn');  hintSet('aecb-hint','warn', '⚠ Fair (550–649) — elevated risk; additional collateral may be required'); }
+  else if (s < 750) { fldCls('aecb_score','ok');    hintSet('aecb-hint','ok',   '✓ Good (650–749) — acceptable corporate risk profile'); }
+  else              { fldCls('aecb_score','ok');    hintSet('aecb-hint','ok',   '✓ Excellent (750+) — preferred corporate risk profile'); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PDC TABLE
+   ═══════════════════════════════════════════════════════════════ */
+function addPdcRow() {
+  pdcCount++;
+  const id=pdcCount, tr=document.createElement('tr');
+  tr.id='pdc-r-'+id;
+  tr.innerHTML=`<td class="nc">${id}</td>
+    <td><input type="text"   name="pdc_ch_${id}" placeholder="Cheque No."/></td>
+    <td><input type="text"   name="pdc_bk_${id}" placeholder="Bank name"/></td>
+    <td><input type="date"   name="pdc_dt_${id}"/></td>
+    <td><input type="number" name="pdc_am_${id}" placeholder="0.00" step="0.01" min="0" oninput="pdcTotal()"/></td>
+    <td class="no-print" style="text-align:center">
+      <button type="button" class="btn-s danger" style="padding:2px 8px;margin:0" onclick="removePdc(${id})">✕</button></td>`;
+  document.getElementById('pdc-body').appendChild(tr); pdcTotal();
+}
+function removePdc(id){ const r=document.getElementById('pdc-r-'+id); if(r)r.remove(); pdcTotal(); }
+function pdcTotal(){
+  let tot=0,cnt=0;
+  document.querySelectorAll('#pdc-body tr').forEach(tr=>{
+    const a=tr.querySelector('input[type="number"]');
+    if(a){tot+=parseFloat(a.value)||0;cnt++;}
+  });
+  document.getElementById('pdc-total').textContent='AED '+fmt(tot);
+  setT('sum_pdcs',cnt>0?cnt:'—');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAYMENT OPTION CARDS
+   pdc + lpo + bt can combine; "other" is exclusive
+   ═══════════════════════════════════════════════════════════════ */
+function handlePay(key){
+  const cb=document.getElementById('pay_'+key); cb.checked=!cb.checked;
+  if(key==='other'&&cb.checked){
+    ['pdc','lpo','bt'].forEach(k=>{
+      document.getElementById('pay_'+k).checked=false;
+      document.getElementById('opt-'+k).classList.remove('selected');
+      document.getElementById(k+'-section').classList.remove('active');
     });
+  }
+  if(key!=='other'&&cb.checked){
+    document.getElementById('pay_other').checked=false;
+    document.getElementById('opt-other').classList.remove('selected');
+    document.getElementById('other-section').classList.remove('active');
+  }
+  ['pdc','lpo','bt','other'].forEach(k=>{
+    const on=document.getElementById('pay_'+k).checked;
+    document.getElementById('opt-'+k).classList.toggle('selected',on);
+    document.getElementById(k+'-section').classList.toggle('active',on);
+  });
+  if(key==='pdc'&&cb.checked&&document.querySelectorAll('#pdc-body tr').length===0) addPdcRow();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXAMPLE DATA
+   Al Falah Trading LLC — Mercedes-Benz GLE 350 2024
+   Net Price incl. VAT: AED 315,000
+   Base (excl. VAT):    AED 300,000   [= 315,000 / 1.05]
+   VAT (5%):            AED  15,000   [paid separately]
+   Down Payment 25%:    AED  75,000   [of base AED 300,000]
+   Total Upfront:       AED  90,000   [DP + VAT]
+   Finance Amount:      AED 225,000   [base − DP]
+
+   Reducing @ 5.75% p.a., 48 months:
+     r   = 5.75/100/12 = 0.004791̄6̄
+     (1+r)^48 ≈ 1.25786
+     EMI = 225,000 × 0.004792 × 1.25786 / (1.25786−1)
+         ≈ AED 5,261.63
+     Total interest ≈ AED 27,558
+     Equiv flat rate ≈ 3.06% p.a.
+
+   Flat @ 3.06%:
+     Monthly int  = 225,000 × 3.06/100/12 = AED 573.75
+     Monthly prin = 225,000/48            = AED 4,687.50
+     EMI          ≈ AED 5,261.25 (≈ same by equivalence)
+   ═══════════════════════════════════════════════════════════════ */
+function loadExample() {
+  resetForm(true);
+  // Company
+  setV('company_name','Al Falah Trading LLC');
+  document.getElementById('company_type').value='LLC (Limited Liability Co.)';
+  setV('mk_number','MK-2024-07341');
+  setV('trade_license','CN-4872913 / ADDED Abu Dhabi');
+  setV('tl_expiry','2027-06-30');
+  setV('established_date','2014-03-15');
+  setV('authorized_person','Khalid Mohammed Al Falah');
+  setV('contact_mobile','050 312 7894');
+  setV('emirates_id','784-1985-1234567-1');
+  // Vehicle
+  setV('vsb_number','VSB-GLE350-2024-007');
+  setV('sales_date','2026-05-23');
+  setV('type_model','Mercedes-Benz GLE 350 AMG Line 2024');
+  document.getElementById('vehicle_purpose').value='Executive / Management Use';
+  setV('net_price','315000');
+  onPriceChange();                              // triggers VAT breakdown
+  // Down payment — 25% of base price AED 300,000 = AED 75,000
+  setV('dp_pct_input','25');
+  setV('dp_amount_input','75000');
+  setV('dp_due_date','2026-05-23');
+  applyDP();
+  // Payment method PDC
+  document.getElementById('pay_pdc').checked=false; handlePay('pdc');
+  const firstRow=document.querySelector('#pdc-body tr');
+  if(firstRow){
+    firstRow.querySelectorAll('input')[0].value='CHQ-ABD-100001';
+    firstRow.querySelectorAll('input')[1].value='Emirates NBD';
+    firstRow.querySelectorAll('input')[2].value='2026-06-23';
+    firstRow.querySelectorAll('input')[3].value='5261.63';
+  }
+  const banks=['ADCB','FAB'], dates=['2026-07-23','2026-08-23'];
+  for(let i=0;i<2;i++){
+    addPdcRow();
+    const rows=document.querySelectorAll('#pdc-body tr');
+    const last=rows[rows.length-1];
+    last.querySelectorAll('input')[0].value='CHQ-ABD-10000'+(i+2);
+    last.querySelectorAll('input')[1].value=banks[i];
+    last.querySelectorAll('input')[2].value=dates[i];
+    last.querySelectorAll('input')[3].value='5261.63';
+  }
+  pdcTotal();
+  // Finance — 48 months, reducing 5.75% primary
+  setV('finance_months','48');
+  onMonthsChange();
+  setPrimary('reducing');
+  setV('rate_reducing','5.75');
+  onReducingChange();                           // auto-computes flat equivalent
+  // Mortgage / Special
+  setV('mortgage_details','Vehicle to be registered under company name. Comprehensive insurance mandatory throughout tenure. Bank lien to be noted on Mulkiya. Board resolution authorizing financing attached.');
+  setV('special_info','Fleet addition for executive management. Active accounts with Emirates NBD and ADCB. No existing vehicle finance. Board resolution and FY2024 audited accounts provided.');
+  // Credit review
+  setV('gp_pct','9'); setV('fc_pct','2.5');
+  setV('annual_turnover','8500000');
+  setV('net_op_income','600000');
+  setV('existing_ds','84000');
+  setV('existing_facilities','250000');
+  setV('aecb_score','772');
+  setV('credit_history','Clean AECB record. No defaults, restructuring or disputes. Strong 8-year banking relationship with Emirates NBD. Trade reference confirmed.');
+  setV('cs_comments','Al Falah Trading LLC presents a strong corporate credit profile. DSCR well above 1.25×. AECB Excellent (772). Trade license valid through full tenure. Down payment 25% exceeds 20% minimum. Recommend approval.');
+  setV('cc_comments','Deal value, GP and finance cost confirmed within approved dealer rate schedule. Reducing rate 5.75% p.a. — within UAE corporate range. Equivalent flat rate 3.06% shown for reference. Approved for processing.');
+  calcGPFC(); aecbCheck(); calcDSCR(); updateSummary(); calcYIB(); checkTLExpiry();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SAVE / RESET / RESTORE
+   ═══════════════════════════════════════════════════════════════ */
+function collectData(){
+  const data={_pdcCount:pdcCount,_primary:getPrimary(),_duration:document.getElementById('dur_short').checked?'short':'long'};
+  document.getElementById('vcf-form').querySelectorAll('input:not([readonly]),textarea,select').forEach(el=>{
+    if(!el.name)return;
+    if(el.type==='checkbox')data[el.name]=el.checked;
+    else if(el.type==='radio')data[el.name]=el.checked?el.value:(data[el.name]||'');
+    else data[el.name]=el.value;
+  });
   return data;
 }
 
-function restoreData(data) {
-  if (!data) return;
-  for (let i = 0; i < (data._pdcCount || 0); i++) addPdcRow();
-  document.getElementById('vcf-form')
-    .querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
-      if (!el.name || !(el.name in data)) return;
-      if      (el.type === 'checkbox') el.checked = !!data[el.name];
-      else if (el.type === 'radio')    el.checked = el.value === data[el.name];
-      else el.value = data[el.name];
-    });
-  setFinType(data._finType || 'long');
-  ['pdc','lpo','bt','other'].forEach(k => {
-    const on = document.getElementById('pay_'+k).checked;
-    document.getElementById('opt-'+k).classList.toggle('selected', on);
-    document.getElementById(k+'-section').classList.toggle('active', on);
+function restoreData(data){
+  if(!data)return;
+  for(let i=0;i<(data._pdcCount||0);i++)addPdcRow();
+  document.getElementById('vcf-form').querySelectorAll('input:not([readonly]),textarea,select').forEach(el=>{
+    if(!el.name||!(el.name in data))return;
+    if(el.type==='checkbox')el.checked=!!data[el.name];
+    else if(el.type==='radio')el.checked=el.value===data[el.name];
+    else el.value=data[el.name];
   });
-  onPriceChange(); calcYearsInBusiness(); checkTLExpiry();
-  rateCheck(); monthsSync(); tenureCheck();
-  calcGPFC(); pdcTotal(); aecbCheck(); buildAmort(); calcDSCR();
+  setDuration(data._duration||'long');
+  ['pdc','lpo','bt','other'].forEach(k=>{
+    const on=document.getElementById('pay_'+k).checked;
+    document.getElementById('opt-'+k).classList.toggle('selected',on);
+    document.getElementById(k+'-section').classList.toggle('active',on);
+  });
+  setPrimary(data._primary||'reducing');
+  onPriceChange(); calcYIB(); checkTLExpiry();
+  onMonthsChange(); runBothRates();
+  calcGPFC(); pdcTotal(); aecbCheck(); calcDSCR(); updateSummary();
 }
 
-function saveForm() {
-  try {
-    localStorage.setItem(SKEY, JSON.stringify(collectData()));
-    const b = document.getElementById('save-banner');
-    b.style.display = 'block';
-    setTimeout(() => b.style.display = 'none', 3500);
-  } catch(e) { alert('Save failed — localStorage may be disabled.'); }
+function saveForm(){
+  try{
+    localStorage.setItem(SKEY,JSON.stringify(collectData()));
+    const b=document.getElementById('save-banner');
+    b.style.display='block'; setTimeout(()=>b.style.display='none',3500);
+  }catch(e){alert('Save failed — localStorage may be disabled.');}
 }
 
-function resetForm(silent) {
-  if (!silent && !confirm('Clear all form data and start a new form?')) return;
+function resetForm(silent){
+  if(!silent&&!confirm('Clear all form data and start a new form?'))return;
   localStorage.removeItem(SKEY);
-  document.getElementById('pdc-body').innerHTML = '';
-  pdcCount = 0; amortExpanded = false;
+  document.getElementById('pdc-body').innerHTML='';
+  pdcCount=0; amortExpanded=false; _syncing=false;
   document.getElementById('vcf-form').reset();
-  setFinType('long');
-
-  ['price_excl_vat','vat_component','dp_pct_display','finance_principal',
-   'gp_aed','fc_aed','tenure_years_disp','tenure_months_disp','num_pdcs_disp','dscr_display'].forEach(id => setV(id,''));
-
-  ['pdc','lpo','bt','other'].forEach(k => {
+  setDuration('long'); setPrimary('reducing');
+  ['price_excl_vat','vat_component','dp_pct_input','dp_amount_input','fin_principal_display',
+   'rate_reducing','rate_flat','tenure_disp','gp_aed','fc_aed','dscr_display'].forEach(id=>setV(id,''));
+  ['pdc','lpo','bt','other'].forEach(k=>{
     document.getElementById('opt-'+k).classList.remove('selected');
     document.getElementById(k+'-section').classList.remove('active');
   });
-
-  document.getElementById('pdc-total').textContent = 'AED 0.00';
-  document.getElementById('amort-body').innerHTML = '';
-  document.getElementById('amort-foot').innerHTML = '';
-  document.getElementById('amort-empty').style.display = '';
-  document.getElementById('amort-table').style.display  = 'none';
-  document.getElementById('amort-fbar').style.display   = 'none';
+  document.getElementById('price-breakdown').style.display='none';
+  document.getElementById('pdc-total').textContent='AED 0.00';
+  document.getElementById('amort-body').innerHTML='';
+  document.getElementById('amort-foot').innerHTML='';
+  document.getElementById('amort-empty').style.display='';
+  document.getElementById('amort-table').style.display='none';
+  document.getElementById('amort-fbar').style.display='none';
   document.getElementById('amort-scroll').classList.remove('expanded');
-  document.getElementById('years-badge').style.display  = 'none';
-
-  ['kpi_principal','kpi_emi','kpi_interest','kpi_payable'].forEach(id => setT(id,'AED —'));
-  setT('kpi_apr','—');
-  ['sum_price','sum_vat','sum_dp','sum_fin','sum_emi'].forEach(id => setT(id,'AED —'));
-  setT('sum_pdcs','—');
+  document.getElementById('yib-badge').style.display='none';
+  clearRatePanel();
+  ['sum_price','sum_base','sum_vat','sum_dp','sum_fin','sum_emi'].forEach(id=>setT(id,'AED —'));
+  ['sum_rrate','sum_frate','sum_pdcs'].forEach(id=>setT(id,'—'));
+  clearCol('r'); clearCol('f');
+  setT('kpi_principal','AED —');
 }
 
-/* ═══════════════════════════════════════════════════════
-   INIT
-   ═══════════════════════════════════════════════════════ */
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const saved = localStorage.getItem(SKEY);
-    if (saved) restoreData(JSON.parse(saved));
-  } catch(e) { /* ignore */ }
+window.addEventListener('DOMContentLoaded',()=>{
+  try{ const s=localStorage.getItem(SKEY); if(s)restoreData(JSON.parse(s)); }catch(e){}
 });
 </script>
 </body>
