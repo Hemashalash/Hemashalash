@@ -337,10 +337,7 @@ Do NOT include option letters inside the options array strings.`;
     const data = await res.json();
     const raw  = data.choices?.[0]?.message?.content || "";
 
-    const match = raw.match(/\[[\s\S]*?\]/s) || raw.match(/\[[\s\S]*/);
-    if (!match) throw new Error("Could not parse AI response. Try again or switch model.");
-
-    const parsed = JSON.parse(match[0]);
+    const parsed = extractJSON(raw);
     if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("AI returned empty result.");
 
     const normalised = parsed.map(q => normaliseQ(q, meta));
@@ -823,6 +820,45 @@ function esc(s) {
 }
 
 function today() { return new Date().toISOString().slice(0, 10); }
+
+/**
+ * Robustly extract the top-level JSON array from an AI response.
+ * Uses bracket-depth tracking so nested arrays (e.g. "options") don't
+ * cause a premature cut-off, which would produce a parse error.
+ */
+function extractJSON(raw) {
+  // Strip markdown fences: ```json ... ``` or ``` ... ```
+  let text = raw.replace(/```(?:json)?\s*/gi, "").replace(/```/g, "").trim();
+
+  const start = text.indexOf("[");
+  if (start === -1) throw new Error("AI response contained no JSON array. Try again.");
+
+  // Walk forward tracking bracket depth to find the matching closing ]
+  let depth = 0;
+  let end   = -1;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if      (ch === "[") depth++;
+    else if (ch === "]") { depth--; if (depth === 0) { end = i; break; } }
+  }
+
+  if (end === -1) throw new Error("AI returned incomplete JSON. Try again or use a smarter model.");
+
+  let jsonStr = text.slice(start, end + 1);
+
+  // Common fix: trailing commas before } or ] (some models add them)
+  jsonStr = jsonStr.replace(/,\s*([}\]])/g, "$1");
+
+  try {
+    const parsed = JSON.parse(jsonStr);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      throw new Error("AI returned an empty list of questions. Try again.");
+    }
+    return parsed;
+  } catch (e) {
+    throw new Error(`Could not parse AI response: ${e.message}. Try switching to Llama 3.3 70B.`);
+  }
+}
 
 function formatDate(iso) {
   const d = new Date(iso + "T00:00:00");
