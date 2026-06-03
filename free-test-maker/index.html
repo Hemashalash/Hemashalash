@@ -1,279 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Test Maker — Powered by Groq (Free)</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Test Maker — Groq Powered</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <header>
-    <div class="header-inner">
-      <div class="logo-wrap">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="12" fill="white" fill-opacity="0.15"/>
-          <path d="M24 10 L36 17 L36 31 L24 38 L12 31 L12 17 Z" stroke="white" stroke-width="2" fill="none"/>
-          <circle cx="24" cy="24" r="5" fill="#34d399"/>
-          <path d="M24 14 L24 19 M24 29 L24 34 M14 24 L19 24 M29 24 L34 24" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="header-text">
-        <h1>AI Test Maker</h1>
-        <p>Powered by <strong>Groq</strong> — Free open-source AI (Llama 3 &amp; Mixtral)</p>
-      </div>
-      <div class="header-badge">FREE</div>
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="white" fill-opacity=".15"/><path d="M24 8L40 17V31L24 40L8 31V17Z" stroke="white" stroke-width="2" fill="none"/><circle cx="24" cy="24" r="5" fill="#34d399"/><path d="M24 13v5M24 30v5M13 24h5M30 24h5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
-  </header>
+    <div class="header-text">
+      <h1>AI Test Maker</h1>
+      <p>Powered by <strong>Groq</strong> — Free open-source AI · Llama 3.3 · Mixtral · Gemma 2</p>
+    </div>
+    <div class="header-actions">
+      <button id="load-last-btn" class="hbtn" title="Load last saved test">📂 Last Test</button>
+      <span class="free-badge">FREE</span>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <div class="container">
+<main>
+<div class="container">
 
-      <!-- ── API Key Setup Card ── -->
-      <section class="card setup-card" id="setup-card">
-        <div class="setup-header">
-          <div class="setup-icon">🔑</div>
-          <div>
-            <h2>Get Your Free Groq API Key</h2>
-            <p>Groq provides free access to open-source AI models. No credit card required.</p>
+  <!-- ── API Key Card ── -->
+  <section class="card key-card" id="key-card">
+    <div class="key-card-header">
+      <div class="key-icon">🔑</div>
+      <div>
+        <h2>Groq API Key <span class="free-tag">Free</span></h2>
+        <p>No credit card needed — get your key at <strong>console.groq.com</strong></p>
+      </div>
+      <button id="key-collapse-btn" class="collapse-btn" aria-expanded="true">▲</button>
+    </div>
+    <div id="key-body">
+      <div class="steps-row">
+        <div class="step"><div class="sn">1</div><span>Sign up free at <strong>console.groq.com</strong></span></div>
+        <div class="step"><div class="sn">2</div><span>Click <strong>API Keys → Create Key</strong></span></div>
+        <div class="step"><div class="sn">3</div><span>Paste below and click <strong>Save & Test</strong></span></div>
+      </div>
+      <div class="key-row">
+        <div class="form-group grow">
+          <label for="groq-key">API Key</label>
+          <div class="eye-wrap">
+            <input type="password" id="groq-key" placeholder="gsk_..." autocomplete="off"/>
+            <button type="button" id="eye-btn">👁</button>
           </div>
         </div>
-        <div class="setup-steps">
-          <div class="step"><span class="step-num">1</span><span>Go to <strong>console.groq.com</strong> and sign up for free</span></div>
-          <div class="step"><span class="step-num">2</span><span>Click <strong>API Keys</strong> in the sidebar → <strong>Create API Key</strong></span></div>
-          <div class="step"><span class="step-num">3</span><span>Copy your key and paste it below</span></div>
+        <div class="form-group">
+          <label for="model-sel">AI Model</label>
+          <select id="model-sel">
+            <option value="llama-3.1-8b-instant">Llama 3.1 8B — Fast ⚡</option>
+            <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B — Smart 🧠</option>
+            <option value="mixtral-8x7b-32768">Mixtral 8×7B — Balanced ⚖️</option>
+            <option value="gemma2-9b-it">Gemma 2 9B 🔵</option>
+          </select>
         </div>
-        <div class="key-input-row">
-          <div class="form-group flex-grow">
-            <label for="groq-key">Groq API Key</label>
-            <div class="input-toggle-wrap">
-              <input type="password" id="groq-key" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
-              <button type="button" id="toggle-key-btn" aria-label="Show/hide">👁</button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="model-select">AI Model</label>
-            <select id="model-select">
-              <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant — Fast ⚡</option>
-              <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile — Smart 🧠</option>
-              <option value="mixtral-8x7b-32768">Mixtral 8×7B — Balanced ⚖️</option>
-              <option value="gemma2-9b-it">Gemma 2 9B — Google 🔵</option>
-            </select>
-          </div>
-          <div class="form-group key-save-group">
-            <label>&nbsp;</label>
-            <button id="save-key-btn" class="btn btn-success">Save Key</button>
-          </div>
+        <div class="form-group shrink">
+          <label>&nbsp;</label>
+          <button id="save-key-btn" class="btn btn-success">Save &amp; Test</button>
         </div>
-        <div id="key-status" class="key-status hidden"></div>
-      </section>
+      </div>
+      <div id="key-status" class="key-status hidden"></div>
+    </div>
+  </section>
 
-      <!-- ── Configuration Card ── -->
-      <section class="card config-card">
-        <h2 class="section-title">
-          <span class="title-icon">⚙️</span> Configure Your Test
-        </h2>
+  <!-- ── Config Card ── -->
+  <section class="card config-card">
+    <h2 class="card-title">⚙️ Configure Test</h2>
 
+    <!-- Row 1: Core fields -->
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="subject">Subject <span class="req">*</span></label>
+        <select id="subject">
+          <option value="">— Select —</option>
+          <optgroup label="Core">
+            <option value="Mathematics">Mathematics</option>
+            <option value="English Language Arts">English Language Arts</option>
+            <option value="General Science">General Science</option>
+            <option value="Social Studies">Social Studies</option>
+          </optgroup>
+          <optgroup label="Sciences">
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="Environmental Science">Environmental Science</option>
+          </optgroup>
+          <optgroup label="Humanities">
+            <option value="History">History</option>
+            <option value="Geography">Geography</option>
+            <option value="Economics">Economics</option>
+            <option value="Civics and Government">Civics &amp; Government</option>
+          </optgroup>
+          <optgroup label="Technology">
+            <option value="Computer Science">Computer Science</option>
+            <option value="ICT">ICT</option>
+          </optgroup>
+          <optgroup label="Languages">
+            <option value="Arabic Language">Arabic Language</option>
+            <option value="French">French</option>
+            <option value="Spanish">Spanish</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="Islamic Studies">Islamic Studies</option>
+            <option value="Business Studies">Business Studies</option>
+            <option value="Art and Design">Art &amp; Design</option>
+            <option value="Physical Education">Physical Education</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="grade">Grade <span class="req">*</span></label>
+        <select id="grade">
+          <option value="">— Select —</option>
+          <option value="Kindergarten">Kindergarten</option>
+          <option value="Grade 1">Grade 1</option>
+          <option value="Grade 2">Grade 2</option>
+          <option value="Grade 3">Grade 3</option>
+          <option value="Grade 4">Grade 4</option>
+          <option value="Grade 5">Grade 5</option>
+          <option value="Grade 6">Grade 6</option>
+          <option value="Grade 7">Grade 7</option>
+          <option value="Grade 8">Grade 8</option>
+          <option value="Grade 9">Grade 9</option>
+          <option value="Grade 10">Grade 10</option>
+          <option value="Grade 11">Grade 11</option>
+          <option value="Grade 12">Grade 12</option>
+          <option value="University Foundation">University Foundation</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="curriculum">Curriculum <span class="req">*</span></label>
+        <select id="curriculum">
+          <option value="">— Select —</option>
+          <option value="UAE Ministry of Education">UAE Ministry of Education</option>
+          <option value="US Common Core">US Common Core</option>
+          <option value="British National Curriculum">British National Curriculum</option>
+          <option value="Cambridge (IGCSE/A-Level)">Cambridge IGCSE / A-Level</option>
+          <option value="International Baccalaureate (IB)">International Baccalaureate (IB)</option>
+          <option value="CBSE (India)">CBSE (India)</option>
+          <option value="Australian Curriculum">Australian Curriculum</option>
+          <option value="General / International">General / International</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+          <option value="Easy">🟢 Easy</option>
+          <option value="Medium" selected>🟡 Medium</option>
+          <option value="Hard">🔴 Hard</option>
+          <option value="Mixed (Easy, Medium, and Hard)">🌈 Mixed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="language">Output Language</label>
+        <select id="language">
+          <option value="English">🇬🇧 English</option>
+          <option value="Arabic">🇦🇪 Arabic (عربي)</option>
+          <option value="French">🇫🇷 French</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bloom">Cognitive Level <span class="hint">(Bloom's)</span></label>
+        <select id="bloom">
+          <option value="">Any Level</option>
+          <option value="Knowledge (Remember)">Knowledge — Remember</option>
+          <option value="Comprehension (Understand)">Comprehension — Understand</option>
+          <option value="Application (Apply)">Application — Apply</option>
+          <option value="Analysis (Analyze)">Analysis — Analyze</option>
+          <option value="Evaluation (Evaluate)">Evaluation — Evaluate</option>
+          <option value="Synthesis (Create)">Synthesis — Create</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Topic -->
+    <div class="form-group topic-row">
+      <label for="topic">
+        Topic / Focus Area
+        <span class="hint">Chapter, unit, or concept to target</span>
+      </label>
+      <input type="text" id="topic" placeholder="e.g., Photosynthesis · World War II · Quadratic Equations · Newton's Laws…"/>
+    </div>
+
+    <!-- ── Question Breakdown ── -->
+    <div class="section-divider">
+      <span>Question Breakdown</span>
+    </div>
+
+    <div class="qcount-grid">
+      <div class="qcount-item">
+        <label>Multiple Choice</label>
+        <div class="counter-wrap">
+          <button class="counter-btn" data-target="mcq-count" data-dir="-1">−</button>
+          <input type="number" id="mcq-count" class="counter-input" value="5" min="0" max="20"/>
+          <button class="counter-btn" data-target="mcq-count" data-dir="1">+</button>
+        </div>
+        <div class="marks-per">
+          <input type="number" id="mcq-marks" class="marks-input" value="2" min="1" max="10"/> pts each
+        </div>
+      </div>
+
+      <div class="qcount-item">
+        <label>True / False</label>
+        <div class="counter-wrap">
+          <button class="counter-btn" data-target="tf-count" data-dir="-1">−</button>
+          <input type="number" id="tf-count" class="counter-input" value="3" min="0" max="20"/>
+          <button class="counter-btn" data-target="tf-count" data-dir="1">+</button>
+        </div>
+        <div class="marks-per">
+          <input type="number" id="tf-marks" class="marks-input" value="1" min="1" max="10"/> pt each
+        </div>
+      </div>
+
+      <div class="qcount-item">
+        <label>Short Answer</label>
+        <div class="counter-wrap">
+          <button class="counter-btn" data-target="sa-count" data-dir="-1">−</button>
+          <input type="number" id="sa-count" class="counter-input" value="2" min="0" max="20"/>
+          <button class="counter-btn" data-target="sa-count" data-dir="1">+</button>
+        </div>
+        <div class="marks-per">
+          <input type="number" id="sa-marks" class="marks-input" value="5" min="1" max="20"/> pts each
+        </div>
+      </div>
+
+      <div class="qcount-total" id="qcount-total">
+        <div class="total-label">Total</div>
+        <div class="total-num" id="total-q">10 questions</div>
+        <div class="total-marks" id="total-marks">23 marks</div>
+      </div>
+    </div>
+
+    <!-- ── Test Options ── -->
+    <details class="options-panel">
+      <summary>Test Options &amp; Header <span class="hint">(duration, instructions, school info)</span></summary>
+      <div class="options-body">
         <div class="form-grid">
-
           <div class="form-group">
-            <label for="subject">Subject <span class="req">*</span></label>
-            <select id="subject">
-              <option value="">— Select Subject —</option>
-              <optgroup label="Core Subjects">
-                <option value="Mathematics">Mathematics</option>
-                <option value="English Language Arts">English Language Arts</option>
-                <option value="General Science">General Science</option>
-                <option value="Social Studies">Social Studies</option>
-              </optgroup>
-              <optgroup label="Sciences">
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Biology">Biology</option>
-                <option value="Environmental Science">Environmental Science</option>
-              </optgroup>
-              <optgroup label="Humanities">
-                <option value="History">History</option>
-                <option value="Geography">Geography</option>
-                <option value="Economics">Economics</option>
-                <option value="Civics">Civics &amp; Government</option>
-              </optgroup>
-              <optgroup label="Technology">
-                <option value="Computer Science">Computer Science</option>
-                <option value="ICT">ICT</option>
-              </optgroup>
-              <optgroup label="Languages">
-                <option value="Arabic Language">Arabic Language</option>
-                <option value="French">French</option>
-                <option value="Spanish">Spanish</option>
-              </optgroup>
-              <optgroup label="Other">
-                <option value="Islamic Studies">Islamic Studies</option>
-                <option value="Art and Design">Art &amp; Design</option>
-                <option value="Physical Education">Physical Education</option>
-                <option value="Business Studies">Business Studies</option>
-              </optgroup>
-            </select>
+            <label for="school-name">School Name</label>
+            <input type="text" id="school-name" placeholder="e.g., Emirates International School"/>
           </div>
-
           <div class="form-group">
-            <label for="grade">Grade <span class="req">*</span></label>
-            <select id="grade">
-              <option value="">— Select Grade —</option>
-              <option value="Kindergarten">Kindergarten</option>
-              <option value="Grade 1">Grade 1</option>
-              <option value="Grade 2">Grade 2</option>
-              <option value="Grade 3">Grade 3</option>
-              <option value="Grade 4">Grade 4</option>
-              <option value="Grade 5">Grade 5</option>
-              <option value="Grade 6">Grade 6</option>
-              <option value="Grade 7">Grade 7</option>
-              <option value="Grade 8">Grade 8</option>
-              <option value="Grade 9">Grade 9</option>
-              <option value="Grade 10">Grade 10</option>
-              <option value="Grade 11">Grade 11</option>
-              <option value="Grade 12">Grade 12</option>
-              <option value="University Foundation">University Foundation</option>
-            </select>
+            <label for="teacher-name">Teacher Name</label>
+            <input type="text" id="teacher-name" placeholder="e.g., Ms. Sarah"/>
           </div>
-
           <div class="form-group">
-            <label for="curriculum">Curriculum <span class="req">*</span></label>
-            <select id="curriculum">
-              <option value="">— Select Curriculum —</option>
-              <option value="US Common Core">US Common Core</option>
-              <option value="British National Curriculum">British National Curriculum</option>
-              <option value="UAE Ministry of Education">UAE Ministry of Education</option>
-              <option value="International Baccalaureate (IB)">International Baccalaureate (IB)</option>
-              <option value="CBSE (India)">CBSE (India)</option>
-              <option value="Australian Curriculum">Australian Curriculum</option>
-              <option value="Cambridge (IGCSE/A-Level)">Cambridge (IGCSE / A-Level)</option>
-              <option value="General / International">General / International</option>
-            </select>
+            <label for="test-title">Test Title</label>
+            <input type="text" id="test-title" placeholder="e.g., Chapter 5 Quiz"/>
           </div>
-
           <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select id="difficulty">
-              <option value="easy">🟢 Easy</option>
-              <option value="medium" selected>🟡 Medium</option>
-              <option value="hard">🔴 Hard</option>
-              <option value="mixed">🌈 Mixed</option>
-            </select>
+            <label for="test-date">Date</label>
+            <input type="date" id="test-date"/>
           </div>
-
           <div class="form-group">
-            <label for="num-q">Number of Questions</label>
-            <select id="num-q">
-              <option value="5">5 Questions</option>
-              <option value="10" selected>10 Questions</option>
-              <option value="15">15 Questions</option>
-              <option value="20">20 Questions</option>
-              <option value="25">25 Questions</option>
-            </select>
+            <label for="duration">Duration</label>
+            <input type="text" id="duration" placeholder="e.g., 45 minutes"/>
           </div>
-
           <div class="form-group">
-            <label for="q-type">Question Types</label>
-            <select id="q-type">
-              <option value="mixed">All Types (Mixed)</option>
-              <option value="mcq">Multiple Choice Only</option>
-              <option value="true_false">True / False Only</option>
-              <option value="short_answer">Short Answer Only</option>
-            </select>
-          </div>
-
-        </div>
-
-        <!-- Topic / Focus -->
-        <div class="form-group topic-group">
-          <label for="topic">
-            Topic / Focus Area
-            <span class="tag-hint">Tell the AI what chapter, unit, or concept to focus on</span>
-          </label>
-          <input type="text" id="topic"
-            placeholder="e.g., Photosynthesis, World War II, Quadratic Equations, The Water Cycle…" />
-        </div>
-
-        <!-- Test header info -->
-        <details class="meta-details">
-          <summary>Test Header Information <span class="optional">(optional)</span></summary>
-          <div class="meta-body form-grid">
-            <div class="form-group">
-              <label for="school-name">School Name</label>
-              <input type="text" id="school-name" placeholder="e.g., Emirates International School" />
-            </div>
-            <div class="form-group">
-              <label for="teacher-name">Teacher Name</label>
-              <input type="text" id="teacher-name" placeholder="e.g., Ms. Sara" />
-            </div>
-            <div class="form-group">
-              <label for="test-title">Test Title</label>
-              <input type="text" id="test-title" placeholder="e.g., Mid-Term Exam" />
-            </div>
-            <div class="form-group">
-              <label for="test-date">Date</label>
-              <input type="date" id="test-date" />
-            </div>
-          </div>
-        </details>
-
-        <div class="actions">
-          <button id="generate-btn" class="btn btn-primary" disabled>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Generate with AI
-          </button>
-          <button id="clear-btn" class="btn btn-ghost">Clear</button>
-        </div>
-
-        <div id="error-box" class="error-box hidden"></div>
-
-        <div id="loading-bar" class="loading-bar hidden">
-          <div class="loading-inner">
-            <div class="pulse-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <p id="loading-msg">Generating questions with <strong>AI</strong>…</p>
+            <label for="term">Term / Semester</label>
+            <input type="text" id="term" placeholder="e.g., Term 1 · Semester 2"/>
           </div>
         </div>
-      </section>
-
-      <!-- ── Test Preview ── -->
-      <section id="test-preview" class="card test-preview hidden">
-        <div class="preview-toolbar">
-          <div class="left">
-            <button id="toggle-answers-btn" class="btn btn-secondary">Show Answer Key</button>
-          </div>
-          <div class="right">
-            <button id="regenerate-btn" class="btn btn-ghost">↺ Regenerate</button>
-            <button id="print-btn" class="btn btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 6 2 18 2 18 9"/>
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-                <rect x="6" y="14" width="12" height="8"/>
-              </svg>
-              Print
-            </button>
-          </div>
+        <div class="form-group">
+          <label for="instructions">Special Instructions <span class="hint">(printed on the test)</span></label>
+          <textarea id="instructions" rows="2" placeholder="e.g., Use a pencil. Show all working. No calculators allowed."></textarea>
         </div>
+      </div>
+    </details>
 
-        <div id="test-output" class="test-output"></div>
-
-        <div id="answer-key-section" class="answer-key-section hidden">
-          <div class="ak-header">
-            <span>✅ Answer Key</span>
-          </div>
-          <div id="ak-content"></div>
-        </div>
-      </section>
-
+    <!-- Actions -->
+    <div class="actions-row">
+      <button id="generate-btn" class="btn btn-primary" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate Test
+      </button>
+      <button id="clear-btn" class="btn btn-ghost">Clear</button>
     </div>
-  </main>
 
-  <footer>
-    <p>AI Test Maker · Powered by <strong>Groq</strong> open-source models (Llama 3, Mixtral, Gemma 2) · Free to use</p>
-  </footer>
+    <div id="error-box" class="error-box hidden"></div>
 
-  <script src="app.js"></script>
+    <div id="loading-wrap" class="loading-wrap hidden">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <span id="loading-msg">Generating…</span>
+    </div>
+  </section>
+
+  <!-- ── Preview Card ── -->
+  <section id="preview-card" class="card preview-card hidden">
+    <div class="preview-toolbar">
+      <div class="ptb-left">
+        <span id="preview-label" class="preview-label"></span>
+      </div>
+      <div class="ptb-right">
+        <button id="add-q-btn" class="btn btn-ghost btn-sm">＋ Add Question</button>
+        <button id="save-test-btn" class="btn btn-ghost btn-sm">💾 Save</button>
+        <button id="toggle-ans-btn" class="btn btn-secondary btn-sm">Show Answers</button>
+        <button id="regen-all-btn" class="btn btn-ghost btn-sm">↺ Regenerate All</button>
+        <button id="print-btn" class="btn btn-primary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive question editor (screen only) -->
+    <div id="q-editor" class="q-editor"></div>
+
+    <!-- Answer key panel -->
+    <div id="answer-key-panel" class="answer-key-panel hidden">
+      <div class="ak-title">✅ Answer Key</div>
+      <div id="ak-grid" class="ak-grid"></div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- Hidden print area -->
+<div id="print-area" class="print-area" aria-hidden="true"></div>
+
+<footer>
+  <p>AI Test Maker · <strong>Groq</strong> open-source AI (Llama 3.3 · Mixtral · Gemma 2) · Free to use</p>
+</footer>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Edit Question</h3>
+      <button id="modal-close" class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Question Text</label>
+        <textarea id="edit-q-text" rows="3"></textarea>
+      </div>
+      <div id="edit-options-wrap" class="form-group"></div>
+      <div class="form-group">
+        <label>Correct Answer</label>
+        <input type="text" id="edit-answer"/>
+      </div>
+      <div class="form-group">
+        <label>Explanation <span class="hint">(shown in answer key)</span></label>
+        <input type="text" id="edit-explanation"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="modal-save" class="btn btn-primary">Save Changes</button>
+      <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="modal-overlay" class="modal-overlay hidden"></div>
+
+<script src="app.js"></script>
 </body>
 </html>
