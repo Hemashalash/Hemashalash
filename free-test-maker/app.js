@@ -415,8 +415,8 @@ function capitalize(s) { return s ? s[0].toUpperCase() + s.slice(1) : s; }
 
 function modelLabel(id) {
   return {
-    "llama3-8b-8192":          "Llama 3 8B",
-    "llama-3.1-70b-versatile": "Llama 3.1 70B",
+    "llama-3.1-8b-instant":    "Llama 3.1 8B Instant",
+    "llama-3.3-70b-versatile": "Llama 3.3 70B Versatile",
     "mixtral-8x7b-32768":      "Mixtral 8×7B",
     "gemma2-9b-it":            "Gemma 2 9B"
   }[id] || id;
