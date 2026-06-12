@@ -1,786 +1,1416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interest Calculator — All Options</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #2563eb; --primary-dark: #1d4ed8; --primary-light: #dbeafe;
-      --success: #16a34a; --warning: #d97706; --danger: #dc2626; --purple: #7c3aed;
-      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
-      --gray-300: #d1d5db; --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
-      --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
-    }
-    html { font-size: 16px; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; display: flex; flex-direction: column; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UAE Automotive Finance Calculator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    header { background: linear-gradient(135deg,#1e3a8a,#2563eb 50%,#0ea5e9); color: white; padding: 28px 24px; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
-    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
-    .header-icon { width: 52px; height: 52px; background: rgba(255,255,255,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
-    header h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -.5px; }
-    header p { font-size: .9rem; opacity: .85; margin-top: 4px; }
+  :root {
+    --navy: #0D2137;
+    --navy-light: #1A3A5C;
+    --green: #1A7A3C;
+    --green-light: #E8F5EE;
+    --blue: #1565C0;
+    --blue-light: #E3F0FF;
+    --gold: #C9A44C;
+    --gold-light: #FDF5E0;
+    --red: #C62828;
+    --red-light: #FDECEA;
+    --orange: #E65100;
+    --orange-light: #FFF3E0;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-300: #CBD5E1;
+    --gray-400: #94A3B8;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1E293B;
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.04);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
 
-    main { flex: 1; padding: 28px 16px; }
-    .container { max-width: 1100px; margin: 0 auto; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-800);
+    font-size: 14px;
+    line-height: 1.5;
+  }
 
-    .tab-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; background: white; border-radius: var(--radius); padding: 8px; box-shadow: var(--shadow); }
-    .tab-btn { flex: 1; min-width: 110px; padding: 10px 12px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: .82rem; font-weight: 600; color: var(--gray-500); transition: all .15s; text-align: center; white-space: nowrap; }
-    .tab-btn:hover { background: var(--gray-100); color: var(--gray-700); }
-    .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(37,99,235,.35); }
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #0F3460 40%, var(--navy-light) 60%, #0E6B3A 85%, var(--green) 100%);
+    color: white;
+    padding: 28px 32px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 40%; height: 200%;
+    background: rgba(255,255,255,0.03);
+    transform: rotate(-15deg);
+    pointer-events: none;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-flag { font-size: 48px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+  .header-text h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  .header-text p { font-size: 13px; opacity: 0.82; margin-top: 3px; }
+  .header-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .header-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.3px;
+    backdrop-filter: blur(4px);
+  }
 
-    .calc-panel { display: none; }
-    .calc-panel.active { display: block; }
+  /* MAIN LAYOUT */
+  .main-wrap { padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .top-grid {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: start;
+  }
+  .left-col { display: flex; flex-direction: column; gap: 16px; }
+  .right-col { display: flex; flex-direction: column; gap: 16px; }
+  .full-width { margin-bottom: 20px; }
 
-    .calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    @media (max-width: 768px) { .calc-layout { grid-template-columns: 1fr; } }
+  /* CARDS */
+  .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .card-header {
+    background: var(--navy); color: white;
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 13px; letter-spacing: 0.2px;
+  }
+  .card-header .icon { font-size: 15px; }
+  .card-body { padding: 18px; }
 
-    .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
-    .card-title { font-size: 1.05rem; font-weight: 700; color: var(--gray-900); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--gray-100); display: flex; align-items: center; gap: 8px; }
-    .card-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .95rem; flex-shrink: 0; }
+  /* FORM */
+  .form-group { margin-bottom: 14px; }
+  .form-group:last-child { margin-bottom: 0; }
+  label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+  input[type="number"], input[type="text"], select {
+    width: 100%; padding: 9px 12px;
+    border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+    font-size: 14px; color: var(--gray-800); background: var(--white);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  input:focus, select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21,101,192,0.12); }
+  input[readonly] { background: var(--gray-50); color: var(--gray-600); cursor: not-allowed; border-color: var(--gray-200); }
+  .input-prefix-wrap { position: relative; }
+  .input-prefix { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; font-weight: 700; color: var(--gray-400); pointer-events: none; }
+  .input-prefix-wrap input { padding-left: 42px; }
+  .input-suffix-wrap { position: relative; }
+  .input-suffix { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; font-weight: 700; color: var(--gray-400); pointer-events: none; }
+  .input-suffix-wrap input { padding-right: 36px; }
+  .dual-input { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: .875rem; font-weight: 600; color: var(--gray-700); margin-bottom: 5px; }
-    .form-group input, .form-group select { width: 100%; padding: 9px 11px; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: .92rem; color: var(--gray-900); background: white; transition: border-color .15s, box-shadow .15s; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+  /* RANGE SLIDER */
+  input[type="range"] {
+    -webkit-appearance: none; width: 100%; height: 4px;
+    background: var(--gray-200); border-radius: 2px;
+    border: none; padding: 0; margin-top: 6px; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.2); cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.2); cursor: pointer;
+  }
+  input[type="range"]:focus { box-shadow: none; border: none; outline: none; }
 
-    .input-group { display: flex; gap: 8px; }
-    .input-group input { flex: 1; }
-    .input-suffix { display: flex; align-items: center; padding: 9px 11px; background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: .85rem; font-weight: 600; color: var(--gray-500); white-space: nowrap; }
+  /* TOGGLE */
+  .toggle-group { display: flex; background: var(--gray-100); border-radius: var(--radius-sm); padding: 3px; gap: 2px; }
+  .toggle-btn {
+    flex: 1; padding: 7px 12px; border: none; background: transparent;
+    border-radius: 6px; font-size: 13px; font-weight: 600; color: var(--gray-600); cursor: pointer; transition: all 0.15s;
+  }
+  .toggle-btn.active { background: var(--white); color: var(--navy); box-shadow: var(--shadow-sm); }
+  .toggle-btn.active.green { color: var(--green); }
+  .toggle-btn.active.blue { color: var(--blue); }
 
-    .slider-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-    .slider-wrap input[type="range"] { flex: 1; accent-color: var(--primary); }
-    .slider-val { min-width: 55px; text-align: right; font-weight: 700; color: var(--primary); font-size: .9rem; }
+  /* RATE EQUIV BOX */
+  .rate-equiv-box {
+    background: #1A2332; color: #A8D5B5;
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px;
+    margin-top: 8px; border: 1px solid #2D4A3E; line-height: 1.6;
+  }
+  .rate-equiv-box .arrow { color: var(--gold); }
 
-    .btn-calc { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; transition: all .15s; margin-top: 8px; }
-    .btn-calc:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,.35); }
-    .btn-reset { width: 100%; padding: 9px; background: transparent; color: var(--gray-500); border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all .15s; margin-top: 6px; }
-    .btn-reset:hover { background: var(--gray-50); color: var(--gray-700); }
+  /* PROGRESS BAR */
+  .progress-bar-wrap { margin-top: 6px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-600); margin-bottom: 4px; }
+  .progress-bar { height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.3s ease, background-color 0.3s ease; }
+  .progress-fill.green { background: var(--green); }
+  .progress-fill.orange { background: var(--orange); }
+  .progress-fill.red { background: var(--red); }
 
-    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
-    .result-card { background: var(--gray-50); border-radius: 10px; padding: 14px; text-align: center; border: 1.5px solid var(--gray-200); }
-    .result-card.hl { background: linear-gradient(135deg,#eff6ff,#dbeafe); border-color: #93c5fd; }
-    .result-card.ok { background: linear-gradient(135deg,#f0fdf4,#dcfce7); border-color: #86efac; }
-    .result-card.warn { background: linear-gradient(135deg,#fffbeb,#fef3c7); border-color: #fcd34d; }
-    .result-card.pu { background: linear-gradient(135deg,#faf5ff,#ede9fe); border-color: #c4b5fd; }
-    .result-label { font-size: .76rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
-    .result-value { font-size: 1.3rem; font-weight: 800; color: var(--gray-900); }
-    .result-value.lg { font-size: 1.6rem; }
-    .result-sub { font-size: .76rem; color: var(--gray-500); margin-top: 3px; }
+  /* SUMMARY */
+  .emi-display { text-align: center; padding: 20px 0 16px; border-bottom: 1px solid var(--gray-100); margin-bottom: 16px; }
+  .emi-label { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; }
+  .emi-value { font-size: 38px; font-weight: 800; color: var(--blue); letter-spacing: -1px; line-height: 1.1; margin: 4px 0; }
+  .emi-value span { font-size: 18px; font-weight: 600; }
+  .emi-period { font-size: 12px; color: var(--gray-400); }
 
-    .progress-bar-wrap { margin: 14px 0; }
-    .progress-labels { display: flex; justify-content: space-between; font-size: .8rem; font-weight: 600; margin-bottom: 5px; }
-    .progress-track { height: 10px; background: var(--gray-200); border-radius: 10px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg,var(--primary),var(--purple)); transition: width .5s; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .stat-item { background: var(--gray-50); border-radius: var(--radius-sm); padding: 12px; border: 1px solid var(--gray-100); }
+  .stat-label { font-size: 11px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 17px; font-weight: 700; color: var(--gray-800); margin-top: 2px; }
+  .stat-value.highlight { color: var(--blue); }
+  .stat-value.gold { color: var(--gold); }
+  .stat-value.red { color: var(--red); }
 
-    .table-wrap { overflow-x: auto; margin-top: 8px; }
-    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-    thead th { background: var(--primary); color: white; padding: 9px 11px; text-align: left; font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
-    thead th:first-child { border-radius: 8px 0 0 0; } thead th:last-child { border-radius: 0 8px 0 0; }
-    tbody tr { border-bottom: 1px solid var(--gray-100); }
-    tbody tr:hover { background: var(--gray-50); }
-    tbody td { padding: 9px 11px; color: var(--gray-700); }
-    td.num { text-align: right; font-variant-numeric: tabular-nums; }
-    td.hl { font-weight: 700; color: var(--primary); }
-    td.int { color: var(--danger); font-weight: 600; }
-    td.prin { color: var(--success); font-weight: 600; }
-    tfoot td { padding: 9px 11px; font-weight: 700; background: var(--gray-50); border-top: 2px solid var(--gray-200); }
+  .pi-bar-wrap { margin: 12px 0 16px; }
+  .pi-bar { height: 12px; border-radius: 6px; overflow: hidden; display: flex; background: var(--gray-100); }
+  .pi-bar-principal { background: var(--blue); transition: width 0.3s; }
+  .pi-bar-interest { background: var(--gold); flex: 1; }
+  .pi-bar-legend { display: flex; gap: 16px; margin-top: 6px; }
+  .pi-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-600); }
+  .pi-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
 
-    .formula-box { background: #1e293b; border-radius: 8px; padding: 12px 15px; margin-top: 14px; color: #e2e8f0; font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.6; }
-    .formula-lbl { font-size: .72rem; color: #94a3b8; margin-bottom: 5px; font-family: 'Segoe UI', system-ui; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mini-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--gray-50); border-radius: 6px; border: 1px solid var(--gray-100); }
+  .mini-label { font-size: 11px; color: var(--gray-600); }
+  .mini-value { font-size: 13px; font-weight: 700; color: var(--gray-800); }
 
-    .empty-state { text-align: center; padding: 36px 20px; color: var(--gray-500); }
-    .empty-state-icon { font-size: 2.8rem; margin-bottom: 10px; }
-    .empty-state p { font-size: .875rem; }
+  /* COMPLIANCE */
+  .compliance-grid { display: flex; flex-direction: column; gap: 8px; }
+  .compliance-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); background: var(--gray-50); }
+  .compliance-left { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+  .compliance-detail { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-ok { background: var(--green-light); color: var(--green); }
+  .badge-fail { background: var(--red-light); color: var(--red); }
+  .badge-warn { background: var(--orange-light); color: var(--orange); }
 
-    .info-box { background: var(--primary-light); border-radius: 8px; padding: 11px 14px; font-size: .85rem; color: #1e40af; margin-bottom: 14px; border-left: 4px solid var(--primary); line-height: 1.5; }
+  /* RATE COMPARISON */
+  .comparison-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+  .comp-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; color: var(--gray-600); }
+  .comp-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .comp-dot-a { background: var(--green); }
+  .comp-dot-b { background: var(--blue); }
+  .comp-dot-c { background: var(--red); }
+  .comp-table-wrap { overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); }
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comp-table th { background: var(--gray-50); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); border-bottom: 1px solid var(--gray-200); }
+  .comp-table td { padding: 12px 14px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr.best-row { background: var(--green-light); }
+  .comp-table tr.worst-row { background: var(--red-light); }
+  .comp-table tr.best-row td { color: var(--green); font-weight: 600; }
+  .comp-table tr.worst-row td { color: var(--red); }
+  .comp-table td.big { font-size: 16px; font-weight: 700; }
+  .comp-table td.apr-col { color: var(--blue); font-weight: 600; }
 
-    .divider { border: none; border-top: 1px dashed var(--gray-200); margin: 16px 0; }
+  /* AMORTIZATION */
+  .amort-controls { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .amort-controls .form-group { margin-bottom: 0; flex: 1; min-width: 160px; }
+  .amort-btn { padding: 8px 16px; border: 1.5px solid var(--gray-300); border-radius: var(--radius-sm); background: white; font-size: 12px; font-weight: 600; color: var(--gray-700); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .amort-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+  .amort-btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
+  .amort-btn.primary:hover { background: #1255A8; }
 
-    .badge { display: inline-block; padding: 3px 8px; border-radius: 20px; font-size: .73rem; font-weight: 600; }
-    .badge-inv { background: #fef3c7; color: #92400e; }
-    .badge-dp { background: #dcfce7; color: #166534; }
-    .badge-mo { background: #dbeafe; color: #1e40af; }
+  .amort-summary-bar { display: flex; gap: 0; margin-bottom: 14px; background: var(--navy); border-radius: var(--radius-sm); padding: 10px 14px; color: white; flex-wrap: wrap; }
+  .amort-sum-item { flex: 1; min-width: 130px; padding: 4px 10px; border-right: 1px solid rgba(255,255,255,0.15); }
+  .amort-sum-item:last-child { border-right: none; }
+  .amort-sum-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
+  .amort-sum-value { font-size: 15px; font-weight: 700; margin-top: 1px; }
+  .amort-sum-value.gold { color: var(--gold); }
+  .amort-sum-value.green { color: #6FCF97; }
 
-    .cmp-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--gray-100); }
-    .cmp-row:last-child { border-bottom: none; }
-    .cmp-lbl { font-size: .875rem; color: var(--gray-700); }
-    .cmp-val { font-weight: 700; color: var(--gray-900); }
+  .amort-table-wrap { max-height: 480px; overflow-y: auto; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); position: relative; }
+  .amort-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .amort-table thead { position: sticky; top: 0; z-index: 10; }
+  .amort-table th { background: var(--navy); color: rgba(255,255,255,0.85); padding: 10px 10px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; border-bottom: 2px solid rgba(255,255,255,0.1); }
+  .amort-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: middle; }
+  .amort-table tr:hover td { background: var(--gray-50); }
+  .amort-table .extra-input { width: 90px; padding: 4px 8px; font-size: 12px; border: 1px solid var(--gray-200); border-radius: 4px; }
+  .amort-table .extra-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201,164,76,0.15); }
 
-    .donut-section { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 14px 0; flex-wrap: wrap; }
-    .donut-legend { display: flex; flex-direction: column; gap: 8px; }
-    .legend-item { display: flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 600; }
-    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .amort-table tr.ms-25 td { background: #FFFDE7; }
+  .amort-table tr.ms-50 td { background: #E8F5EE; }
+  .amort-table tr.ms-75 td { background: #E3F2FD; }
+  .amort-table tr.ms-payoff td { background: #F3E5F5; font-weight: 600; }
+  .amort-table tr.ms-balloon td { background: var(--gold-light); font-weight: 600; }
+  .amort-table tr.footer-row td { background: var(--navy); color: white; font-weight: 700; font-size: 12px; border-top: 2px solid rgba(255,255,255,0.2); }
 
-    footer { background: var(--gray-900); color: var(--gray-500); text-align: center; padding: 20px; font-size: .85rem; }
+  .mini-balance-bar { display: inline-block; width: 50px; height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; vertical-align: middle; margin-left: 6px; }
+  .mini-balance-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.2s; }
 
-    @media print {
-      .tab-nav, .btn-calc, .btn-reset, header, footer { display: none !important; }
-      .card { box-shadow: none; }
-      .calc-panel { display: block !important; }
-    }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.4rem; }
-      .card { padding: 18px 14px; }
-      .results-grid { grid-template-columns: 1fr; }
-      .tab-btn { font-size: .76rem; padding: 8px 8px; min-width: 80px; }
-    }
-  </style>
+  .ms-label { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 8px; text-transform: uppercase; margin-left: 4px; letter-spacing: 0.3px; }
+  .ms-label.ms25 { background: #FFF176; color: #827717; }
+  .ms-label.ms50 { background: #C8E6C9; color: #2E7D32; }
+  .ms-label.ms75 { background: #BBDEFB; color: #1565C0; }
+  .ms-label.mspayoff { background: #E1BEE7; color: #6A1B9A; }
+  .ms-label.msballoon { background: var(--gold-light); color: var(--gold); border: 1px solid var(--gold); }
+
+  /* FOOTER */
+  .site-footer { background: var(--navy); color: rgba(255,255,255,0.55); text-align: center; padding: 16px 24px; font-size: 12px; line-height: 1.6; }
+  .site-footer strong { color: rgba(255,255,255,0.8); }
+
+  .text-red { color: var(--red); }
+
+  @media (max-width: 900px) {
+    .top-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .comparison-controls { grid-template-columns: 1fr; }
+    .site-header { flex-direction: column; text-align: center; }
+    .header-badges { justify-content: center; }
+    .main-wrap { padding: 12px; }
+  }
+  @media print {
+    .site-header, .site-footer, .amort-table tr.footer-row td { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .amort-table-wrap { max-height: none; overflow: visible; }
+    .amort-controls, .header-badges { display: none; }
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="header-icon">💰</div>
-    <div>
-      <h1>Interest Calculator — All Options</h1>
-      <p>Simple · Compound · EMI · Flat Rate · Reducing Balance · Fixed Deposit · Recurring Deposit · Customer Credit</p>
+<header class="site-header">
+  <div class="header-left">
+    <div class="header-flag">🇦🇪</div>
+    <div class="header-text">
+      <h1>UAE Automotive Finance Calculator</h1>
+      <p>UAE Central Bank Compliant &nbsp;·&nbsp; CBUAE/BSD/2023 Circular &nbsp;·&nbsp; Flat Rate &amp; Reducing Balance APR</p>
     </div>
+  </div>
+  <div class="header-badges">
+    <span class="header-badge">AED Currency</span>
+    <span class="header-badge">5% VAT Auto</span>
+    <span class="header-badge">LTV Compliance</span>
+    <span class="header-badge">Newton-Raphson APR</span>
   </div>
 </header>
 
-<main>
-<div class="container">
+<div class="main-wrap">
+  <div class="top-grid">
 
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="simple">Simple Interest</button>
-    <button class="tab-btn" data-tab="compound">Compound Interest</button>
-    <button class="tab-btn" data-tab="emi">EMI / Loan</button>
-    <button class="tab-btn" data-tab="flat">Flat Rate</button>
-    <button class="tab-btn" data-tab="reducing">Reducing Balance</button>
-    <button class="tab-btn" data-tab="fd">Fixed Deposit</button>
-    <button class="tab-btn" data-tab="rd">Recurring Deposit</button>
-    <button class="tab-btn" data-tab="credit">Customer Credit</button>
-  </div>
+    <!-- LEFT COLUMN -->
+    <div class="left-col">
 
-  <!-- ════ 1. SIMPLE INTEREST ════ -->
-  <div class="calc-panel active" id="panel-simple">
-    <div class="calc-layout">
+      <!-- 1. VEHICLE DETAILS -->
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#dbeafe">📐</div>Simple Interest</div>
-        <div class="form-group">
-          <label>Principal Amount (P)</label>
-          <div class="input-group">
-            <input type="number" id="si-p" placeholder="e.g. 100000" min="0" />
-            <span class="input-suffix">$</span>
+        <div class="card-header"><span class="icon">🚗</span> Vehicle Details</div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Vehicle Condition</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active green" id="btn-new" onclick="setVehicleType('new')">New Vehicle</button>
+              <button class="toggle-btn" id="btn-used" onclick="setVehicleType('used')">Used Vehicle</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Vehicle Price (excl. VAT)</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">AED</span>
+              <input type="number" id="vehiclePrice" value="150000" min="10000" step="1000" oninput="recalc()">
+            </div>
+          </div>
+          <div class="dual-input">
+            <div class="form-group">
+              <label>VAT (5% — Auto)</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">AED</span>
+                <input type="number" id="vatAmount" readonly tabindex="-1">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>On-Road Total</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">AED</span>
+                <input type="number" id="onRoadTotal" readonly tabindex="-1">
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <label>Annual Interest Rate (R) %</label>
-          <div class="slider-wrap">
-            <input type="range" id="si-r-s" min="0.1" max="30" step="0.1" value="8" oninput="syncFromSlider('si-r-s','si-r','si-r-d','%')">
-            <span class="slider-val" id="si-r-d">8%</span>
+      </div>
+
+      <!-- 2. FINANCE TERMS -->
+      <div class="card">
+        <div class="card-header"><span class="icon">📊</span> Finance Terms</div>
+        <div class="card-body">
+
+          <div class="form-group">
+            <label>Down Payment</label>
+            <div class="dual-input">
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">AED</span>
+                <input type="number" id="downAED" value="31500" min="0" step="500" oninput="syncDownFromAED()">
+              </div>
+              <div class="input-suffix-wrap">
+                <span class="input-suffix">%</span>
+                <input type="number" id="downPct" value="20" min="0" max="100" step="0.1" oninput="syncDownFromPct()">
+              </div>
+            </div>
+            <input type="range" id="downSlider" min="0" max="100" value="20" step="0.5" oninput="syncDownFromSlider()">
           </div>
-          <input type="number" id="si-r" value="8" step="0.1" min="0" oninput="syncToSlider('si-r','si-r-s','si-r-d','%')">
+
+          <div class="form-group">
+            <label>Balloon / Residual Payment <span style="font-size:10px;font-weight:400;text-transform:none;">(PCP — max 30%)</span></label>
+            <div class="dual-input">
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">AED</span>
+                <input type="number" id="balloonAED" value="0" min="0" step="500" oninput="syncBalloonFromAED()">
+              </div>
+              <div class="input-suffix-wrap">
+                <span class="input-suffix">%</span>
+                <input type="number" id="balloonPct" value="0" min="0" max="30" step="0.5" readonly tabindex="-1" style="background:var(--gray-50);">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Finance Tenure</label>
+            <div class="dual-input">
+              <div class="input-suffix-wrap">
+                <span class="input-suffix">mo</span>
+                <input type="number" id="tenureInput" value="48" min="6" max="60" step="1" oninput="recalc()">
+              </div>
+              <select id="tenurePreset" onchange="setTenurePreset(this.value)">
+                <option value="">— Quick Select —</option>
+                <option value="12">12 months (1 yr)</option>
+                <option value="24">24 months (2 yr)</option>
+                <option value="36">36 months (3 yr)</option>
+                <option value="48" selected>48 months (4 yr)</option>
+                <option value="60">60 months (5 yr)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rate Type</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active blue" id="btn-flat" onclick="setRateType('flat')">Flat Rate</button>
+              <button class="toggle-btn" id="btn-reducing" onclick="setRateType('reducing')">Reducing Balance</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label id="rateLabel">Annual Flat Rate</label>
+            <div class="input-suffix-wrap">
+              <span class="input-suffix">%</span>
+              <input type="number" id="rateInput" value="2.99" min="0.1" max="30" step="0.01" oninput="syncRateToSlider(); recalc()">
+            </div>
+            <input type="range" id="rateSlider" min="0.5" max="15" value="2.99" step="0.01" oninput="syncRateFromSlider()">
+          </div>
+
+          <div class="rate-equiv-box" id="rateEquivBox">
+            <div>Flat <strong id="reFlatVal">2.99%</strong> <span class="arrow">&#8644;</span> Reducing <strong id="reReducingVal">—</strong> APR</div>
+            <div style="font-size:11px;opacity:0.65;margin-top:2px;">Monthly EMI based on <span id="reMode">flat rate</span> calculation</div>
+          </div>
+
         </div>
-        <div class="form-group">
-          <label>Time Period</label>
-          <div class="input-group">
-            <input type="number" id="si-t" placeholder="e.g. 3" min="0" step="0.5" />
-            <select id="si-tu"><option value="years">Years</option><option value="months">Months</option><option value="days">Days</option></select>
+      </div>
+
+      <!-- 3. ADDITIONAL COSTS -->
+      <div class="card">
+        <div class="card-header"><span class="icon">🧾</span> Additional Costs</div>
+        <div class="card-body">
+
+          <div class="form-group">
+            <label>Processing Fee</label>
+            <div class="dual-input">
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">AED</span>
+                <input type="number" id="processingFeeAED" value="1050" min="0" step="50" oninput="syncProcFromAED()">
+              </div>
+              <div class="input-suffix-wrap">
+                <span class="input-suffix">%</span>
+                <input type="number" id="processingFeePct" value="" min="0" max="5" step="0.01" placeholder="—" oninput="syncProcFromPct()">
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Typical: AED 500–2,500 (≈1% of loan amount)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Comprehensive Insurance (per year)</label>
+            <div class="input-suffix-wrap">
+              <span class="input-suffix">%</span>
+              <input type="number" id="insuranceRate" value="2.5" min="0.1" max="10" step="0.1" oninput="recalc()">
+            </div>
+            <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Mandatory for financed vehicles (UAE requirement)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Registration &amp; Plates Fee</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">AED</span>
+              <input type="number" id="regFee" value="1200" min="0" step="100" oninput="recalc()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Financed Amount (Computed)</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">AED</span>
+              <input type="number" id="financedAmount" readonly tabindex="-1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Loan-to-Value (LTV)</label>
+            <div class="progress-bar-wrap">
+              <div class="progress-label">
+                <span id="ltvLabel">LTV: —</span>
+                <span id="ltvMax">Max: 80% (New)</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill green" id="ltvFill" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- end left-col -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
+
+      <!-- 4. FINANCE SUMMARY -->
+      <div class="card">
+        <div class="card-header"><span class="icon">💰</span> Finance Summary</div>
+        <div class="card-body">
+          <div class="emi-display">
+            <div class="emi-label">Monthly Instalment (EMI)</div>
+            <div class="emi-value"><span style="font-size:18px;font-weight:600;">AED </span><span id="emiMain">—</span></div>
+            <div class="emi-period" id="emiPeriod">per month</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-label">Total Interest</div>
+              <div class="stat-value gold" id="totalInterest">—</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Total Finance Cost</div>
+              <div class="stat-value highlight" id="totalFinanceCost">—</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Effective APR</div>
+              <div class="stat-value" id="effectiveAPR">—</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Total Repayment</div>
+              <div class="stat-value" id="totalRepayment">—</div>
+            </div>
+          </div>
+
+          <div class="pi-bar-wrap">
+            <div class="pi-bar">
+              <div class="pi-bar-principal" id="piPrincipal" style="width:70%"></div>
+              <div class="pi-bar-interest"></div>
+            </div>
+            <div class="pi-bar-legend">
+              <div class="pi-legend-item"><div class="pi-legend-dot" style="background:var(--blue);"></div> Principal <strong id="piPctPrincipal" style="margin-left:3px;">—</strong></div>
+              <div class="pi-legend-item"><div class="pi-legend-dot" style="background:var(--gold);"></div> Interest <strong id="piPctInterest" style="margin-left:3px;">—</strong></div>
+            </div>
+          </div>
+
+          <div class="mini-grid">
+            <div class="mini-item">
+              <span class="mini-label">Total Vehicle Cost</span>
+              <span class="mini-value" id="totalVehicleCost">—</span>
+            </div>
+            <div class="mini-item">
+              <span class="mini-label">1st Year Total</span>
+              <span class="mini-value" id="firstYearTotal">—</span>
+            </div>
+            <div class="mini-item">
+              <span class="mini-label">Early Settlement Fee</span>
+              <span class="mini-value text-red" id="earlySettleFee">—</span>
+            </div>
+            <div class="mini-item">
+              <span class="mini-label">Monthly Insurance</span>
+              <span class="mini-value" id="monthlyInsurance">—</span>
+            </div>
           </div>
         </div>
-        <button class="btn-calc" onclick="calcSI()">Calculate</button>
-        <button class="btn-reset" onclick="resetPanel('simple')">Reset</button>
-        <div class="formula-box"><div class="formula-lbl">Formula</div>SI = (P × R × T) / 100 &nbsp;|&nbsp; Total = P + SI</div>
       </div>
-      <div class="card" id="si-res"><div class="card-title"><div class="card-icon" style="background:#dcfce7">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
 
-  <!-- ════ 2. COMPOUND INTEREST ════ -->
-  <div class="calc-panel" id="panel-compound">
-    <div class="calc-layout">
+      <!-- 5. UAE CB COMPLIANCE -->
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#ede9fe">📈</div>Compound Interest</div>
-        <div class="form-group">
-          <label>Principal (P)</label>
-          <div class="input-group"><input type="number" id="ci-p" placeholder="e.g. 100000" min="0" /><span class="input-suffix">$</span></div>
+        <div class="card-header"><span class="icon">✅</span> UAE Central Bank Compliance</div>
+        <div class="card-body">
+          <div class="compliance-grid" id="complianceGrid"></div>
         </div>
-        <div class="form-group">
-          <label>Annual Rate (R) %</label>
-          <div class="slider-wrap"><input type="range" id="ci-r-s" min="0.1" max="30" step="0.1" value="8" oninput="syncFromSlider('ci-r-s','ci-r','ci-r-d','%')"><span class="slider-val" id="ci-r-d">8%</span></div>
-          <input type="number" id="ci-r" value="8" step="0.1" min="0" oninput="syncToSlider('ci-r','ci-r-s','ci-r-d','%')">
-        </div>
-        <div class="form-group">
-          <label>Time (Years)</label>
-          <div class="slider-wrap"><input type="range" id="ci-t-s" min="1" max="30" step="1" value="5" oninput="syncFromSlider('ci-t-s','ci-t','ci-t-d',' yr')"><span class="slider-val" id="ci-t-d">5 yr</span></div>
-          <input type="number" id="ci-t" value="5" step="1" min="1" oninput="syncToSlider('ci-t','ci-t-s','ci-t-d',' yr')">
-        </div>
-        <div class="form-group">
-          <label>Compounding Frequency</label>
-          <select id="ci-n">
-            <option value="1">Annually</option><option value="2">Semi-annually</option>
-            <option value="4" selected>Quarterly</option><option value="12">Monthly</option><option value="365">Daily</option>
-          </select>
-        </div>
-        <button class="btn-calc" onclick="calcCI()">Calculate</button>
-        <button class="btn-reset" onclick="resetPanel('compound')">Reset</button>
-        <div class="formula-box"><div class="formula-lbl">Formula</div>A = P × (1 + R/n)^(n×T) &nbsp;|&nbsp; CI = A − P</div>
       </div>
-      <div class="card" id="ci-res"><div class="card-title"><div class="card-icon" style="background:#ede9fe">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
 
-  <!-- ════ 3. EMI / LOAN ════ -->
-  <div class="calc-panel" id="panel-emi">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#fef3c7">🏦</div>EMI Loan Calculator</div>
-        <div class="form-group">
-          <label>Loan Amount</label>
-          <div class="input-group"><input type="number" id="emi-p" placeholder="e.g. 500000" min="0" /><span class="input-suffix">$</span></div>
-        </div>
-        <div class="form-group">
-          <label>Annual Interest Rate %</label>
-          <div class="slider-wrap"><input type="range" id="emi-r-s" min="0" max="30" step="0.1" value="8.5" oninput="syncFromSlider('emi-r-s','emi-r','emi-r-d','%')"><span class="slider-val" id="emi-r-d">8.5%</span></div>
-          <input type="number" id="emi-r" value="8.5" step="0.1" min="0" oninput="syncToSlider('emi-r','emi-r-s','emi-r-d','%')">
-        </div>
-        <div class="form-group">
-          <label>Tenure</label>
-          <div class="input-group">
-            <input type="number" id="emi-ten" placeholder="e.g. 60" min="1" />
-            <select id="emi-tu"><option value="months" selected>Months</option><option value="years">Years</option></select>
-          </div>
-        </div>
-        <button class="btn-calc" onclick="calcEMI()">Calculate EMI</button>
-        <button class="btn-reset" onclick="resetPanel('emi')">Reset</button>
-        <div class="formula-box"><div class="formula-lbl">Reducing Balance Formula</div>EMI = P × r × (1+r)^n / ((1+r)^n − 1)<br><span style="color:#94a3b8;font-size:.8em">r = monthly rate, n = months</span></div>
-      </div>
-      <div class="card" id="emi-res"><div class="card-title"><div class="card-icon" style="background:#fef3c7">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-    <div class="card" id="emi-sched" style="display:none;margin-top:24px;">
-      <div class="card-title"><div class="card-icon" style="background:#fef3c7">📋</div>Amortization Schedule</div>
-      <div id="emi-sched-body"></div>
-    </div>
-  </div>
+    </div><!-- end right-col -->
+  </div><!-- end top-grid -->
 
-  <!-- ════ 4. FLAT RATE ════ -->
-  <div class="calc-panel" id="panel-flat">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#fce7f3">📏</div>Flat Rate Interest</div>
-        <div class="info-box">Interest is calculated on the <strong>original principal</strong> for the full tenure — unlike reducing balance where interest decreases as you repay.</div>
-        <div class="form-group"><label>Principal</label><div class="input-group"><input type="number" id="fl-p" placeholder="e.g. 100000" min="0" /><span class="input-suffix">$</span></div></div>
-        <div class="form-group"><label>Annual Flat Rate %</label><input type="number" id="fl-r" placeholder="e.g. 6" step="0.1" min="0" /></div>
-        <div class="form-group"><label>Tenure</label><div class="input-group"><input type="number" id="fl-ten" placeholder="e.g. 24" min="1" /><select id="fl-tu"><option value="months" selected>Months</option><option value="years">Years</option></select></div></div>
-        <button class="btn-calc" onclick="calcFlat()">Calculate</button>
-        <button class="btn-reset" onclick="resetPanel('flat')">Reset</button>
-        <div class="formula-box"><div class="formula-lbl">Formula</div>Total Interest = P × R × T / 100<br>Monthly EMI = (P + Total Interest) / n</div>
-      </div>
-      <div class="card" id="fl-res"><div class="card-title"><div class="card-icon" style="background:#fce7f3">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
-
-  <!-- ════ 5. REDUCING BALANCE ════ -->
-  <div class="calc-panel" id="panel-reducing">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#d1fae5">📉</div>Reducing Balance</div>
-        <div class="info-box">Interest is calculated on the <strong>outstanding balance</strong> — resulting in lower total interest vs. flat rate as the principal reduces.</div>
-        <div class="form-group"><label>Loan Amount</label><div class="input-group"><input type="number" id="rb-p" placeholder="e.g. 200000" min="0" /><span class="input-suffix">$</span></div></div>
-        <div class="form-group"><label>Annual Reducing Rate %</label><input type="number" id="rb-r" placeholder="e.g. 10" step="0.1" min="0" /></div>
-        <div class="form-group"><label>Tenure</label><div class="input-group"><input type="number" id="rb-ten" placeholder="e.g. 36" min="1" /><select id="rb-tu"><option value="months" selected>Months</option><option value="years">Years</option></select></div></div>
-        <div class="form-group"><label>Compare Flat Rate % <span style="font-weight:400;color:var(--gray-500)">(optional)</span></label><input type="number" id="rb-fr" placeholder="e.g. 6" step="0.1" min="0" /></div>
-        <button class="btn-calc" onclick="calcRB()">Calculate & Compare</button>
-        <button class="btn-reset" onclick="resetPanel('reducing')">Reset</button>
-      </div>
-      <div class="card" id="rb-res"><div class="card-title"><div class="card-icon" style="background:#d1fae5">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
-
-  <!-- ════ 6. FIXED DEPOSIT ════ -->
-  <div class="calc-panel" id="panel-fd">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#fef9c3">🏛️</div>Fixed Deposit</div>
-        <div class="form-group"><label>Deposit Amount (Principal)</label><div class="input-group"><input type="number" id="fd-p" placeholder="e.g. 50000" min="0" /><span class="input-suffix">$</span></div></div>
-        <div class="form-group">
-          <label>Annual Interest Rate %</label>
-          <div class="slider-wrap"><input type="range" id="fd-r-s" min="0.5" max="15" step="0.1" value="6.5" oninput="syncFromSlider('fd-r-s','fd-r','fd-r-d','%')"><span class="slider-val" id="fd-r-d">6.5%</span></div>
-          <input type="number" id="fd-r" value="6.5" step="0.1" min="0" oninput="syncToSlider('fd-r','fd-r-s','fd-r-d','%')">
-        </div>
-        <div class="form-group"><label>Tenure</label><div class="input-group"><input type="number" id="fd-ten" placeholder="e.g. 2" min="0.1" step="0.5" /><select id="fd-tu"><option value="years">Years</option><option value="months">Months</option></select></div></div>
-        <div class="form-group"><label>Compounding</label><select id="fd-n"><option value="1">Annually</option><option value="2">Semi-Annually</option><option value="4" selected>Quarterly</option><option value="12">Monthly</option></select></div>
-        <div class="form-group"><label>Interest Payout</label><select id="fd-pay"><option value="cumulative">Cumulative (at maturity)</option><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="annual">Annual</option></select></div>
-        <button class="btn-calc" onclick="calcFD()">Calculate FD</button>
-        <button class="btn-reset" onclick="resetPanel('fd')">Reset</button>
-      </div>
-      <div class="card" id="fd-res"><div class="card-title"><div class="card-icon" style="background:#fef9c3">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
-
-  <!-- ════ 7. RECURRING DEPOSIT ════ -->
-  <div class="calc-panel" id="panel-rd">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#e0f2fe">💳</div>Recurring Deposit</div>
-        <div class="form-group"><label>Monthly Deposit</label><div class="input-group"><input type="number" id="rd-m" placeholder="e.g. 5000" min="0" /><span class="input-suffix">$/mo</span></div></div>
-        <div class="form-group">
-          <label>Annual Rate %</label>
-          <div class="slider-wrap"><input type="range" id="rd-r-s" min="0.5" max="15" step="0.1" value="6" oninput="syncFromSlider('rd-r-s','rd-r','rd-r-d','%')"><span class="slider-val" id="rd-r-d">6%</span></div>
-          <input type="number" id="rd-r" value="6" step="0.1" min="0" oninput="syncToSlider('rd-r','rd-r-s','rd-r-d','%')">
-        </div>
-        <div class="form-group">
-          <label>Tenure (Months)</label>
-          <div class="slider-wrap"><input type="range" id="rd-t-s" min="1" max="120" step="1" value="24" oninput="syncFromSlider('rd-t-s','rd-t','rd-t-d',' mo')"><span class="slider-val" id="rd-t-d">24 mo</span></div>
-          <input type="number" id="rd-t" value="24" min="1" oninput="syncToSlider('rd-t','rd-t-s','rd-t-d',' mo')">
-        </div>
-        <button class="btn-calc" onclick="calcRD()">Calculate RD</button>
-        <button class="btn-reset" onclick="resetPanel('rd')">Reset</button>
-        <div class="formula-box"><div class="formula-lbl">Quarterly Compounding Formula</div>M = R × [(1+i)^n − 1] / (1 − (1+i)^(−1/3))</div>
-      </div>
-      <div class="card" id="rd-res"><div class="card-title"><div class="card-icon" style="background:#e0f2fe">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div></div>
-    </div>
-  </div>
-
-  <!-- ════ 8. CUSTOMER CREDIT ════ -->
-  <div class="calc-panel" id="panel-credit">
-    <div class="calc-layout">
-      <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:#fce7f3">🏪</div>Long-term Customer Credit</div>
-        <div class="info-box">Invoice + down payment + monthly installment model — matches the long-term customer credit spreadsheet format.</div>
-        <div class="form-group"><label>Total Invoice Amount</label><div class="input-group"><input type="number" id="cc-inv" placeholder="e.g. 960000" min="0" oninput="ccCalcDP()" /><span class="input-suffix">$</span></div></div>
-        <div class="form-group">
-          <label>Down Payment</label>
-          <div class="input-group">
-            <input type="number" id="cc-dp" placeholder="Amount" min="0" oninput="ccDPtoPC()" />
-            <input type="number" id="cc-dpc" placeholder="%" min="0" max="100" step="1" style="max-width:72px" oninput="ccPCtoDP()" />
+  <!-- RATE COMPARISON -->
+  <div class="card full-width">
+    <div class="card-header"><span class="icon">📈</span> Rate Comparison — Configurable Scenarios</div>
+    <div class="card-body">
+      <div class="comparison-controls">
+        <div>
+          <div class="comp-label"><span class="comp-dot comp-dot-a"></span> Scenario A — Flat Rate</div>
+          <div class="input-suffix-wrap">
             <span class="input-suffix">%</span>
+            <input type="number" id="compA" value="2.49" min="0.1" max="30" step="0.01" oninput="recalcComparison()">
           </div>
         </div>
-        <div class="form-group"><label>Annual Interest Rate % <span style="font-weight:400;color:var(--gray-500)">(0 = no-interest)</span></label><input type="number" id="cc-r" placeholder="e.g. 0" step="0.1" min="0" value="0" /></div>
-        <div class="form-group"><label>Number of Monthly Installments</label><input type="number" id="cc-mo" placeholder="e.g. 4" min="1" step="1" /></div>
-        <div class="form-group"><label>Start Date</label><input type="date" id="cc-date" /></div>
-        <div class="form-group"><label>Currency</label>
-          <select id="cc-cur">
-            <option value="$">$ USD</option><option value="€">€ EUR</option><option value="£">£ GBP</option>
-            <option value="₹">₹ INR</option><option value="AED ">AED</option><option value="SAR ">SAR</option>
-          </select>
+        <div>
+          <div class="comp-label"><span class="comp-dot comp-dot-b"></span> Scenario B — Flat Rate</div>
+          <div class="input-suffix-wrap">
+            <span class="input-suffix">%</span>
+            <input type="number" id="compB" value="2.99" min="0.1" max="30" step="0.01" oninput="recalcComparison()">
+          </div>
         </div>
-        <button class="btn-calc" onclick="calcCC()">Generate Schedule</button>
-        <button class="btn-reset" onclick="resetPanel('credit')">Reset</button>
+        <div>
+          <div class="comp-label"><span class="comp-dot comp-dot-c"></span> Scenario C — Flat Rate</div>
+          <div class="input-suffix-wrap">
+            <span class="input-suffix">%</span>
+            <input type="number" id="compC" value="3.49" min="0.1" max="30" step="0.01" oninput="recalcComparison()">
+          </div>
+        </div>
       </div>
-      <div class="card" id="cc-res"><div class="card-title"><div class="card-icon" style="background:#fce7f3">📊</div>Credit Summary</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Generate Schedule</p></div></div>
-    </div>
-    <div class="card" id="cc-sched" style="display:none;margin-top:24px;">
-      <div class="card-title" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:8px"><div class="card-icon" style="background:#fce7f3">📋</div>Payment Schedule</div>
-        <button onclick="window.print()" style="padding:6px 14px;background:var(--primary);color:white;border:none;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600;">🖨 Print</button>
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Flat Rate</th>
+              <th>Monthly EMI</th>
+              <th>Total Interest</th>
+              <th>Total Payment</th>
+              <th>Effective APR</th>
+              <th>vs Best</th>
+            </tr>
+          </thead>
+          <tbody id="compTableBody"></tbody>
+        </table>
       </div>
-      <div id="cc-sched-body"></div>
     </div>
   </div>
 
-</div>
-</main>
+  <!-- AMORTIZATION -->
+  <div class="card full-width">
+    <div class="card-header"><span class="icon">📅</span> Interactive Amortization Schedule</div>
+    <div class="card-body">
+      <div class="amort-controls">
+        <div class="form-group">
+          <label>Global Extra Payment (all months)</label>
+          <div class="input-prefix-wrap">
+            <span class="input-prefix">AED</span>
+            <input type="number" id="globalExtra" value="0" min="0" step="100" oninput="applyGlobalExtra()">
+          </div>
+        </div>
+        <button class="amort-btn" onclick="clearExtraPayments()">Clear Extras</button>
+        <button class="amort-btn primary" onclick="window.print()">&#128424; Print</button>
+      </div>
 
-<footer>
-  <p>Interest Calculator — All Options &bull; Simple · Compound · EMI · Flat Rate · Reducing Balance · FD · RD · Customer Credit</p>
+      <div class="amort-summary-bar">
+        <div class="amort-sum-item">
+          <div class="amort-sum-label">Base EMI</div>
+          <div class="amort-sum-value" id="amortBaseEMI">—</div>
+        </div>
+        <div class="amort-sum-item">
+          <div class="amort-sum-label">Interest Saved</div>
+          <div class="amort-sum-value green" id="amortInterestSaved">AED 0</div>
+        </div>
+        <div class="amort-sum-item">
+          <div class="amort-sum-label">Payoff Month</div>
+          <div class="amort-sum-value gold" id="amortPayoffMonth">—</div>
+        </div>
+        <div class="amort-sum-item">
+          <div class="amort-sum-label">Total Extra Paid</div>
+          <div class="amort-sum-value" id="amortTotalExtra">AED 0</div>
+        </div>
+      </div>
+
+      <div class="amort-table-wrap">
+        <table class="amort-table" id="amortTable">
+          <thead>
+            <tr>
+              <th style="width:60px;">#</th>
+              <th>EMI Paid</th>
+              <th>Interest</th>
+              <th>Principal</th>
+              <th>Extra Payment</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody id="amortTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main-wrap -->
+
+<footer class="site-footer">
+  <strong>Disclaimer:</strong> For illustrative purposes only. Compliant with <strong>CBUAE/BSD/2023</strong> circular. Actual terms, rates, and fees vary by financial institution and are subject to individual credit assessment and approval. All values in AED. Insurance premiums are indicative. Early settlement subject to applicable regulatory caps.
 </footer>
 
 <script>
-// ── Helpers ──
-const $ = id => document.getElementById(id);
-const fmt = (n, d=2) => isNaN(n)||n===null ? '—' : (+n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-const fc = (n, sym='$', d=2) => sym + fmt(n, d);
-const getV = id => parseFloat($(id)?.value);
-
-function syncFromSlider(sid, iid, did, suf='') {
-  const v = $(sid).value;
-  $(iid).value = v;
-  $(did).textContent = v + suf;
-}
-function syncToSlider(iid, sid, did, suf='') {
-  const v = $(iid).value;
-  $(sid).value = v;
-  $(did).textContent = v + suf;
-}
-
-function emiCalc(P, annRate, months) {
-  if(annRate === 0) return months > 0 ? P / months : 0;
-  const r = annRate / (12 * 100);
-  return P * r * Math.pow(1+r, months) / (Math.pow(1+r, months) - 1);
-}
-
-function donutSVG(P, I) {
-  const total = P + I; if(total <= 0) return '';
-  const pPct = P / total;
-  const R = 50, cx = 70, cy = 70, circ = 2 * Math.PI * R;
-  const pArc = circ * pPct, iArc = circ * (1 - pPct);
-  return `<svg width="140" height="140" viewBox="0 0 140 140">
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#e5e7eb" stroke-width="20"/>
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#2563eb" stroke-width="20"
-      stroke-dasharray="${pArc} ${circ}" transform="rotate(-90 ${cx} ${cy})"/>
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#ef4444" stroke-width="20"
-      stroke-dasharray="${iArc} ${circ}" stroke-dashoffset="${-pArc}"
-      transform="rotate(-90 ${cx} ${cy})"/>
-    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">${(pPct*100).toFixed(1)}%</text>
-    <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="9" fill="#6b7280">Principal</text>
-  </svg>`;
-}
-
-function progressBar(a, b, labelA, labelB) {
-  const tot = a + b; if(tot <= 0) return '';
-  return `<div class="progress-bar-wrap">
-    <div class="progress-labels"><span style="color:#2563eb">${labelA}</span><span style="color:#ef4444">${labelB}</span></div>
-    <div class="progress-track"><div class="progress-fill" style="width:${(a/tot)*100}%"></div></div>
-  </div>`;
-}
-
-// ── Tabs ──
-document.querySelectorAll('.tab-btn').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.calc-panel').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    $('panel-' + b.dataset.tab).classList.add('active');
-  });
-});
-
-// ── Empty state HTML ──
-function emptyResult(icon='📊', bg='#dcfce7') {
-  return `<div class="card-title"><div class="card-icon" style="background:${bg}">📊</div>Results</div><div class="empty-state"><div class="empty-state-icon">🧮</div><p>Enter values and click Calculate</p></div>`;
-}
-
-// ── Reset ──
-const resetMap = {
-  simple:   { fields:['si-p','si-r','si-t'], res:'si-res', bg:'#dcfce7' },
-  compound: { fields:['ci-p','ci-r','ci-t'], res:'ci-res', bg:'#ede9fe' },
-  emi:      { fields:['emi-p','emi-r','emi-ten'], res:'emi-res', sched:'emi-sched', bg:'#fef3c7' },
-  flat:     { fields:['fl-p','fl-r','fl-ten'], res:'fl-res', bg:'#fce7f3' },
-  reducing: { fields:['rb-p','rb-r','rb-ten','rb-fr'], res:'rb-res', bg:'#d1fae5' },
-  fd:       { fields:['fd-p','fd-r','fd-ten'], res:'fd-res', bg:'#fef9c3' },
-  rd:       { fields:['rd-m','rd-r','rd-t'], res:'rd-res', bg:'#e0f2fe' },
-  credit:   { fields:['cc-inv','cc-dp','cc-dpc','cc-r','cc-mo','cc-date'], res:'cc-res', sched:'cc-sched', bg:'#fce7f3' },
+// ============================================================
+// STATE
+// ============================================================
+const S = {
+  vehicleType: 'new',
+  rateType: 'flat',
+  extraPayments: {}
 };
 
-function resetPanel(key) {
-  const m = resetMap[key];
-  m.fields.forEach(id => { if($(id)) $(id).value = ''; });
-  if($(m.res)) $(m.res).innerHTML = emptyResult('📊', m.bg);
-  if(m.sched && $(m.sched)) $(m.sched).style.display = 'none';
+// ============================================================
+// FORMATTING
+// ============================================================
+function fmt(n, dec) {
+  dec = (dec === undefined) ? 0 : dec;
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return n.toLocaleString('en-AE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+function fmtAED(n, dec) {
+  dec = (dec === undefined) ? 0 : dec;
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return 'AED ' + fmt(n, dec);
+}
+function fmtPct(n, dec) {
+  dec = (dec === undefined) ? 2 : dec;
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return n.toFixed(dec) + '%';
 }
 
-// ── 1. Simple Interest ──
-function calcSI() {
-  const P = getV('si-p'), R = getV('si-r'), Traw = getV('si-t');
-  const tu = $('si-tu').value;
-  if([P,R,Traw].some(v => isNaN(v)||v<0) || P<=0 || Traw<=0) { alert('Please fill all fields with valid positive values.'); return; }
-  const T = tu==='years' ? Traw : tu==='months' ? Traw/12 : Traw/365;
-  const SI = P*R*T/100, total = P+SI;
-  $('si-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#dcfce7">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Simple Interest</div><div class="result-value">${fc(SI)}</div><div class="result-sub">${fmt((SI/total)*100)}% of total</div></div>
-      <div class="result-card ok"><div class="result-label">Total Amount</div><div class="result-value lg">${fc(total)}</div><div class="result-sub">P + SI</div></div>
-      <div class="result-card"><div class="result-label">Principal</div><div class="result-value">${fc(P)}</div></div>
-      <div class="result-card warn"><div class="result-label">Rate / Year</div><div class="result-value">${fmt(R)}%</div></div>
-    </div>
-    ${progressBar(P, SI, 'Principal: '+fc(P), 'Interest: '+fc(SI))}
-    <div class="donut-section">
-      ${donutSVG(P, SI)}
-      <div class="donut-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Principal (${fmt((P/total)*100)}%)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Interest (${fmt((SI/total)*100)}%)</div>
-      </div>
-    </div>
-    <hr class="divider">
-    <div style="font-size:.85rem;color:var(--gray-700)"><strong>Working:</strong> SI = (${fc(P)} × ${fmt(R)}% × ${fmt(T,4)} yr) / 100 = <strong>${fc(SI)}</strong></div>`;
+// ============================================================
+// CORE FINANCE CALCULATIONS
+// ============================================================
+
+// Flat rate EMI (UAE standard: interest charged on full principal throughout)
+function emiFlat(P, flatRate, months, balloon) {
+  balloon = balloon || 0;
+  if (months <= 0 || P <= 0) return 0;
+  var T = months / 12;
+  return (P * (1 + flatRate / 100 * T) - balloon) / months;
 }
 
-// ── 2. Compound Interest ──
-function calcCI() {
-  const P = getV('ci-p'), R = getV('ci-r'), T = getV('ci-t'), n = parseInt($('ci-n').value);
-  if([P,R,T].some(v => isNaN(v)||v<=0)) { alert('Please fill all fields.'); return; }
-  const A = P * Math.pow(1 + R/(100*n), n*T);
-  const CI = A - P, SI = P*R*T/100;
-  const fnames = {1:'Annually',2:'Semi-annually',4:'Quarterly',12:'Monthly',365:'Daily'};
-  let rows = '';
-  for(let y=1; y<=Math.min(T,20); y++) {
-    const val = P * Math.pow(1 + R/(100*n), n*y);
-    rows += `<tr><td>Year ${y}</td><td class="num">${fc(val)}</td><td class="num int">+${fc(val-P)}</td><td class="num">${fmt((val/P-1)*100)}%</td></tr>`;
+// Reducing balance (actuarial) EMI with optional balloon
+function emiReducing(P, annRate, n, balloon) {
+  balloon = balloon || 0;
+  if (n <= 0 || P <= 0) return 0;
+  if (annRate === 0) return (P - balloon) / n;
+  var r = annRate / (12 * 100);
+  if (balloon > 0) {
+    var factor = Math.pow(1 + r, -n);
+    return (P - balloon * factor) * r / (1 - factor);
   }
-  $('ci-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#ede9fe">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Compound Interest</div><div class="result-value">${fc(CI)}</div><div class="result-sub">${fnames[n]||n+'/yr'}</div></div>
-      <div class="result-card ok"><div class="result-label">Maturity Amount</div><div class="result-value lg">${fc(A)}</div></div>
-      <div class="result-card warn"><div class="result-label">Simple Interest (same)</div><div class="result-value">${fc(SI)}</div></div>
-      <div class="result-card pu"><div class="result-label">Extra via Compounding</div><div class="result-value">${fc(CI-SI)}</div></div>
-    </div>
-    ${progressBar(P, CI, 'Principal: '+fc(P), 'CI: '+fc(CI))}
-    <hr class="divider">
-    <div style="font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--gray-700)">Year-by-Year Growth</div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Period</th><th>Balance</th><th>Total Interest</th><th>Growth</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`;
+  return P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
 }
 
-// ── 3. EMI ──
-function calcEMI() {
-  const P = getV('emi-p'), R = getV('emi-r')||0, tenRaw = getV('emi-ten');
-  const tu = $('emi-tu').value;
-  if(isNaN(P)||P<=0||isNaN(tenRaw)||tenRaw<=0) { alert('Please fill all fields.'); return; }
-  const months = tu==='years' ? tenRaw*12 : tenRaw;
-  const emi = emiCalc(P, R, months);
-  const total = emi*months, totalInt = total-P;
-  $('emi-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#fef3c7">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Monthly EMI</div><div class="result-value lg">${fc(emi)}</div><div class="result-sub">${months} payments</div></div>
-      <div class="result-card ok"><div class="result-label">Total Payment</div><div class="result-value">${fc(total)}</div></div>
-      <div class="result-card warn"><div class="result-label">Total Interest</div><div class="result-value">${fc(totalInt)}</div><div class="result-sub">${fmt((totalInt/total)*100)}% of total</div></div>
-      <div class="result-card"><div class="result-label">Loan Amount</div><div class="result-value">${fc(P)}</div></div>
-    </div>
-    ${progressBar(P, totalInt, 'Principal: '+fc(P), 'Interest: '+fc(totalInt))}
-    <div class="donut-section">
-      ${donutSVG(P, totalInt)}
-      <div class="donut-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Principal (${fmt((P/total)*100)}%)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Interest (${fmt((totalInt/total)*100)}%)</div>
-      </div>
-    </div>`;
-  // Amortization
-  const r = R/(12*100);
-  let bal = P, rows = '', totI = 0, totPr = 0;
-  const showAll = months <= 24;
-  for(let i=1; i<=months; i++) {
-    const interest = bal*r, prin = emi-interest;
-    bal = Math.max(0, bal-prin);
-    totI += interest; totPr += prin;
-    const show = showAll || i<=12 || i>months-6;
-    if(show) {
-      if(!showAll && i===13) rows += `<tr><td colspan="5" style="text-align:center;color:var(--gray-500);font-style:italic">... ${months-18} months omitted ...</td></tr>`;
-      rows += `<tr><td>${i}</td><td class="num hl">${fc(emi)}</td><td class="num int">${fc(interest)}</td><td class="num prin">${fc(prin)}</td><td class="num">${fc(bal)}</td></tr>`;
+// Newton-Raphson: find IRR (monthly rate) given EMI schedule, return APR %
+function calcAPR(P, emi, n, balloon) {
+  balloon = balloon || 0;
+  if (P <= 0 || emi <= 0 || n <= 0) return 0;
+  var r = 0.005; // ~6% annual starting guess
+  for (var i = 0; i < 150; i++) {
+    var f = 0, fp = 0;
+    for (var k = 1; k <= n; k++) {
+      var disc = Math.pow(1 + r, -k);
+      f += emi * disc;
+      fp += -k * emi * disc / (1 + r);
+    }
+    if (balloon > 0) {
+      var discN = Math.pow(1 + r, -n);
+      f += balloon * discN;
+      fp += -n * balloon * discN / (1 + r);
+    }
+    f -= P;
+    if (Math.abs(fp) < 1e-15) break;
+    var delta = -f / fp;
+    r += delta;
+    if (Math.abs(delta) < 1e-12) break;
+    if (r < 0) r = 0.0001;
+  }
+  if (!isFinite(r) || r < 0 || r > 2) return NaN;
+  return r * 12 * 100;
+}
+
+// Flat → Reducing APR conversion (Newton-Raphson)
+function flatToReducingAPR(flatRate, P, months, balloon) {
+  balloon = balloon || 0;
+  var emi = emiFlat(P, flatRate, months, balloon);
+  return calcAPR(P, emi, months, balloon);
+}
+
+// Reducing APR → equivalent flat rate for display
+function reducingAPRToFlat(apr, P, months, balloon) {
+  balloon = balloon || 0;
+  if (P <= 0 || months <= 0) return 0;
+  var emi = emiReducing(P, apr, months, balloon);
+  var totalInterest = emi * months + balloon - P;
+  var T = months / 12;
+  if (P <= 0 || T <= 0) return 0;
+  return (totalInterest / P) / T * 100;
+}
+
+// ============================================================
+// AMORTIZATION SCHEDULE (actuarial/reducing)
+// ============================================================
+function buildAmortSchedule(P, annRate, n, balloon, extraPayments) {
+  var rows = [];
+  var balance = P;
+  var r = annRate > 0 ? annRate / (12 * 100) : 0;
+
+  // Compute base EMI
+  var baseEMI;
+  if (annRate === 0) {
+    baseEMI = (P - balloon) / n;
+  } else if (balloon > 0) {
+    var factor = Math.pow(1 + r, -n);
+    baseEMI = (P - balloon * factor) * r / (1 - factor);
+  } else {
+    baseEMI = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+  }
+
+  // Baseline total interest (no extra payments)
+  var baselineInterest = 0;
+  {
+    var b2 = P;
+    for (var m2 = 1; m2 <= n; m2++) {
+      var intP = r > 0 ? b2 * r : 0;
+      baselineInterest += intP;
+      var prinP = baseEMI - intP;
+      if (prinP < 0) prinP = 0;
+      b2 -= Math.min(prinP, b2);
+      if (b2 <= 0.01) break;
     }
   }
-  $('emi-sched-body').innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>#</th><th>EMI</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead>
-    <tbody>${rows}</tbody>
-    <tfoot><tr><td><strong>Total</strong></td><td class="num">${fc(total)}</td><td class="num">${fc(totalInt)}</td><td class="num">${fc(P)}</td><td>—</td></tr></tfoot>
-  </table></div>`;
-  $('emi-sched').style.display = 'block';
-}
 
-// ── 4. Flat Rate ──
-function calcFlat() {
-  const P = getV('fl-p'), R = getV('fl-r'), tenRaw = getV('fl-ten');
-  const tu = $('fl-tu').value;
-  if([P,R,tenRaw].some(v => isNaN(v)||v<0)||P<=0||tenRaw<=0) { alert('Please fill all fields.'); return; }
-  const months = tu==='years' ? tenRaw*12 : tenRaw;
-  const T = months/12;
-  const totalInt = P*R*T/100, total = P+totalInt, emi = total/months;
-  const effRate = (2*12*totalInt)/(P*(months+1))*100;
-  $('fl-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#fce7f3">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Monthly EMI</div><div class="result-value lg">${fc(emi)}</div><div class="result-sub">Fixed for ${months} months</div></div>
-      <div class="result-card warn"><div class="result-label">Total Interest (Flat)</div><div class="result-value">${fc(totalInt)}</div></div>
-      <div class="result-card ok"><div class="result-label">Total Payment</div><div class="result-value">${fc(total)}</div></div>
-      <div class="result-card pu"><div class="result-label">Effective Reducing Rate</div><div class="result-value">${fmt(effRate)}%</div><div class="result-sub">Approx. equivalent</div></div>
-    </div>
-    <div class="info-box" style="margin-top:12px">Flat rate <strong>${fmt(R)}%</strong> on ${fc(P)} for ${months} months ≈ effective reducing balance rate of <strong>${fmt(effRate)}%</strong>. Always compare on effective rates!</div>
-    ${progressBar(P, totalInt, 'Principal: '+fc(P), 'Interest: '+fc(totalInt))}`;
-}
+  var totalActualInterest = 0;
+  var actualPayoffMonth = n;
+  balance = P;
 
-// ── 5. Reducing Balance ──
-function calcRB() {
-  const P = getV('rb-p'), R = getV('rb-r'), tenRaw = getV('rb-ten'), FR = getV('rb-fr')||0;
-  const tu = $('rb-tu').value;
-  if(isNaN(P)||P<=0||isNaN(R)||R<0||isNaN(tenRaw)||tenRaw<=0) { alert('Please fill all fields.'); return; }
-  const months = tu==='years' ? tenRaw*12 : tenRaw;
-  const T = months/12;
-  const rbEMI = emiCalc(P, R, months), rbTotal = rbEMI*months, rbInt = rbTotal-P;
-  let flatSection = '';
-  if(FR > 0) {
-    const flatInt = P*FR*T/100, flatTotal = P+flatInt, flatEMI = flatTotal/months;
-    const savings = flatTotal - rbTotal;
-    flatSection = `<hr class="divider">
-    <div style="font-size:.875rem;font-weight:700;margin-bottom:10px;color:var(--gray-700)">Comparison: Reducing (${fmt(R)}%) vs Flat (${fmt(FR)}%)</div>
-    <div class="cmp-row"><span class="cmp-lbl">Reducing Balance EMI</span><div style="text-align:right"><div class="cmp-val">${fc(rbEMI)}</div><div style="font-size:.78rem;color:var(--gray-500)">Total: ${fc(rbTotal)}</div></div></div>
-    <div class="cmp-row"><span class="cmp-lbl">Flat Rate EMI</span><div style="text-align:right"><div class="cmp-val">${fc(flatEMI)}</div><div style="font-size:.78rem;color:var(--gray-500)">Total: ${fc(flatTotal)}</div></div></div>
-    <div class="cmp-row" style="background:${savings>0?'#f0fdf4':'#fef2f2'};border-radius:8px;padding:10px;margin-top:6px">
-      <span class="cmp-lbl" style="color:${savings>0?'#166534':'#991b1b'}">${savings>0?'💰 Reducing Balance saves you':'💸 Flat rate cheaper by'}</span>
-      <span style="font-weight:700;color:${savings>0?'#16a34a':'#dc2626'}">${fc(Math.abs(savings))}</span>
-    </div>`;
+  for (var m = 1; m <= n; m++) {
+    var intPart = r > 0 ? balance * r : 0;
+    var extra = extraPayments[m] || 0;
+    var emiPaid = baseEMI;
+
+    // Handle final/near-zero scenarios
+    if (balance + intPart <= baseEMI + 0.01 && m < n) {
+      emiPaid = balance + intPart;
+    } else if (m === n) {
+      // Last scheduled payment: settle remaining balance
+      emiPaid = balance + intPart - balloon;
+      if (emiPaid < 0) emiPaid = 0;
+    }
+
+    var prinPart = emiPaid - intPart;
+    if (prinPart < 0) prinPart = 0;
+
+    // Apply regular principal + extra, capped at balance
+    var totalPrinThisMonth = Math.min(prinPart + extra, balance);
+    var regularPrin = Math.min(prinPart, balance);
+    var extraActual = Math.min(extra, balance - regularPrin);
+    if (extraActual < 0) extraActual = 0;
+
+    balance = balance - regularPrin - extraActual;
+    if (balance < 0.01) balance = 0;
+
+    totalActualInterest += intPart;
+
+    rows.push({
+      month: m,
+      emi: emiPaid,
+      interest: intPart,
+      principal: regularPrin,
+      extra: extraActual,
+      balance: balance,
+      isBalloon: false
+    });
+
+    if (balance <= 0.01) {
+      actualPayoffMonth = m;
+      break;
+    }
   }
-  $('rb-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#d1fae5">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Monthly EMI</div><div class="result-value lg">${fc(rbEMI)}</div><div class="result-sub">${months} payments</div></div>
-      <div class="result-card warn"><div class="result-label">Total Interest</div><div class="result-value">${fc(rbInt)}</div></div>
-      <div class="result-card ok"><div class="result-label">Total Payment</div><div class="result-value">${fc(rbTotal)}</div></div>
-      <div class="result-card"><div class="result-label">Rate (Reducing)</div><div class="result-value">${fmt(R)}% p.a.</div></div>
-    </div>
-    ${progressBar(P, rbInt, 'Principal: '+fc(P), 'Interest: '+fc(rbInt))}
-    ${flatSection}`;
-}
 
-// ── 6. Fixed Deposit ──
-function calcFD() {
-  const P = getV('fd-p'), R = getV('fd-r'), tenRaw = getV('fd-ten');
-  const tu = $('fd-tu').value, n = parseInt($('fd-n').value), payout = $('fd-pay').value;
-  if(isNaN(P)||P<=0||isNaN(R)||R<0||isNaN(tenRaw)||tenRaw<=0) { alert('Please fill all fields.'); return; }
-  const T = tu==='months' ? tenRaw/12 : tenRaw;
-  const A = P * Math.pow(1 + R/(100*n), n*T);
-  const interest = A - P;
-  let payCard = '';
-  if(payout==='monthly') payCard = `<div class="result-card"><div class="result-label">Monthly Payout</div><div class="result-value">${fc(P*R/100/12)}</div></div>`;
-  else if(payout==='quarterly') payCard = `<div class="result-card"><div class="result-label">Quarterly Payout</div><div class="result-value">${fc(P*R/100/4)}</div></div>`;
-  else if(payout==='annual') payCard = `<div class="result-card"><div class="result-label">Annual Payout</div><div class="result-value">${fc(P*R/100)}</div></div>`;
-  else payCard = `<div class="result-card warn"><div class="result-label">ROI</div><div class="result-value">${fmt((interest/P)*100)}%</div></div>`;
-  let rows = '';
-  for(let y=1; y<=Math.min(Math.ceil(T),20); y++) {
-    const yrs = Math.min(y,T), val = P * Math.pow(1 + R/(100*n), n*yrs);
-    rows += `<tr><td>Year ${y}</td><td class="num int">${fc(val-P)}</td><td class="num hl">${fc(val)}</td></tr>`;
+  // Balloon row
+  if (balloon > 0 && rows.length > 0) {
+    var lastRow = rows[rows.length - 1];
+    if (lastRow.balance > 0.01 || lastRow.month === n) {
+      rows.push({
+        month: n + (lastRow.month < n ? 0 : 0),
+        emi: balloon,
+        interest: 0,
+        principal: balloon,
+        extra: 0,
+        balance: 0,
+        isBalloon: true
+      });
+    }
   }
-  $('fd-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#fef9c3">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card ok"><div class="result-label">Maturity Amount</div><div class="result-value lg">${fc(A)}</div><div class="result-sub">After ${fmt(T,1)} years</div></div>
-      <div class="result-card hl"><div class="result-label">Total Interest Earned</div><div class="result-value">${fc(interest)}</div><div class="result-sub">${fmt((interest/P)*100)}% of principal</div></div>
-      <div class="result-card"><div class="result-label">Principal</div><div class="result-value">${fc(P)}</div></div>
-      ${payCard}
-    </div>
-    ${progressBar(P, interest, 'Principal: '+fc(P), 'Interest: '+fc(interest))}
-    <hr class="divider">
-    <div style="font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--gray-700)">Year-by-Year Growth</div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Year</th><th>Interest Earned</th><th>Balance</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`;
+
+  var interestSaved = Math.max(0, baselineInterest - totalActualInterest);
+
+  return {
+    rows: rows,
+    baseEMI: baseEMI,
+    baselineInterest: baselineInterest,
+    totalActualInterest: totalActualInterest,
+    interestSaved: interestSaved,
+    actualPayoffMonth: actualPayoffMonth
+  };
 }
 
-// ── 7. Recurring Deposit ──
-function calcRD() {
-  const M = getV('rd-m'), R = getV('rd-r'), months = parseInt($('rd-t').value);
-  if(isNaN(M)||M<=0||isNaN(R)||R<0||isNaN(months)||months<1) { alert('Please fill all fields.'); return; }
-  const i = R/(4*100), n = months/3;
-  const maturity = M * (Math.pow(1+i,n)-1) / (1-Math.pow(1+i,-1/3));
-  const invested = M*months, interest = maturity-invested;
-  let rows = '', cumInv = 0;
-  for(let mo=3; mo<=months; mo+=3) {
-    cumInv = M*mo;
-    const q = mo/3, val = M*(Math.pow(1+i,q)-1)/(1-Math.pow(1+i,-1/3));
-    rows += `<tr><td>Month ${mo}</td><td class="num">${fc(cumInv)}</td><td class="num int">+${fc(val-cumInv)}</td><td class="num hl">${fc(val)}</td></tr>`;
+// ============================================================
+// INPUT HELPERS
+// ============================================================
+function getVal(id) {
+  var v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? 0 : v;
+}
+function setVal(id, v) {
+  document.getElementById(id).value = v;
+}
+
+// ============================================================
+// VEHICLE TYPE TOGGLE
+// ============================================================
+function setVehicleType(type) {
+  S.vehicleType = type;
+  var btnNew = document.getElementById('btn-new');
+  var btnUsed = document.getElementById('btn-used');
+  btnNew.className = 'toggle-btn' + (type === 'new' ? ' active green' : '');
+  btnUsed.className = 'toggle-btn' + (type === 'used' ? ' active green' : '');
+
+  var maxT = type === 'new' ? 60 : 48;
+  document.getElementById('tenureInput').max = maxT;
+  if (getVal('tenureInput') > maxT) setVal('tenureInput', maxT);
+  recalc();
+}
+
+// ============================================================
+// RATE TYPE TOGGLE
+// ============================================================
+function setRateType(type) {
+  S.rateType = type;
+  var btnFlat = document.getElementById('btn-flat');
+  var btnRed = document.getElementById('btn-reducing');
+  btnFlat.className = 'toggle-btn' + (type === 'flat' ? ' active blue' : '');
+  btnRed.className = 'toggle-btn' + (type === 'reducing' ? ' active blue' : '');
+  document.getElementById('rateLabel').textContent = type === 'flat' ? 'Annual Flat Rate' : 'Annual Reducing Rate (APR)';
+  recalc();
+}
+
+// ============================================================
+// DOWN PAYMENT SYNC (3-way: AED ↔ % ↔ slider)
+// ============================================================
+function getOnRoad() {
+  var p = getVal('vehiclePrice');
+  return p * 1.05;
+}
+
+var _downSyncing = false;
+function syncDownFromAED() {
+  if (_downSyncing) return; _downSyncing = true;
+  var onRoad = getOnRoad();
+  var aed = getVal('downAED');
+  var pct = onRoad > 0 ? (aed / onRoad * 100) : 0;
+  setVal('downPct', pct.toFixed(2));
+  document.getElementById('downSlider').value = pct;
+  _downSyncing = false;
+  recalc();
+}
+function syncDownFromPct() {
+  if (_downSyncing) return; _downSyncing = true;
+  var onRoad = getOnRoad();
+  var pct = getVal('downPct');
+  var aed = onRoad * pct / 100;
+  setVal('downAED', Math.round(aed));
+  document.getElementById('downSlider').value = pct;
+  _downSyncing = false;
+  recalc();
+}
+function syncDownFromSlider() {
+  if (_downSyncing) return; _downSyncing = true;
+  var pct = parseFloat(document.getElementById('downSlider').value);
+  var onRoad = getOnRoad();
+  var aed = onRoad * pct / 100;
+  setVal('downPct', pct.toFixed(2));
+  setVal('downAED', Math.round(aed));
+  _downSyncing = false;
+  recalc();
+}
+
+// ============================================================
+// BALLOON SYNC
+// ============================================================
+function syncBalloonFromAED() {
+  var onRoad = getOnRoad();
+  var aed = getVal('balloonAED');
+  var pct = onRoad > 0 ? (aed / onRoad * 100) : 0;
+  setVal('balloonPct', pct.toFixed(2));
+  recalc();
+}
+
+// ============================================================
+// TENURE
+// ============================================================
+function setTenurePreset(v) {
+  if (!v) return;
+  setVal('tenureInput', parseInt(v));
+  recalc();
+}
+
+// ============================================================
+// RATE SLIDER SYNC
+// ============================================================
+function syncRateToSlider() {
+  document.getElementById('rateSlider').value = getVal('rateInput');
+}
+function syncRateFromSlider() {
+  var r = parseFloat(document.getElementById('rateSlider').value);
+  setVal('rateInput', r);
+  recalc();
+}
+
+// ============================================================
+// PROCESSING FEE SYNC (AED ↔ %)
+// ============================================================
+var _procSyncing = false;
+function syncProcFromAED() {
+  if (_procSyncing) return; _procSyncing = true;
+  var aed = getVal('processingFeeAED');
+  var onRoad = getOnRoad();
+  var down = getVal('downAED');
+  var loan = Math.max(0, onRoad - down);
+  if (loan > 0) {
+    setVal('processingFeePct', (aed / loan * 100).toFixed(3));
   }
-  $('rd-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#e0f2fe">📊</div>Results</div>
-    <div class="results-grid">
-      <div class="result-card ok"><div class="result-label">Maturity Value</div><div class="result-value lg">${fc(maturity)}</div><div class="result-sub">After ${months} months</div></div>
-      <div class="result-card hl"><div class="result-label">Total Interest</div><div class="result-value">${fc(interest)}</div><div class="result-sub">${fmt((interest/invested)*100)}% return</div></div>
-      <div class="result-card"><div class="result-label">Total Invested</div><div class="result-value">${fc(invested)}</div><div class="result-sub">${fc(M)}/mo × ${months}</div></div>
-      <div class="result-card warn"><div class="result-label">Monthly Deposit</div><div class="result-value">${fc(M)}</div></div>
-    </div>
-    ${progressBar(invested, interest, 'Invested: '+fc(invested), 'Interest: '+fc(interest))}
-    <hr class="divider">
-    <div style="font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--gray-700)">Quarterly Growth</div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Period</th><th>Invested</th><th>Interest</th><th>Balance</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`;
+  _procSyncing = false;
+  recalc();
+}
+function syncProcFromPct() {
+  if (_procSyncing) return; _procSyncing = true;
+  var pct = getVal('processingFeePct');
+  var onRoad = getOnRoad();
+  var down = getVal('downAED');
+  var loan = Math.max(0, onRoad - down);
+  var aed = loan * pct / 100;
+  // Clamp to 500-2500 range
+  aed = Math.min(Math.max(aed, 0), 2500);
+  setVal('processingFeeAED', Math.round(aed));
+  _procSyncing = false;
+  recalc();
 }
 
-// ── 8. Customer Credit ──
-function ccCalcDP() {
-  const pct = parseFloat($('cc-dpc').value);
-  if(!isNaN(pct)) ccPCtoDP();
-}
-function ccDPtoPC() {
-  const inv = getV('cc-inv'), dp = getV('cc-dp');
-  if(inv>0 && !isNaN(dp)) $('cc-dpc').value = fmt((dp/inv)*100,1);
-}
-function ccPCtoDP() {
-  const inv = getV('cc-inv'), pct = getV('cc-dpc');
-  if(inv>0 && !isNaN(pct)) $('cc-dp').value = Math.round(inv*pct/100);
-}
-
-function calcCC() {
-  const inv = getV('cc-inv'), dp = getV('cc-dp')||0;
-  const R = getV('cc-r')||0, months = parseInt($('cc-mo').value);
-  const dateStr = $('cc-date').value, cur = $('cc-cur').value.trim();
-  if(isNaN(inv)||inv<=0||isNaN(months)||months<1) { alert('Please fill Invoice Amount and Number of Months.'); return; }
-  const credit = inv-dp, emi = emiCalc(credit, R, months);
-  const totalEMI = emi*months, totalInt = totalEMI-credit, totalCost = dp+totalEMI;
-  const dpPct = inv>0 ? (dp/inv)*100 : 0;
-
-  $('cc-res').innerHTML = `
-    <div class="card-title"><div class="card-icon" style="background:#fce7f3">📊</div>Credit Summary</div>
-    <div class="results-grid">
-      <div class="result-card hl"><div class="result-label">Monthly Installment</div><div class="result-value lg">${cur}${fmt(emi)}</div><div class="result-sub">${months} months</div></div>
-      <div class="result-card ok"><div class="result-label">Credit Amount</div><div class="result-value">${cur}${fmt(credit)}</div><div class="result-sub">Invoice − Down Payment</div></div>
-      <div class="result-card"><div class="result-label">Down Payment (${fmt(dpPct,1)}%)</div><div class="result-value">${cur}${fmt(dp)}</div></div>
-      <div class="result-card warn"><div class="result-label">Total Interest</div><div class="result-value">${cur}${fmt(totalInt)}</div><div class="result-sub">${R===0?'No-interest plan':fmt(R)+'% p.a.'}</div></div>
-    </div>
-    <div class="cmp-row" style="padding-top:0"><span class="cmp-lbl">Total Invoice</span><span class="cmp-val">${cur}${fmt(inv)}</span></div>
-    <div class="cmp-row"><span class="cmp-lbl">Down Payment (${fmt(dpPct,1)}%)</span><span class="cmp-val">− ${cur}${fmt(dp)}</span></div>
-    <div class="cmp-row"><span class="cmp-lbl">${months} × ${cur}${fmt(emi)} installments</span><span class="cmp-val">${cur}${fmt(totalEMI)}</span></div>
-    <div class="cmp-row" style="border-top:2px solid var(--gray-200);margin-top:4px;padding-top:12px">
-      <span class="cmp-lbl" style="font-weight:700;color:var(--gray-900)">Total Cost to Customer</span>
-      <span class="cmp-val" style="color:var(--primary);font-size:1.1rem">${cur}${fmt(totalCost)}</span>
-    </div>`;
-
-  // Payment schedule
-  const r = R/(12*100);
-  let bal = credit, rows = '';
-  // Invoice row
-  rows += `<tr>
-    <td>—</td><td>${dateStr ? fmtDate(dateStr,0) : '—'}</td>
-    <td><span class="badge badge-inv">Invoice</span></td>
-    <td class="num">(${cur}${fmt(inv)})</td>
-    <td class="num hl">${cur}${fmt(inv)}</td>
-    <td class="num">—</td><td class="num">—</td><td class="num">—</td>
-  </tr>`;
-  if(dp>0) {
-    rows += `<tr>
-      <td>0</td><td>${dateStr ? fmtDate(dateStr,0) : '—'}</td>
-      <td><span class="badge badge-dp">Down Payment</span></td>
-      <td class="num prin">(${cur}${fmt(dp)})</td>
-      <td class="num hl">${cur}${fmt(credit)}</td>
-      <td class="num">—</td><td class="num">—</td><td class="num">—</td>
-    </tr>`;
+// ============================================================
+// EXTRA PAYMENTS
+// ============================================================
+function applyGlobalExtra() {
+  var v = getVal('globalExtra');
+  var tenure = Math.max(1, Math.round(getVal('tenureInput')));
+  S.extraPayments = {};
+  if (v > 0) {
+    for (var m = 1; m <= tenure; m++) {
+      S.extraPayments[m] = v;
+    }
   }
-  for(let i=1; i<=months; i++) {
-    const interest = bal*r, prin = emi-interest;
-    bal = Math.max(0, bal-prin);
-    rows += `<tr>
-      <td>${i}</td><td>${dateStr ? fmtDate(dateStr,i) : '—'}</td>
-      <td><span class="badge badge-mo">Monthly</span></td>
-      <td class="num prin">(${cur}${fmt(emi)})</td>
-      <td class="num hl">${cur}${fmt(bal)}</td>
-      <td class="num int">${cur}${fmt(interest)}</td>
-      <td class="num prin">${cur}${fmt(prin)}</td>
-      <td class="num">${cur}${fmt(emi)}</td>
-    </tr>`;
+  renderAmortTable();
+}
+
+function clearExtraPayments() {
+  S.extraPayments = {};
+  setVal('globalExtra', 0);
+  renderAmortTable();
+}
+
+function onExtraRowChange(month, val) {
+  var v = parseFloat(val) || 0;
+  if (v > 0) {
+    S.extraPayments[month] = v;
+  } else {
+    delete S.extraPayments[month];
   }
-  $('cc-sched-body').innerHTML = `<div class="table-wrap"><table>
-    <thead><tr><th>SI</th><th>Date</th><th>Type</th><th>Inflow</th><th>Loan Outstanding</th><th>Interest</th><th>Principal</th><th>EMI</th></tr></thead>
-    <tbody>${rows}</tbody>
-    <tfoot><tr>
-      <td colspan="3"><strong>Totals</strong></td>
-      <td class="num">(${cur}${fmt(totalCost)})</td>
-      <td>—</td>
-      <td class="num">${cur}${fmt(totalInt)}</td>
-      <td class="num">${cur}${fmt(credit)}</td>
-      <td class="num">${cur}${fmt(totalEMI)}</td>
-    </tr></tfoot>
-  </table></div>`;
-  $('cc-sched').style.display = 'block';
-  $('cc-sched').scrollIntoView({ behavior:'smooth', block:'start' });
+  renderAmortTable();
 }
 
-function fmtDate(base, addMonths) {
-  const d = new Date(base);
-  d.setMonth(d.getMonth() + addMonths);
-  return d.toLocaleDateString('en-US', {month:'2-digit', year:'numeric'});
+// ============================================================
+// CACHED CALC RESULTS (for amort table)
+// ============================================================
+var _calc = {
+  financed: 0, reducingAPR: 0, tenure: 48, balloon: 0,
+  emi: 0, onRoad: 0, processingFee: 0, insuranceRate: 2.5
+};
+
+// ============================================================
+// MAIN RECALC
+// ============================================================
+function recalc() {
+  var price = getVal('vehiclePrice');
+  var vat = price * 0.05;
+  var onRoad = price + vat;
+
+  setVal('vatAmount', Math.round(vat));
+  setVal('onRoadTotal', Math.round(onRoad));
+
+  // Sync slider
+  document.getElementById('downSlider').value = getVal('downPct');
+  document.getElementById('rateSlider').value = getVal('rateInput');
+
+  var downAED = getVal('downAED');
+  // Balloon
+  var balloonAED = getVal('balloonAED');
+  var balloonPct = onRoad > 0 ? (balloonAED / onRoad * 100) : 0;
+  setVal('balloonPct', balloonPct.toFixed(2));
+
+  // Financed amount
+  var financed = Math.max(0, onRoad - downAED);
+  setVal('financedAmount', Math.round(financed));
+
+  // LTV
+  var ltv = onRoad > 0 ? (financed / onRoad * 100) : 0;
+  var maxLTV = S.vehicleType === 'new' ? 80 : 70;
+  var ltvFill = document.getElementById('ltvFill');
+  ltvFill.style.width = Math.min(ltv, 100).toFixed(1) + '%';
+  var ltvColor = ltv <= 70 ? 'green' : ltv <= 80 ? 'orange' : 'red';
+  ltvFill.className = 'progress-fill ' + ltvColor;
+  document.getElementById('ltvLabel').textContent = 'LTV: ' + fmtPct(ltv, 1);
+  document.getElementById('ltvMax').textContent = 'Max: ' + maxLTV + '% (' + (S.vehicleType === 'new' ? 'New' : 'Used') + ')';
+
+  // Tenure
+  var tenure = Math.max(1, Math.round(getVal('tenureInput')));
+  var maxTenure = S.vehicleType === 'new' ? 60 : 48;
+
+  // Rate
+  var rateInput = getVal('rateInput');
+  var processingFee = getVal('processingFeeAED');
+  var insuranceRate = getVal('insuranceRate');
+  var regFee = getVal('regFee');
+
+  var annualInsurance = onRoad * insuranceRate / 100;
+  var monthlyInsurance = annualInsurance / 12;
+
+  // EMI & APR calculation
+  var emi, apr, reducingAPR;
+
+  if (S.rateType === 'flat') {
+    emi = emiFlat(financed, rateInput, tenure, balloonAED);
+    apr = flatToReducingAPR(rateInput, financed, tenure, balloonAED);
+    reducingAPR = isNaN(apr) ? 0 : apr;
+
+    document.getElementById('reFlatVal').textContent = rateInput.toFixed(2) + '%';
+    document.getElementById('reReducingVal').textContent = isNaN(apr) ? '—' : apr.toFixed(2) + '%';
+    document.getElementById('reMode').textContent = 'flat rate';
+  } else {
+    emi = emiReducing(financed, rateInput, tenure, balloonAED);
+    apr = rateInput;
+    reducingAPR = rateInput;
+    var equivFlat = reducingAPRToFlat(rateInput, financed, tenure, balloonAED);
+
+    document.getElementById('reFlatVal').textContent = isNaN(equivFlat) ? '—' : equivFlat.toFixed(2) + '%';
+    document.getElementById('reReducingVal').textContent = rateInput.toFixed(2) + '%';
+    document.getElementById('reMode').textContent = 'reducing balance';
+  }
+
+  var totalPayments = emi * tenure + (balloonAED > 0 ? balloonAED : 0);
+  var totalInterest = totalPayments - financed;
+  var totalFinanceCost = totalInterest + processingFee;
+
+  // Update display
+  document.getElementById('emiMain').textContent = fmt(emi, 0);
+  document.getElementById('emiPeriod').textContent =
+    'per month for ' + tenure + ' months' + (balloonAED > 0 ? ' + balloon payment' : '');
+  document.getElementById('totalInterest').textContent = fmtAED(totalInterest);
+  document.getElementById('totalFinanceCost').textContent = fmtAED(totalFinanceCost);
+  document.getElementById('effectiveAPR').textContent = fmtPct(apr, 2);
+  document.getElementById('totalRepayment').textContent = fmtAED(totalPayments + processingFee);
+
+  // P/I bar
+  var piP = (financed > 0 && totalInterest >= 0) ? (financed / (financed + totalInterest) * 100) : 70;
+  piP = Math.max(5, Math.min(95, piP));
+  document.getElementById('piPrincipal').style.width = piP.toFixed(1) + '%';
+  document.getElementById('piPctPrincipal').textContent = piP.toFixed(1) + '%';
+  document.getElementById('piPctInterest').textContent = (100 - piP).toFixed(1) + '%';
+
+  // Mini grid
+  var totalVehicleCost = onRoad + processingFee + regFee + totalInterest;
+  var firstYearTotal = emi * 12 + annualInsurance + regFee + processingFee;
+  var earlySettle = Math.min(0.01 * financed, 10000);
+
+  document.getElementById('totalVehicleCost').textContent = fmtAED(totalVehicleCost);
+  document.getElementById('firstYearTotal').textContent = fmtAED(firstYearTotal);
+  document.getElementById('earlySettleFee').textContent = fmtAED(earlySettle);
+  document.getElementById('monthlyInsurance').textContent = fmtAED(monthlyInsurance);
+
+  // Compliance
+  var downPct = onRoad > 0 ? (downAED / onRoad * 100) : 0;
+  renderCompliance(ltv, maxLTV, downPct, tenure, maxTenure, balloonAED, onRoad, emi, financed);
+
+  // Cache for amort
+  _calc = { financed: financed, reducingAPR: reducingAPR, tenure: tenure, balloon: balloonAED, emi: emi };
+
+  // Update amort summary base EMI
+  document.getElementById('amortBaseEMI').textContent = fmtAED(emi);
+
+  // Sync processing fee % display
+  if (financed > 0) {
+    var pctDisp = processingFee / financed * 100;
+    document.getElementById('processingFeePct').placeholder = pctDisp.toFixed(2) + '%';
+  }
+
+  renderAmortTable();
+  recalcComparison();
 }
 
-// Set default date
-window.addEventListener('DOMContentLoaded', () => {
-  $('cc-date').value = new Date().toISOString().slice(0,10);
+// ============================================================
+// COMPLIANCE RENDER
+// ============================================================
+function renderCompliance(ltv, maxLTV, downPct, tenure, maxTenure, balloon, onRoad, emi, financed) {
+  var balloonPct = (balloon > 0 && onRoad > 0) ? (balloon / onRoad * 100) : 0;
+  var recSalary = emi * 2;
+
+  var checks = [
+    {
+      label: 'Loan-to-Value (LTV)',
+      detail: 'Current: ' + fmtPct(ltv, 1) + ' — Max allowed: ' + maxLTV + '% (' + (S.vehicleType === 'new' ? 'New' : 'Used') + ')',
+      pass: ltv <= maxLTV,
+      warn: ltv > maxLTV - 5 && ltv <= maxLTV
+    },
+    {
+      label: 'Minimum Down Payment',
+      detail: 'Current: ' + fmtPct(downPct, 1) + ' — UAE CB Minimum: 20%',
+      pass: downPct >= 20,
+      warn: false
+    },
+    {
+      label: 'Finance Tenure',
+      detail: 'Current: ' + Math.round(tenure) + ' months — Maximum: ' + maxTenure + ' months',
+      pass: tenure <= maxTenure,
+      warn: false
+    },
+    {
+      label: 'Balloon / Residual (PCP)',
+      detail: balloon > 0
+        ? 'Balloon: ' + fmtAED(balloon) + ' (' + fmtPct(balloonPct, 1) + ' of vehicle price) — Max: 30%'
+        : 'No balloon payment — N/A',
+      pass: balloon === 0 || balloonPct <= 30,
+      warn: balloonPct > 25 && balloonPct <= 30
+    },
+    {
+      label: 'Recommended Monthly Salary',
+      detail: 'Minimum recommended: ' + fmtAED(recSalary) + ' (EMI × 2 guideline)',
+      pass: true,
+      isInfo: true,
+      infoVal: fmtAED(recSalary)
+    }
+  ];
+
+  var html = checks.map(function(c) {
+    var badge, rowStyle = '';
+    if (c.isInfo) {
+      badge = '<span class="badge" style="background:var(--gold-light);color:var(--gold);">' + c.infoVal + '</span>';
+      rowStyle = 'border-color:var(--gold);background:var(--gold-light);';
+    } else if (!c.pass) {
+      badge = '<span class="badge badge-fail">FAIL</span>';
+      rowStyle = 'border-color:var(--red);background:var(--red-light);';
+    } else if (c.warn) {
+      badge = '<span class="badge badge-warn">WARN</span>';
+      rowStyle = 'border-color:var(--orange);background:var(--orange-light);';
+    } else {
+      badge = '<span class="badge badge-ok">PASS</span>';
+      rowStyle = 'border-color:var(--green);background:var(--green-light);';
+    }
+    return '<div class="compliance-row" style="' + rowStyle + '">' +
+      '<div><div class="compliance-left">' + c.label + '</div>' +
+      '<div class="compliance-detail">' + c.detail + '</div></div>' +
+      badge + '</div>';
+  }).join('');
+
+  document.getElementById('complianceGrid').innerHTML = html;
+}
+
+// ============================================================
+// RATE COMPARISON
+// ============================================================
+function recalcComparison() {
+  var onRoad = getOnRoad();
+  var downAED = getVal('downAED');
+  var financed = Math.max(0, onRoad - downAED);
+  var tenure = Math.max(1, Math.round(getVal('tenureInput')));
+  var balloon = getVal('balloonAED');
+
+  var scenarios = [
+    { label: 'A', rate: getVal('compA'), cls: 'comp-dot-a' },
+    { label: 'B', rate: getVal('compB'), cls: 'comp-dot-b' },
+    { label: 'C', rate: getVal('compC'), cls: 'comp-dot-c' }
+  ];
+
+  var results = scenarios.map(function(s) {
+    var emi = emiFlat(financed, s.rate, tenure, balloon);
+    var totalPay = emi * tenure + balloon;
+    var totalInt = totalPay - financed;
+    var apr = flatToReducingAPR(s.rate, financed, tenure, balloon);
+    return { label: s.label, rate: s.rate, emi: emi, totalPay: totalPay, totalInt: totalInt, apr: apr };
+  });
+
+  var validResults = results.filter(function(r) { return isFinite(r.totalInt); });
+  if (validResults.length === 0) return;
+
+  var best = validResults.reduce(function(a, b) { return a.totalInt < b.totalInt ? a : b; });
+  var worst = validResults.reduce(function(a, b) { return a.totalInt > b.totalInt ? a : b; });
+
+  var html = results.map(function(r) {
+    var isBest = r.label === best.label;
+    var isWorst = r.label === worst.label && r.label !== best.label;
+    var diff = r.totalInt - best.totalInt;
+    var diffStr = diff < 0.01
+      ? '<span style="color:var(--green);font-weight:700;">Best &#9733;</span>'
+      : '<span style="color:var(--red);">+' + fmtAED(diff) + '</span>';
+    return '<tr class="' + (isBest ? 'best-row' : isWorst ? 'worst-row' : '') + '">' +
+      '<td><strong>Scenario ' + r.label + '</strong></td>' +
+      '<td>' + fmtPct(r.rate, 2) + ' flat</td>' +
+      '<td class="big">' + fmtAED(r.emi) + '</td>' +
+      '<td>' + fmtAED(r.totalInt) + '</td>' +
+      '<td>' + fmtAED(r.totalPay) + '</td>' +
+      '<td class="apr-col">' + fmtPct(r.apr, 2) + '</td>' +
+      '<td>' + diffStr + '</td>' +
+      '</tr>';
+  }).join('');
+
+  document.getElementById('compTableBody').innerHTML = html;
+}
+
+// ============================================================
+// AMORTIZATION TABLE RENDER
+// ============================================================
+function renderAmortTable() {
+  var financed = _calc.financed;
+  var reducingAPR = _calc.reducingAPR;
+  var tenure = _calc.tenure;
+  var balloon = _calc.balloon || 0;
+
+  if (!financed || financed <= 0) return;
+
+  var schedule = buildAmortSchedule(financed, reducingAPR, tenure, balloon, S.extraPayments);
+  var rows = schedule.rows;
+  var baseEMI = schedule.baseEMI;
+  var interestSaved = schedule.interestSaved;
+  var actualPayoffMonth = schedule.actualPayoffMonth;
+
+  // Summary bar
+  document.getElementById('amortBaseEMI').textContent = fmtAED(baseEMI);
+  document.getElementById('amortInterestSaved').textContent = fmtAED(interestSaved);
+  document.getElementById('amortPayoffMonth').textContent = actualPayoffMonth + ' of ' + tenure;
+  var totalExtra = Object.values(S.extraPayments).reduce(function(a, b) { return a + b; }, 0);
+  document.getElementById('amortTotalExtra').textContent = fmtAED(totalExtra);
+
+  // Find milestone months
+  var milestones = {};
+  var cumPrin = 0;
+  var ms25 = financed * 0.25, ms50 = financed * 0.50, ms75 = financed * 0.75;
+  var hit25 = false, hit50 = false, hit75 = false;
+
+  rows.forEach(function(r) {
+    if (!r.isBalloon) {
+      cumPrin += r.principal + r.extra;
+      if (!hit25 && cumPrin >= ms25) { milestones[r.month] = '25'; hit25 = true; }
+      else if (!hit50 && cumPrin >= ms50) { milestones[r.month] = '50'; hit50 = true; }
+      else if (!hit75 && cumPrin >= ms75) { milestones[r.month] = '75'; hit75 = true; }
+    }
+  });
+
+  // Mark payoff row
+  if (actualPayoffMonth < tenure) {
+    var key = actualPayoffMonth;
+    milestones[key] = (milestones[key] ? milestones[key] + '_' : '') + 'payoff';
+  }
+
+  var totalEMI = 0, totalInt = 0, totalPrin = 0, totalExtr = 0;
+  var html = '';
+
+  rows.forEach(function(r) {
+    totalEMI += r.emi;
+    totalInt += r.interest;
+    totalPrin += r.principal;
+    totalExtr += r.extra;
+
+    var balPct = financed > 0 ? Math.min(100, r.balance / financed * 100) : 0;
+    var ms = milestones[r.month] || '';
+    var isPayoff = ms.indexOf('payoff') >= 0;
+    var isBalloon = r.isBalloon;
+
+    var rowClass = '';
+    var msLabel = '';
+    if (isBalloon) {
+      rowClass = 'ms-balloon';
+      msLabel = '<span class="ms-label msballoon">Balloon</span>';
+    } else if (isPayoff) {
+      rowClass = 'ms-payoff';
+      msLabel = '<span class="ms-label mspayoff">Payoff</span>';
+    } else if (ms === '75' || ms.indexOf('75') >= 0) {
+      rowClass = 'ms-75';
+      msLabel = '<span class="ms-label ms75">75%</span>';
+    } else if (ms === '50' || ms.indexOf('50') >= 0) {
+      rowClass = 'ms-50';
+      msLabel = '<span class="ms-label ms50">50%</span>';
+    } else if (ms === '25' || ms.indexOf('25') >= 0) {
+      rowClass = 'ms-25';
+      msLabel = '<span class="ms-label ms25">25%</span>';
+    }
+
+    var extraVal = S.extraPayments[r.month] ? S.extraPayments[r.month] : '';
+    var extraCell = isBalloon
+      ? '<td>—</td>'
+      : '<td><input class="extra-input" type="number" min="0" step="100" value="' + extraVal + '" placeholder="0" onchange="onExtraRowChange(' + r.month + ', this.value)"></td>';
+
+    html += '<tr class="' + rowClass + '">' +
+      '<td>' + r.month + msLabel + '</td>' +
+      '<td>' + fmtAED(r.emi, 0) + '</td>' +
+      '<td>' + fmtAED(r.interest, 0) + '</td>' +
+      '<td>' + fmtAED(r.principal, 0) + '</td>' +
+      extraCell +
+      '<td>' + fmtAED(r.balance, 0) +
+      '<span class="mini-balance-bar"><span class="mini-balance-fill" style="width:' + balPct.toFixed(1) + '%"></span></span>' +
+      '</td></tr>';
+  });
+
+  // Footer totals
+  html += '<tr class="footer-row">' +
+    '<td>TOTAL</td>' +
+    '<td>' + fmtAED(totalEMI, 0) + '</td>' +
+    '<td>' + fmtAED(totalInt, 0) + '</td>' +
+    '<td>' + fmtAED(totalPrin, 0) + '</td>' +
+    '<td>' + fmtAED(totalExtr, 0) + '</td>' +
+    '<td>AED 0</td></tr>';
+
+  document.getElementById('amortTableBody').innerHTML = html;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', function() {
+  recalc();
 });
 </script>
 </body>
