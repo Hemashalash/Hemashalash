@@ -337,22 +337,24 @@ Do NOT include option letters inside the options array strings.`;
     const data = await res.json();
     const raw  = data.choices?.[0]?.message?.content || "";
 
-    const parsed = extractJSON(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("AI returned empty result.");
-
+    const parsed    = extractJSON(raw);
     const normalised = parsed.map(q => normaliseQ(q, meta));
 
-    if (isRegenSingle) {
+    if (replaceIdx >= 0) {
+      // Replace a specific question (regen single)
       questions[replaceIdx] = normalised[0];
-      setLoading(false);
-      renderPreview();
+    } else if (singleType !== null) {
+      // Append a new question (add question)
+      questions.push(normalised[0]);
+      previewCard.classList.remove("hidden");
     } else {
+      // Full generation — replace everything
       questions = normalised;
-      setLoading(false);
-      renderPreview();
       previewCard.classList.remove("hidden");
       previewCard.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+    setLoading(false);
+    renderPreview();
 
   } catch (err) {
     clearTimeout(timer);
@@ -552,18 +554,11 @@ function deleteQuestion(idx) {
 
 // ── Add Question ──────────────────────────────────────
 async function handleAddQuestion() {
-  if (!savedKey) return showError("API key required to add questions.");
-  if (!lastMeta.subject) return showError("Generate a test first before adding questions.");
-
-  // Add a short answer by default
-  await callGroq(lastMeta, "short_answer", -2); // -2 = append mode handled below
+  if (!savedKey)          return showError("API key required to add questions.");
+  if (!lastMeta.subject)  return showError("Generate a test first before adding questions.");
+  // replaceIdx = -1 with a singleType → append mode in callGroq
+  await callGroq(lastMeta, "short_answer", -1);
 }
-
-// Override: append mode
-const _callGroq = callGroq;
-Object.defineProperty(window, "_callGroqAppend", { value: async (meta) => {
-  // Wrapped via handleAddQuestion — handled inline by checking replaceIdx = -2
-}});
 
 // ── Print ─────────────────────────────────────────────
 function handlePrint() {
