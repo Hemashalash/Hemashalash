@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vehicle Credit Facility — Al Fahim Group</title>
+<style>
+  :root{
+    --navy:#0D2137;
+    --navy2:#13304f;
+    --section:#1a3a6b;
+    --accent:#0e7490;
+    --ok:#16a34a;
+    --warn:#ea580c;
+    --err:#dc2626;
+    --line:#d1d8e0;
+    --bg:#f0f2f5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:#1f2937;
+    font-size:13px;
+    line-height:1.45;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 0 60px;}
+
+  /* ===== Header ===== */
+  header.afg{
+    background:var(--navy);
+    color:#fff;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  header.afg .brand h1{margin:0;font-size:20px;letter-spacing:.5px;}
+  header.afg .brand p{margin:2px 0 0;font-size:11px;color:#9fb3c8;}
+  header.afg .logos{display:flex;align-items:center;gap:18px;}
+  header.afg .logos svg{display:block;}
+  .doc-title{
+    background:var(--navy2);
+    color:#fff;
+    text-align:center;
+    padding:10px;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border-bottom:3px solid var(--accent);
+  }
+
+  /* ===== Action bar ===== */
+  .actionbar{
+    position:sticky;top:0;z-index:50;
+    background:#fff;border-bottom:1px solid var(--line);
+    padding:10px 16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+  }
+  .actionbar button{
+    border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:600;
+    cursor:pointer;color:#fff;background:var(--accent);transition:.15s;
+  }
+  .actionbar button:hover{filter:brightness(1.08);}
+  .actionbar button.secondary{background:#475569;}
+  .actionbar button.warn{background:var(--warn);}
+  .actionbar button.print{background:var(--navy);}
+
+  /* ===== Sections ===== */
+  section.block{background:#fff;margin:16px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .sec-title{background:var(--section);color:#fff;padding:9px 14px;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+  .sec-body{padding:14px;}
+
+  .grid{display:grid;gap:12px;}
+  .g2{grid-template-columns:1fr 1fr;}
+  .g3{grid-template-columns:1fr 1fr 1fr;}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+  .field{display:flex;flex-direction:column;gap:3px;}
+  .field label{font-size:11px;font-weight:600;color:#334155;}
+  .field .hint{font-size:10px;color:#64748b;}
+  input,select,textarea{
+    font-family:inherit;font-size:13px;padding:7px 8px;border:1px solid var(--line);
+    border-radius:5px;background:#fff;color:#1f2937;width:100%;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(14,116,144,.15);}
+  textarea{resize:vertical;min-height:60px;}
+  input[type=range]{padding:0;height:6px;-webkit-appearance:none;appearance:none;background:#e2e8f0;border-radius:4px;border:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:16px;width:16px;border-radius:50%;background:var(--accent);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;}
+  .readonly-field{background:#eef2f7;color:#0f172a;font-weight:600;}
+  input.ok,select.ok{border-color:var(--ok);}
+  input.warn,select.warn{border-color:var(--warn);}
+  input.error,select.error{border-color:var(--err);}
+
+  /* toggles */
+  .toggle{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;}
+  .toggle button{border:none;background:#fff;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;}
+  .toggle button.active{background:var(--accent);color:#fff;}
+
+  .pills{display:flex;gap:6px;flex-wrap:wrap;}
+  .pills button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;color:#475569;}
+  .pills button.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  /* cards */
+  .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+  .card h4{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);border-bottom:1px solid var(--line);padding-bottom:6px;}
+
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
+  th{background:#eef2f7;font-weight:700;color:#334155;}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+
+  /* finance summary */
+  .emi-display{text-align:center;padding:12px;background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:8px;}
+  .emi-display .lbl{font-size:11px;color:#9fb3c8;text-transform:uppercase;letter-spacing:1px;}
+  .emi-display .val{font-size:34px;font-weight:700;margin-top:4px;}
+  .emi-display .sub{font-size:11px;color:#cbd5e1;margin-top:2px;}
+
+  .pi-bar{display:flex;height:26px;border-radius:6px;overflow:hidden;margin:12px 0;font-size:11px;color:#fff;font-weight:600;}
+  .pi-bar .p{background:var(--accent);display:flex;align-items:center;justify-content:center;}
+  .pi-bar .i{background:var(--warn);display:flex;align-items:center;justify-content:center;}
+
+  .statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .statgrid .s{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center;}
+  .statgrid .s .l{font-size:10px;color:#64748b;text-transform:uppercase;}
+  .statgrid .s .v{font-size:15px;font-weight:700;color:var(--navy);margin-top:2px;}
+  @media(max-width:760px){.statgrid{grid-template-columns:1fr 1fr;}}
+
+  .minigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;}
+  .minigrid .s{background:#fff;border:1px dashed var(--line);border-radius:6px;padding:7px;text-align:center;}
+  .minigrid .s .l{font-size:10px;color:#64748b;}
+  .minigrid .s .v{font-size:13px;font-weight:700;color:#0f172a;}
+  @media(max-width:760px){.minigrid{grid-template-columns:1fr 1fr;}}
+
+  /* LTV bar */
+  .ltv-wrap{margin-top:10px;}
+  .ltv-track{height:22px;background:#e2e8f0;border-radius:6px;overflow:hidden;position:relative;}
+  .ltv-fill{height:100%;width:0;transition:width .3s,background .3s;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-size:11px;font-weight:700;}
+
+  /* compliance */
+  .comp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .comp{border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center;}
+  .comp .l{font-size:10px;color:#64748b;text-transform:uppercase;}
+  .comp .v{font-size:13px;font-weight:700;margin:3px 0;}
+  .comp .badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+  .comp.pass{background:#f0fdf4;border-color:#bbf7d0;}
+  .comp.pass .badge{background:var(--ok);color:#fff;}
+  .comp.fail{background:#fef2f2;border-color:#fecaca;}
+  .comp.fail .badge{background:var(--err);color:#fff;}
+  @media(max-width:760px){.comp-grid{grid-template-columns:1fr 1fr;}}
+
+  /* dual rate panel */
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .dual .col{border:1px solid var(--line);border-radius:8px;padding:12px;}
+  .dual .col.primary{border-color:var(--accent);box-shadow:0 0 0 2px rgba(14,116,144,.12);}
+  .dual .col h5{margin:0 0 8px;font-size:12px;color:var(--navy);text-transform:uppercase;}
+  .dual .row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #e2e8f0;font-size:12px;}
+  .dual .row b{color:#0f172a;}
+  @media(max-width:760px){.dual{grid-template-columns:1fr;}}
+
+  .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;}
+  .kpi{background:var(--navy);color:#fff;border-radius:6px;padding:9px;text-align:center;}
+  .kpi .l{font-size:10px;color:#9fb3c8;text-transform:uppercase;}
+  .kpi .v{font-size:15px;font-weight:700;}
+  @media(max-width:760px){.kpi-strip{grid-template-columns:1fr 1fr;}}
+
+  /* market rates */
+  .eibor-boxes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+  .eibor{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px;text-align:center;}
+  .eibor .l{font-size:10px;color:#64748b;}
+  .eibor .v{font-size:16px;font-weight:700;color:var(--accent);}
+  @media(max-width:760px){.eibor-boxes{grid-template-columns:1fr 1fr;}}
+  .apply-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;}
+
+  /* payment method cards */
+  .pm-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.pm-cards{grid-template-columns:1fr;}}
+
+  /* signatures */
+  .sigs{display:grid;gap:14px;}
+  .sig-box{border:1px solid var(--line);border-radius:6px;padding:10px;}
+  .sig-box .ln{border-bottom:1px solid #94a3b8;height:34px;margin-bottom:6px;}
+  .sig-box .role{font-size:11px;font-weight:700;color:var(--navy);}
+  .sig-box .meta{display:flex;gap:8px;margin-top:6px;}
+  .sig-box .meta input{font-size:11px;padding:4px;}
+
+  .note{font-size:11px;color:#64748b;font-style:italic;}
+  .amort-controls{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;}
+  tr.milestone{background:#fef9c3;}
+  tr.milestone.payoff{background:#dcfce7;}
+  tr.milestone.balloon{background:#fee2e2;}
+  .amort-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+  .amort-summary .s{background:var(--navy);color:#fff;border-radius:6px;padding:8px;text-align:center;}
+  .amort-summary .s .l{font-size:10px;color:#9fb3c8;}
+  .amort-summary .s .v{font-size:14px;font-weight:700;}
+  @media(max-width:760px){.amort-summary{grid-template-columns:1fr 1fr;}}
+  .amort-scroll{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:6px;}
+  .amort-scroll td input{padding:3px 5px;font-size:11px;text-align:right;}
+
+  @media print{
+    body{background:#fff;font-size:11px;}
+    .actionbar,.no-print,#sec-market,.amort-controls,.pills,input[type=range],.apply-btn{display:none !important;}
+    .amort-scroll{max-height:none;overflow:visible;border:none;}
+    section.block{break-inside:avoid;box-shadow:none;border:1px solid #999;}
+    header.afg{background:#0D2137 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sec-title,.emi-display,.kpi,.amort-summary .s{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .wrap{max-width:none;}
+    @page{size:A4;margin:12mm;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="afg">
+  <div class="brand">
+    <h1>AL FAHIM GROUP</h1>
+    <p>Finance Department — Corporate Vehicle Credit Facility</p>
+  </div>
+  <div class="logos">
+    <!-- Mercedes-Benz -->
+    <svg width="40" height="40" viewBox="0 0 100 100" aria-label="Mercedes-Benz">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="4"/>
+      <path d="M50 50 L50 6 M50 50 L12 72 M50 50 L88 72" stroke="#fff" stroke-width="4" fill="none"/>
+    </svg>
+    <!-- Jeep -->
+    <svg width="80" height="34" viewBox="0 0 200 80" aria-label="Jeep">
+      <text x="0" y="58" font-family="Arial Black,Arial" font-size="56" font-weight="900" fill="#fff" letter-spacing="2">Jeep</text>
+    </svg>
+    <!-- SANY -->
+    <svg width="80" height="34" viewBox="0 0 200 80" aria-label="SANY">
+      <rect x="2" y="18" width="46" height="44" rx="6" fill="#e2231a"/>
+      <text x="56" y="52" font-family="Arial Black,Arial" font-size="38" font-weight="900" fill="#fff">SANY</text>
+    </svg>
+  </div>
+</header>
+<div class="doc-title">Vehicle Credit Facility Approval Form</div>
+
+<div class="actionbar">
+  <button onclick="saveForm()">Save for Later</button>
+  <button class="secondary" onclick="loadExample()">Load Example</button>
+  <button class="warn" onclick="resetForm()">Start Over</button>
+  <button class="print" onclick="window.print()">Print</button>
+</div>
+
+<!-- ============ SECTION 1 — COMPANY ============ -->
+<section class="block">
+  <div class="sec-title">Section 1 — Company / Customer Details</div>
+  <div class="sec-body grid g3">
+    <div class="field"><label>Company / Customer Name</label><input id="companyName" type="text"></div>
+    <div class="field"><label>Company Type</label>
+      <select id="companyType" onchange="recalc()">
+        <option value="private">Private Corporate</option>
+        <option value="semigov">Semi-Government</option>
+        <option value="gov">Government</option>
+      </select>
+    </div>
+    <div class="field"><label>MK Number</label><input id="mkNumber" type="text"></div>
+    <div class="field"><label>Trade License No.</label><input id="tradeLicense" type="text"></div>
+    <div class="field"><label>License Expiry</label><input id="licenseExpiry" type="date"></div>
+    <div class="field"><label>Establishment Date</label><input id="estDate" type="date"></div>
+    <div class="field"><label>Authorized Person</label><input id="authPerson" type="text"></div>
+    <div class="field"><label>Mobile</label><input id="mobile" type="text"></div>
+    <div class="field"><label>Emirates ID</label><input id="emiratesId" type="text"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 — VEHICLE ============ -->
+<section class="block">
+  <div class="sec-title">Section 2 — Vehicle Details</div>
+  <div class="sec-body">
+    <div class="field" style="margin-bottom:12px;">
+      <label>Vehicle Condition</label>
+      <div class="toggle" id="vehTypeToggle">
+        <button type="button" class="active" data-vt="new" onclick="setVehicleType('new')">New Vehicle</button>
+        <button type="button" data-vt="used" onclick="setVehicleType('used')">Used Vehicle</button>
+      </div>
+      <span class="hint" id="vehTypeHint">New: max LTV 80%, max tenure 60 months</span>
+    </div>
+    <div class="grid g3">
+      <div class="field"><label>VSB Number</label><input id="vsb" type="text"></div>
+      <div class="field"><label>Sales Date</label><input id="salesDate" type="date"></div>
+      <div class="field"><label>Type / Model</label><input id="vehModel" type="text" placeholder="e.g. Mercedes-Benz GLE 350"></div>
+      <div class="field" style="grid-column:1/-1;"><label>Purpose</label><input id="purpose" type="text" placeholder="e.g. Company fleet / executive use"></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px;">
+      <div class="field"><label>Vehicle Base Price (Excl. VAT) — AED</label><input id="basePrice" type="number" min="0" step="1000" value="0" oninput="recalc()"></div>
+      <div class="field"><label>VAT (5%)</label><input id="vatAmount" class="readonly-field" readonly></div>
+      <div class="field"><label>On-Road Total (Incl. VAT)</label><input id="onRoadTotal" class="readonly-field" readonly></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 — FINANCE TERMS & SUMMARY ============ -->
+<section class="block">
+  <div class="sec-title">Section 3 — Finance Terms &amp; Summary</div>
+  <div class="sec-body">
+
+    <!-- Down payment -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Down Payment</h4>
+      <div class="grid g4">
+        <div class="field"><label>Down Payment %</label><input id="dpPct" type="number" min="0" max="100" step="0.5" value="0" oninput="onDpPct()"></div>
+        <div class="field"><label>Down Payment (AED)</label><input id="dpAed" type="number" min="0" step="1000" oninput="onDpAed()"></div>
+        <div class="field" style="grid-column:1/3;"><label>DP Slider</label><input id="dpSlider" type="range" min="0" max="100" step="0.5" value="0" oninput="onDpSlider()"></div>
+        <div class="field"><label>DP Due Date</label><input id="dpDueDate" type="date"></div>
+        <div class="field" style="grid-column:2/-1;display:flex;align-items:flex-end;"><span class="hint" id="dpHint"></span></div>
+      </div>
+    </div>
+
+    <!-- Balloon -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Balloon / Residual Payment (Optional — PCP, max 30%)</h4>
+      <div class="grid g4">
+        <div class="field"><label>Balloon %</label><input id="balloonPct" type="number" min="0" max="30" step="0.5" value="0" oninput="onBalloonPct()"></div>
+        <div class="field"><label>Balloon (AED)</label><input id="balloonAed" type="number" min="0" step="1000" value="0" oninput="onBalloonAed()"></div>
+        <div class="field" style="grid-column:3/-1;display:flex;align-items:flex-end;"><span class="hint">Final lump-sum due at end of term. Reduces monthly EMI.</span></div>
+      </div>
+    </div>
+
+    <!-- Additional costs -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Additional Costs</h4>
+      <div class="grid g4">
+        <div class="field"><label>Processing Fee (AED)</label><input id="procFeeAed" type="number" min="0" step="100" value="0" oninput="syncProcFromAED()"></div>
+        <div class="field"><label>Processing Fee (% of financed)</label><input id="procFeePct" type="number" min="0" step="0.05" value="0" oninput="syncProcFromPct()"></div>
+        <div class="field"><label>Insurance Rate (% p.a.)</label><input id="insRate" type="number" min="0" step="0.05" value="2.5" oninput="recalc()"></div>
+        <div class="field"><label>Registration &amp; Plates (AED)</label><input id="regFee" type="number" min="0" step="50" value="0" oninput="recalc()"></div>
+      </div>
+    </div>
+
+    <!-- Price breakdown -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Price Breakdown</h4>
+      <table>
+        <tr><th>Vehicle Base Price (Excl. VAT)</th><td class="num" id="bd_base">AED 0</td></tr>
+        <tr><th>Down Payment</th><td class="num" id="bd_dp">AED 0</td></tr>
+        <tr><th>VAT (5%, paid upfront)</th><td class="num" id="bd_vat">AED 0</td></tr>
+        <tr><th>Total Upfront (DP + VAT + fees)</th><td class="num" id="bd_upfront">AED 0</td></tr>
+        <tr><th>Finance Amount</th><td class="num" id="bd_finance"><b>AED 0</b></td></tr>
+      </table>
+    </div>
+
+    <!-- Finance inputs -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Finance Period &amp; Rate</h4>
+      <div class="grid g3">
+        <div class="field"><label>Period (months)</label><input id="months" type="number" min="1" max="84" step="1" value="0" oninput="recalc()"></div>
+        <div class="field"><label>Tenure</label><input id="tenureDisplay" class="readonly-field" readonly></div>
+        <div class="field"><label>Quick Select</label>
+          <div class="pills" id="durPills">
+            <button type="button" data-m="12" onclick="setMonths(12)">12m</button>
+            <button type="button" data-m="24" onclick="setMonths(24)">24m</button>
+            <button type="button" data-m="36" onclick="setMonths(36)">36m</button>
+            <button type="button" data-m="48" onclick="setMonths(48)">48m</button>
+            <button type="button" data-m="60" onclick="setMonths(60)">60m</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid g3" style="margin-top:12px;">
+        <div class="field">
+          <label>Rate Type</label>
+          <div class="toggle" id="rateTypeToggle">
+            <button type="button" class="active" data-rt="reducing" onclick="setRateType('reducing')">Reducing Balance</button>
+            <button type="button" data-rt="flat" onclick="setRateType('flat')">Flat Rate</button>
+          </div>
+        </div>
+        <div class="field"><label>Rate (% p.a.)</label><input id="rate" type="number" min="0" max="30" step="0.05" value="0" oninput="onRateInput()"></div>
+        <div class="field"><label>Rate Equivalent</label><input id="rateEquiv" class="readonly-field" readonly></div>
+        <div class="field" style="grid-column:1/-1;"><label>Rate Slider</label><input id="rateSlider" type="range" min="0" max="20" step="0.05" value="0" oninput="onRateSlider()"></div>
+      </div>
+    </div>
+
+    <!-- Finance summary -->
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Finance Summary</h4>
+      <div class="emi-display">
+        <div class="lbl">Estimated Monthly Installment (EMI)</div>
+        <div class="val" id="sumEmi">AED 0</div>
+        <div class="sub" id="sumEmiSub">Based on primary rate basis</div>
+      </div>
+      <div class="pi-bar">
+        <div class="p" id="piPrincipal" style="width:70%;">Principal</div>
+        <div class="i" id="piInterest" style="width:30%;">Interest</div>
+      </div>
+      <div class="statgrid">
+        <div class="s"><div class="l">Total Interest</div><div class="v" id="stTotInt">AED 0</div></div>
+        <div class="s"><div class="l">Total Finance Cost</div><div class="v" id="stFinCost">AED 0</div></div>
+        <div class="s"><div class="l">Effective APR</div><div class="v" id="stApr">0%</div></div>
+        <div class="s"><div class="l">Total Repayment</div><div class="v" id="stRepay">AED 0</div></div>
+      </div>
+      <div class="minigrid">
+        <div class="s"><div class="l">Total Vehicle Cost</div><div class="v" id="mgVehCost">AED 0</div></div>
+        <div class="s"><div class="l">1st Year Total</div><div class="v" id="mgYr1">AED 0</div></div>
+        <div class="s"><div class="l">Early Settlement Fee</div><div class="v" id="mgEarly">AED 0</div></div>
+        <div class="s"><div class="l">Monthly Insurance</div><div class="v" id="mgInsM">AED 0</div></div>
+      </div>
+    </div>
+
+    <!-- LTV + compliance -->
+    <div class="card">
+      <h4>Loan-to-Value &amp; UAE Central Bank Compliance</h4>
+      <div class="ltv-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;">
+          <span>LTV (Finance / Base Price)</span><span id="ltvLabel">0%</span>
+        </div>
+        <div class="ltv-track"><div class="ltv-fill" id="ltvFill"></div></div>
+      </div>
+      <div class="comp-grid" style="margin-top:12px;">
+        <div class="comp" id="cLtv"><div class="l">LTV</div><div class="v" id="cLtvV">0%</div><span class="badge">—</span></div>
+        <div class="comp" id="cDp"><div class="l">Min Down Pmt</div><div class="v" id="cDpV">0%</div><span class="badge">—</span></div>
+        <div class="comp" id="cTenure"><div class="l">Tenure</div><div class="v" id="cTenureV">0m</div><span class="badge">—</span></div>
+        <div class="comp" id="cBalloon"><div class="l">Balloon</div><div class="v" id="cBalloonV">0%</div><span class="badge">—</span></div>
+        <div class="comp" id="cSalary"><div class="l">Recommended Salary</div><div class="v" id="cSalaryV">AED 0</div><span class="badge">INFO</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ SECTION 4 — PAYMENT METHOD ============ -->
+<section class="block">
+  <div class="sec-title">Section 4 — Payment Method</div>
+  <div class="sec-body pm-cards">
+    <div class="card">
+      <h4>Post-Dated Cheques (PDC)</h4>
+      <div class="grid g2">
+        <div class="field"><label>Number of PDCs</label><input id="pdcCount" type="number" min="0" max="84" value="0" oninput="buildPdcTable()"></div>
+        <div class="field"><label>Bank Name</label><input id="pdcBank" type="text"></div>
+      </div>
+      <table id="pdcTable" style="margin-top:10px;">
+        <thead><tr><th>#</th><th>Cheque No.</th><th>Date</th><th class="num">Amount (AED)</th></tr></thead>
+        <tbody id="pdcBody"><tr><td colspan="4" class="note">Enter number of PDCs above to generate schedule.</td></tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h4>Local Purchase Order (LPO)</h4>
+      <div class="grid g2">
+        <div class="field"><label>LPO Number</label><input id="lpoNumber" type="text"></div>
+        <div class="field"><label>LPO Date</label><input id="lpoDate" type="date"></div>
+        <div class="field"><label>Issuing Authority</label><input id="lpoAuthority" type="text"></div>
+        <div class="field"><label>LPO Amount (AED)</label><input id="lpoAmount" type="number" min="0"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Bank Transfer</h4>
+      <div class="grid g2">
+        <div class="field"><label>Bank Name</label><input id="btBank" type="text"></div>
+        <div class="field"><label>Account Number / IBAN</label><input id="btIban" type="text"></div>
+        <div class="field"><label>Transfer Reference</label><input id="btRef" type="text"></div>
+        <div class="field"><label>Transfer Amount (AED)</label><input id="btAmount" type="number" min="0"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Other Arrangements</h4>
+      <div class="field"><label>Details</label><textarea id="otherPayment" placeholder="Describe any other payment arrangement"></textarea></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 — FINANCE STRUCTURE & RATE COMPARISON ============ -->
+<section class="block">
+  <div class="sec-title">Section 5 — Finance Structure &amp; Rate Comparison</div>
+  <div class="sec-body">
+    <div class="dual" id="dualPanel">
+      <div class="col" id="colReducing">
+        <h5>Reducing Balance</h5>
+        <div class="row"><span>Rate (p.a.)</span><b id="drRate">0%</b></div>
+        <div class="row"><span>Monthly EMI</span><b id="drEmi">AED 0</b></div>
+        <div class="row"><span>Total Interest</span><b id="drInt">AED 0</b></div>
+        <div class="row"><span>Total Repayment</span><b id="drRepay">AED 0</b></div>
+        <div class="row"><span>Effective APR</span><b id="drApr">0%</b></div>
+      </div>
+      <div class="col" id="colFlat">
+        <h5>Flat Rate</h5>
+        <div class="row"><span>Rate (p.a.)</span><b id="dfRate">0%</b></div>
+        <div class="row"><span>Monthly EMI</span><b id="dfEmi">AED 0</b></div>
+        <div class="row"><span>Total Interest</span><b id="dfInt">AED 0</b></div>
+        <div class="row"><span>Total Repayment</span><b id="dfRepay">AED 0</b></div>
+        <div class="row"><span>Equivalent Reducing APR</span><b id="dfApr">0%</b></div>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi"><div class="l">Finance Amount</div><div class="v" id="kpiFin">AED 0</div></div>
+      <div class="kpi"><div class="l">Primary EMI</div><div class="v" id="kpiEmi">AED 0</div></div>
+      <div class="kpi"><div class="l">Tenure</div><div class="v" id="kpiTenure">0m</div></div>
+      <div class="kpi"><div class="l">Primary Total Cost</div><div class="v" id="kpiCost">AED 0</div></div>
+    </div>
+
+    <h4 style="margin:18px 0 8px;font-size:12px;color:var(--navy);">Rate Comparison — 3 Configurable Flat-Rate Scenarios</h4>
+    <table id="rateComp">
+      <thead>
+        <tr><th>Scenario</th><th>Flat Rate (%)</th><th class="num">Equiv. Reducing APR</th><th class="num">Monthly EMI</th><th class="num">Total Interest</th><th class="num">Total Repayment</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A</td>
+          <td><input class="scenRate" data-i="0" type="number" step="0.05" value="3.99" oninput="renderRateComp()" style="width:90px;"></td>
+          <td class="num" id="sc0apr">0%</td><td class="num" id="sc0emi">AED 0</td><td class="num" id="sc0int">AED 0</td><td class="num" id="sc0rep">AED 0</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td><input class="scenRate" data-i="1" type="number" step="0.05" value="4.99" oninput="renderRateComp()" style="width:90px;"></td>
+          <td class="num" id="sc1apr">0%</td><td class="num" id="sc1emi">AED 0</td><td class="num" id="sc1int">AED 0</td><td class="num" id="sc1rep">AED 0</td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td><input class="scenRate" data-i="2" type="number" step="0.05" value="5.99" oninput="renderRateComp()" style="width:90px;"></td>
+          <td class="num" id="sc2apr">0%</td><td class="num" id="sc2emi">AED 0</td><td class="num" id="sc2int">AED 0</td><td class="num" id="sc2rep">AED 0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ SECTION 6 — UAE MARKET RATES ============ -->
+<section class="block" id="sec-market">
+  <div class="sec-title">Section 6 — UAE Market Rates (Reference)</div>
+  <div class="sec-body">
+    <div class="eibor-boxes">
+      <div class="eibor"><div class="l">1-Month EIBOR</div><div class="v">4.15%</div></div>
+      <div class="eibor"><div class="l">3-Month EIBOR</div><div class="v">4.32%</div></div>
+      <div class="eibor"><div class="l">6-Month EIBOR</div><div class="v">4.48%</div></div>
+      <div class="eibor"><div class="l">12-Month EIBOR</div><div class="v">4.65%</div></div>
+    </div>
+    <table id="bankTable">
+      <thead><tr><th>Bank</th><th class="num">Flat Rate (from)</th><th class="num">Reducing (from)</th><th>Action</th></tr></thead>
+      <tbody id="bankBody"></tbody>
+    </table>
+    <p class="note">Indicative market rates for comparison only. Click "Apply" to load a rate into the calculator (set as flat rate).</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 7 — AMORTIZATION ============ -->
+<section class="block">
+  <div class="sec-title">Section 7 — Amortization Schedule</div>
+  <div class="sec-body">
+    <div class="amort-controls no-print">
+      <div class="field"><label>Global Extra Payment / Month (AED)</label><input id="globalExtra" type="number" min="0" step="100" value="0" oninput="recalc()"></div>
+      <span class="note">Enter per-row extra payments directly in the table. Milestones (25% / 50% / 75% / payoff / balloon) are highlighted.</span>
+    </div>
+    <div class="amort-scroll">
+      <table id="amortTable">
+        <thead><tr><th>#</th><th class="num">EMI</th><th class="num">Principal</th><th class="num">Interest</th><th class="num">Extra</th><th class="num">Balance</th></tr></thead>
+        <tbody id="amortBody"></tbody>
+      </table>
+    </div>
+    <div class="amort-summary">
+      <div class="s"><div class="l">Base EMI</div><div class="v" id="asEmi">AED 0</div></div>
+      <div class="s"><div class="l">Interest Saved</div><div class="v" id="asSaved">AED 0</div></div>
+      <div class="s"><div class="l">Payoff Month</div><div class="v" id="asPayoff">0</div></div>
+      <div class="s"><div class="l">Total Extra Paid</div><div class="v" id="asExtra">AED 0</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 8 — MORTGAGE ============ -->
+<section class="block">
+  <div class="sec-title">Section 8 — Mortgage / Security Details</div>
+  <div class="sec-body">
+    <div class="field"><label>Mortgage / Security / Collateral</label><textarea id="mortgage" placeholder="Describe mortgage registration, security, guarantees, collateral"></textarea></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 9 — SPECIAL INFO ============ -->
+<section class="block">
+  <div class="sec-title">Section 9 — Special Information</div>
+  <div class="sec-body">
+    <div class="field"><label>Special Information / Remarks</label><textarea id="specialInfo"></textarea></div>
+  </div>
+</section>
+
+<!-- ============ SALES APPROVALS ============ -->
+<section class="block">
+  <div class="sec-title">Sales Approvals</div>
+  <div class="sec-body sigs g2">
+    <div class="sig-box">
+      <div class="ln"></div><div class="role">Head of Sales</div>
+      <div class="meta"><input placeholder="Name" id="sigHosName"><input placeholder="Date" type="date" id="sigHosDate"></div>
+    </div>
+    <div class="sig-box">
+      <div class="ln"></div><div class="role">General Manager</div>
+      <div class="meta"><input placeholder="Name" id="sigGmName"><input placeholder="Date" type="date" id="sigGmDate"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CREDIT CONTROL REVIEW ============ -->
+<section class="block">
+  <div class="sec-title">Credit Control Review</div>
+  <div class="sec-body">
+    <div class="card" style="margin-bottom:14px;">
+      <h4>Deal Summary (auto-calculated)</h4>
+      <div class="grid g4">
+        <div class="field"><label>Finance Amount</label><input id="dsFinance" class="readonly-field" readonly></div>
+        <div class="field"><label>Monthly EMI</label><input id="dsEmi" class="readonly-field" readonly></div>
+        <div class="field"><label>Annual Debt Service</label><input id="dsAnnualDs" class="readonly-field" readonly></div>
+        <div class="field"><label>LTV</label><input id="dsLtv" class="readonly-field" readonly></div>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="field"><label>Annual Turnover (AED)</label><input id="annualTurnover" type="number" min="0" oninput="recalc()"></div>
+      <div class="field"><label>Net Operating Income (AED)</label><input id="netOpIncome" type="number" min="0" oninput="recalc()"></div>
+      <div class="field"><label>Existing Debt Service (AED/yr)</label><input id="existingDebt" type="number" min="0" oninput="recalc()"></div>
+      <div class="field"><label>Existing Facilities (AED)</label><input id="existingFacilities" type="number" min="0"></div>
+      <div class="field"><label>DSCR (auto)</label><input id="dscr" class="readonly-field" readonly></div>
+      <div class="field"><label>GP % (auto)</label><input id="gpPct" class="readonly-field" readonly></div>
+    </div>
+    <div class="grid g3" style="margin-top:12px;">
+      <div class="field"><label>Cost of Goods Sold (AED)</label><input id="cogs" type="number" min="0" oninput="recalc()"></div>
+      <div class="field"><label>Finance Cost % (auto, of turnover)</label><input id="fcPct" class="readonly-field" readonly></div>
+      <div class="field"><label>AECB Score</label><input id="aecbScore" type="number" min="300" max="900" oninput="recalc()"></div>
+      <div class="field" style="grid-column:1/-1;"><label>Credit History</label><textarea id="creditHistory"></textarea></div>
+      <div class="field" style="grid-column:1/-1;"><label>Credit Supervisor Comments</label><textarea id="csComments"></textarea></div>
+      <div class="field" style="grid-column:1/-1;"><label>Credit Control Comments</label><textarea id="ccComments"></textarea></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL APPROVALS ============ -->
+<section class="block">
+  <div class="sec-title">Final Approvals</div>
+  <div class="sec-body sigs g3">
+    <div class="sig-box"><div class="ln"></div><div class="role">Credit Supervisor</div><div class="meta"><input placeholder="Name" id="sigCsName"><input placeholder="Date" type="date" id="sigCsDate"></div></div>
+    <div class="sig-box"><div class="ln"></div><div class="role">CC Controller</div><div class="meta"><input placeholder="Name" id="sigCcName"><input placeholder="Date" type="date" id="sigCcDate"></div></div>
+    <div class="sig-box"><div class="ln"></div><div class="role">Group Finance Director</div><div class="meta"><input placeholder="Name" id="sigGfdName"><input placeholder="Date" type="date" id="sigGfdDate"></div></div>
+    <div class="sig-box"><div class="ln"></div><div class="role">CFO</div><div class="meta"><input placeholder="Name" id="sigCfoName"><input placeholder="Date" type="date" id="sigCfoDate"></div></div>
+    <div class="sig-box"><div class="ln"></div><div class="role">Chairman</div><div class="meta"><input placeholder="Name" id="sigChairName"><input placeholder="Date" type="date" id="sigChairDate"></div></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<script>
+"use strict";
+
+/* ===================== State ===================== */
+var state = {
+  vehicleType: 'new',      // 'new' | 'used'
+  rateType: 'reducing',    // entered rate basis
+  primaryRate: 'reducing', // which column drives summary
+  extraPayments: {},       // { monthIndex: amount }
+  pdcCount: 0,
+  _syncing: false
+};
+
+var BANKS = [
+  {name:'Emirates NBD', flat:3.49, red:6.45},
+  {name:'ADCB',         flat:3.75, red:6.90},
+  {name:'FAB',          flat:3.25, red:6.10},
+  {name:'Mashreq',      flat:3.99, red:7.25},
+  {name:'Dubai Islamic',flat:3.60, red:6.65},
+  {name:'ADIB',         flat:3.85, red:7.05},
+  {name:'RAKBANK',      flat:4.25, red:7.70},
+  {name:'CBD',          flat:3.70, red:6.80}
+];
+
+/* ===================== Helpers ===================== */
+function $(id){return document.getElementById(id);}
+function num(id){var e=$(id);if(!e)return 0;var v=parseFloat(e.value);return isNaN(v)?0:v;}
+function fmt(v,dp){dp=dp||0;if(!isFinite(v))v=0;return Number(v).toLocaleString('en-US',{minimumFractionDigits:dp,maximumFractionDigits:dp});}
+function fmtAED(v,dp){return 'AED '+fmt(v,dp);}
+
+/* ===================== Finance math ===================== */
+// Reducing-balance EMI (with optional balloon residual)
+function reducingEMI(P, annRate, n, balloon){
+  balloon = balloon||0;
+  var r = annRate/100/12;
+  if(n<=0) return 0;
+  if(r===0) return (P-balloon)/n;
+  var pow = Math.pow(1+r, n);
+  // EMI = (P - balloon*(1+r)^-n) * r / (1 - (1+r)^-n)
+  var emi = (P - balloon/pow) * r / (1 - 1/pow);
+  return emi;
+}
+// Flat-rate EMI
+function flatEMI(P, flatRate, n, balloon){
+  balloon = balloon||0;
+  if(n<=0) return 0;
+  var T = n/12;
+  return (P * (1 + (flatRate/100)*T) - balloon) / n;
+}
+// Total interest for reducing given EMI
+function reducingTotalInterest(P, emi, n, balloon){
+  balloon = balloon||0;
+  return emi*n + balloon - P;
+}
+// Convert flat rate -> equivalent reducing APR via Newton-Raphson on monthly IRR
+function flatToReducingAPR(P, flatRate, n, balloon){
+  balloon = balloon||0;
+  var emi = flatEMI(P, flatRate, n, balloon);
+  if(emi<=0||P<=0) return 0;
+  // Solve: P = sum_{k=1..n} emi/(1+r)^k + balloon/(1+r)^n
+  var r = 0.005; // initial guess monthly
+  for(var iter=0; iter<100; iter++){
+    var f=0, df=0;
+    for(var k=1;k<=n;k++){
+      var d=Math.pow(1+r,k);
+      f += emi/d;
+      df += -k*emi/(d*(1+r));
+    }
+    var db=Math.pow(1+r,n);
+    f += balloon/db - P;
+    df += -n*balloon/(db*(1+r));
+    if(df===0) break;
+    var rn = r - f/df;
+    if(!isFinite(rn)) break;
+    if(Math.abs(rn-r)<1e-10){r=rn;break;}
+    r=rn;
+    if(r<-0.99) r=-0.5;
+  }
+  return r*12*100;
+}
+// Convert reducing -> equivalent flat
+function reducingToFlat(P, totalInterest, n){
+  if(P<=0||n<=0) return 0;
+  return totalInterest*12/P/n*100;
+}
+
+/* ===================== Limits ===================== */
+function maxLTV(){ return state.vehicleType==='used' ? 70 : 80; }
+function maxTenure(){ return state.vehicleType==='used' ? 48 : 60; }
+function minDownPct(){
+  var t=$('companyType').value;
+  return (t==='gov'||t==='semigov') ? 10 : 20;
+}
+
+/* ===================== Toggles ===================== */
+function setVehicleType(t){
+  state.vehicleType=t;
+  var btns=$('vehTypeToggle').querySelectorAll('button');
+  btns.forEach(function(b){b.classList.toggle('active', b.getAttribute('data-vt')===t);});
+  $('vehTypeHint').textContent = t==='used'
+    ? 'Used: max LTV 70%, max tenure 48 months'
+    : 'New: max LTV 80%, max tenure 60 months';
+  recalc();
+}
+function setRateType(t){
+  state.rateType=t;
+  state.primaryRate=t;
+  var btns=$('rateTypeToggle').querySelectorAll('button');
+  btns.forEach(function(b){b.classList.toggle('active', b.getAttribute('data-rt')===t);});
+  recalc();
+}
+function setMonths(m){ $('months').value=m; recalc(); }
+
+/* ===================== Input sync ===================== */
+function basePrice(){ return num('basePrice'); }
+function onDpPct(){
+  if(state._syncing)return; state._syncing=true;
+  var p=num('dpPct');
+  $('dpAed').value = Math.round(basePrice()*p/100);
+  $('dpSlider').value = p;
+  state._syncing=false; recalc();
+}
+function onDpAed(){
+  if(state._syncing)return; state._syncing=true;
+  var bp=basePrice();
+  var p = bp>0 ? num('dpAed')/bp*100 : 0;
+  $('dpPct').value = (Math.round(p*100)/100);
+  $('dpSlider').value = Math.min(100,Math.max(0,p));
+  state._syncing=false; recalc();
+}
+function onDpSlider(){
+  if(state._syncing)return; state._syncing=true;
+  var p=num('dpSlider');
+  $('dpPct').value=p;
+  $('dpAed').value=Math.round(basePrice()*p/100);
+  state._syncing=false; recalc();
+}
+function onBalloonPct(){
+  if(state._syncing)return; state._syncing=true;
+  var p=Math.min(30,num('balloonPct')); $('balloonPct').value=p;
+  $('balloonAed').value=Math.round(basePrice()*p/100);
+  state._syncing=false; recalc();
+}
+function onBalloonAed(){
+  if(state._syncing)return; state._syncing=true;
+  var bp=basePrice();
+  var p=bp>0?num('balloonAed')/bp*100:0;
+  if(p>30){p=30;$('balloonAed').value=Math.round(bp*0.30);}
+  $('balloonPct').value=Math.round(p*100)/100;
+  state._syncing=false; recalc();
+}
+function onRateInput(){ if(state._syncing)return; state._syncing=true; $('rateSlider').value=num('rate'); state._syncing=false; recalc(); }
+function onRateSlider(){ if(state._syncing)return; state._syncing=true; $('rate').value=num('rateSlider'); state._syncing=false; recalc(); }
+var _procSync=false;
+function syncProcFromAED(){
+  if(_procSync)return; _procSync=true;
+  var finance=Math.max(0, num('basePrice')-num('dpAed'));
+  if(finance>0){ $('procFeePct').value=(num('procFeeAed')/finance*100).toFixed(3); }
+  _procSync=false; recalc();
+}
+function syncProcFromPct(){
+  if(_procSync)return; _procSync=true;
+  var finance=Math.max(0, num('basePrice')-num('dpAed'));
+  $('procFeeAed').value=Math.round(finance*num('procFeePct')/100);
+  _procSync=false; recalc();
+}
+
+/* ===================== Compliance helpers ===================== */
+function setComp(id,valId,val,pass,badgeText){
+  var box=$(id); var v=$(valId); var badge=box.querySelector('.badge');
+  v.textContent=val;
+  if(badgeText==='INFO'){ badge.textContent='INFO'; return; }
+  box.classList.toggle('pass',pass);
+  box.classList.toggle('fail',!pass);
+  badge.textContent = pass?'PASS':'FAIL';
+}
+function markField(id,cls){
+  var e=$(id); if(!e)return;
+  e.classList.remove('ok','warn','error');
+  if(cls)e.classList.add(cls);
+}
+
+/* ===================== Core compute ===================== */
+function computeCore(){
+  var bp=basePrice();
+  var vat=bp*0.05;
+  var onRoad=bp+vat;
+  var dpPct=num('dpPct');
+  var dp=bp*dpPct/100;
+  var finance=Math.max(0, bp-dp);
+  var balloon=num('balloonAed');
+  if(balloon>bp*0.30){balloon=bp*0.30;}
+  var n=Math.max(1, Math.round(num('months')));
+  var rate=num('rate');
+
+  // Reducing & Flat figures (always compute both)
+  var redEMI, redInt, flatRateVal, redRateVal;
+  if(state.rateType==='reducing'){
+    redRateVal=rate;
+    redEMI=reducingEMI(finance, rate, n, balloon);
+    redInt=reducingTotalInterest(finance, redEMI, n, balloon);
+    flatRateVal=reducingToFlat(finance, redInt, n);
+  } else {
+    flatRateVal=rate;
+    // derive equivalent reducing rate then reducing emi at that rate
+    redRateVal=flatToReducingAPR(finance, rate, n, balloon);
+    redEMI=reducingEMI(finance, redRateVal, n, balloon);
+    redInt=reducingTotalInterest(finance, redEMI, n, balloon);
+  }
+  var flatEMIv=flatEMI(finance, flatRateVal, n, balloon);
+  var flatInt=flatEMIv*n + balloon - finance;
+  var redAPR=(state.rateType==='reducing')?redRateVal:flatToReducingAPR(finance, flatRateVal, n, balloon);
+
+  var redRepay=redEMI*n+balloon;
+  var flatRepay=flatEMIv*n+balloon;
+
+  // primary = chosen rate type
+  var primEMI = state.primaryRate==='reducing'?redEMI:flatEMIv;
+  var primInt = state.primaryRate==='reducing'?redInt:flatInt;
+  var primRepay = primEMI*n+balloon;
+  var primAPR = state.primaryRate==='reducing'?redAPR:flatToReducingAPR(finance, flatRateVal, n, balloon);
+
+  // additional costs
+  var procFee = num('procFeeAed'); // AED field is kept in sync with % field
+  var insRate = num('insRate');
+  var insAnnual = onRoad*insRate/100;
+  var insMonthly = insAnnual/12;
+  var regFee = num('regFee');
+  var earlySettle = finance*0.01; // 1% UAE CB cap
+  var totalFinanceCost = primInt + procFee;
+  var totalVehicleCost = onRoad + procFee + regFee + primInt;
+  var upfront = dp + vat + procFee + regFee;
+  var yr1 = primEMI*Math.min(12,n) + upfront + insAnnual;
+
+  var ltv = bp>0 ? finance/bp*100 : 0;
+
+  return {
+    bp:bp,vat:vat,onRoad:onRoad,dpPct:dpPct,dp:dp,finance:finance,balloon:balloon,n:n,rate:rate,
+    redEMI:redEMI,redInt:redInt,redRepay:redRepay,redRate:redRateVal,redAPR:redAPR,
+    flatEMI:flatEMIv,flatInt:flatInt,flatRepay:flatRepay,flatRate:flatRateVal,
+    primEMI:primEMI,primInt:primInt,primRepay:primRepay,primAPR:primAPR,
+    procFee:procFee,insAnnual:insAnnual,insMonthly:insMonthly,regFee:regFee,
+    earlySettle:earlySettle,totalFinanceCost:totalFinanceCost,totalVehicleCost:totalVehicleCost,
+    upfront:upfront,yr1:yr1,ltv:ltv
+  };
+}
+
+/* ===================== Render ===================== */
+function recalc(){
+  var c=computeCore();
+
+  // Section 2
+  $('vatAmount').value=fmtAED(c.vat);
+  $('onRoadTotal').value=fmtAED(c.onRoad);
+
+  // DP hint
+  var minDp=minDownPct();
+  $('dpHint').textContent='Minimum down payment for this company type: '+minDp+'%';
+  markField('dpPct', c.dpPct+0.0001 < minDp ? 'error' : 'ok');
+
+  // tenure
+  $('tenureDisplay').value=(Math.floor(c.n/12))+'y '+(c.n%12)+'m';
+  // duration pills
+  $('durPills').querySelectorAll('button').forEach(function(b){
+    b.classList.toggle('active', parseInt(b.getAttribute('data-m'),10)===c.n);
+  });
+
+  // rate equiv box
+  if(state.rateType==='reducing'){
+    $('rateEquiv').value='≈ '+fmt(c.flatRate,2)+'% flat';
+  } else {
+    $('rateEquiv').value='≈ '+fmt(c.redAPR,2)+'% reducing APR';
+  }
+
+  // breakdown
+  $('bd_base').textContent=fmtAED(c.bp);
+  $('bd_dp').textContent=fmtAED(c.dp);
+  $('bd_vat').textContent=fmtAED(c.vat);
+  $('bd_upfront').textContent=fmtAED(c.upfront);
+  $('bd_finance').innerHTML='<b>'+fmtAED(c.finance)+'</b>';
+
+  // finance summary
+  $('sumEmi').textContent=fmtAED(c.primEMI,0);
+  $('sumEmiSub').textContent='Based on '+(state.primaryRate==='reducing'?'Reducing Balance':'Flat Rate')+' basis';
+  var pPct = c.primRepay>0 ? c.finance/c.primRepay*100 : 70;
+  pPct=Math.max(0,Math.min(100,pPct));
+  $('piPrincipal').style.width=pPct+'%';
+  $('piInterest').style.width=(100-pPct)+'%';
+  $('piPrincipal').textContent='Principal '+fmt(pPct,0)+'%';
+  $('piInterest').textContent='Interest '+fmt(100-pPct,0)+'%';
+  $('stTotInt').textContent=fmtAED(c.primInt);
+  $('stFinCost').textContent=fmtAED(c.totalFinanceCost);
+  $('stApr').textContent=fmt(c.primAPR,2)+'%';
+  $('stRepay').textContent=fmtAED(c.primRepay);
+  $('mgVehCost').textContent=fmtAED(c.totalVehicleCost);
+  $('mgYr1').textContent=fmtAED(c.yr1);
+  $('mgEarly').textContent=fmtAED(c.earlySettle);
+  $('mgInsM').textContent=fmtAED(c.insMonthly);
+
+  // LTV bar
+  var ltv=c.ltv;
+  var fill=$('ltvFill');
+  fill.style.width=Math.min(100,ltv)+'%';
+  var col = ltv<=70 ? 'var(--ok)' : (ltv<=80 ? 'var(--warn)' : 'var(--err)');
+  fill.style.background=col;
+  fill.textContent=fmt(ltv,1)+'%';
+  $('ltvLabel').textContent=fmt(ltv,1)+'%';
+
+  // compliance
+  var mLtv=maxLTV(), mTen=maxTenure(), mDp=minDownPct();
+  setComp('cLtv','cLtvV', fmt(ltv,1)+'% / '+mLtv+'%', ltv<=mLtv+1e-9);
+  setComp('cDp','cDpV', fmt(c.dpPct,1)+'% / '+mDp+'%', c.dpPct+1e-9>=mDp);
+  setComp('cTenure','cTenureV', c.n+'m / '+mTen+'m', c.n<=mTen);
+  var balPct = c.bp>0 ? c.balloon/c.bp*100 : 0;
+  setComp('cBalloon','cBalloonV', fmt(balPct,1)+'% / 30%', balPct<=30+1e-9);
+  var recSalary = c.primEMI/0.30; // 30% DBR guideline
+  setComp('cSalary','cSalaryV', fmtAED(recSalary), true, 'INFO');
+
+  // dual panel
+  $('drRate').textContent=fmt(c.redRate,2)+'%';
+  $('drEmi').textContent=fmtAED(c.redEMI,0);
+  $('drInt').textContent=fmtAED(c.redInt);
+  $('drRepay').textContent=fmtAED(c.redRepay);
+  $('drApr').textContent=fmt(c.redAPR,2)+'%';
+  $('dfRate').textContent=fmt(c.flatRate,2)+'%';
+  $('dfEmi').textContent=fmtAED(c.flatEMI,0);
+  $('dfInt').textContent=fmtAED(c.flatInt);
+  $('dfRepay').textContent=fmtAED(c.flatRepay);
+  $('dfApr').textContent=fmt(flatToReducingAPR(c.finance,c.flatRate,c.n,c.balloon),2)+'%';
+  $('colReducing').classList.toggle('primary', state.primaryRate==='reducing');
+  $('colFlat').classList.toggle('primary', state.primaryRate==='flat');
+
+  // kpi
+  $('kpiFin').textContent=fmtAED(c.finance);
+  $('kpiEmi').textContent=fmtAED(c.primEMI,0);
+  $('kpiTenure').textContent=c.n+'m';
+  $('kpiCost').textContent=fmtAED(c.totalFinanceCost);
+
+  renderRateComp(c);
+  renderAmort(c);
+
+  // Credit control deal summary
+  $('dsFinance').value=fmtAED(c.finance);
+  $('dsEmi').value=fmtAED(c.primEMI,0);
+  var annualDs=c.primEMI*12 + num('existingDebt');
+  $('dsAnnualDs').value=fmtAED(annualDs);
+  $('dsLtv').value=fmt(c.ltv,1)+'%';
+
+  // DSCR = NOI / (annual debt service)
+  var noi=num('netOpIncome');
+  var dscr = annualDs>0 ? noi/annualDs : 0;
+  $('dscr').value=fmt(dscr,2);
+  markField('dscr', dscr>=1.25?'ok':(dscr>=1?'warn':'error'));
+
+  // GP% = (turnover - cogs)/turnover
+  var to=num('annualTurnover'), cogs=num('cogs');
+  var gp = to>0 ? (to-cogs)/to*100 : 0;
+  $('gpPct').value=fmt(gp,1)+'%';
+
+  // FC% = total finance cost / turnover
+  var fc = to>0 ? c.totalFinanceCost/to*100 : 0;
+  $('fcPct').value=fmt(fc,1)+'%';
+
+  // AECB
+  var aecb=num('aecbScore');
+  markField('aecbScore', aecb>=671?'ok':(aecb>=580?'warn':(aecb>0?'error':'')));
+
+  saveSilently();
+}
+
+function renderRateComp(c){
+  if(!c) c=computeCore();
+  var inputs=document.querySelectorAll('.scenRate');
+  inputs.forEach(function(inp){
+    var i=inp.getAttribute('data-i');
+    var fr=parseFloat(inp.value)||0;
+    var emi=flatEMI(c.finance, fr, c.n, c.balloon);
+    var apr=flatToReducingAPR(c.finance, fr, c.n, c.balloon);
+    var rep=emi*c.n + c.balloon;
+    var intr=rep - c.finance;
+    $('sc'+i+'apr').textContent=fmt(apr,2)+'%';
+    $('sc'+i+'emi').textContent=fmtAED(emi,0);
+    $('sc'+i+'int').textContent=fmtAED(intr);
+    $('sc'+i+'rep').textContent=fmtAED(rep);
+  });
+}
+
+function renderAmort(c){
+  if(!c) c=computeCore();
+  var body=$('amortBody'); body.innerHTML='';
+  var P=c.finance, balloon=c.balloon, n=c.n;
+  var monthlyR = c.primAPR/100/12; // use primary reducing-equiv rate for true amortization
+  // Base EMI without extra (for interest-saved comparison)
+  var baseEMI = reducingEMI(P, c.primAPR, n, balloon);
+  var globalExtra=num('globalExtra');
+
+  // Baseline total interest (no extra)
+  var baseInt = baseEMI*n + balloon - P;
+
+  // Milestones thresholds
+  var startBal=P;
+  var bal=P;
+  var totalExtra=0, payoffMonth=n, actualInterest=0;
+  var milestonesHit={p25:false,p50:false,p75:false};
+  var rows=[];
+  for(var m=1;m<=n;m++){
+    var interest=bal*monthlyR;
+    var principal=baseEMI-interest;
+    var rowExtra=(state.extraPayments[m]||0)+globalExtra;
+    // last scheduled month leaves balloon
+    var targetEnd = (m===n)?balloon:0;
+    var maxPrin = bal-targetEnd;
+    if(principal>maxPrin){ principal=maxPrin; rowExtra=0; }
+    else if(rowExtra > maxPrin-principal){ rowExtra=Math.max(0, maxPrin-principal); }
+    var paid=principal+rowExtra;
+    bal = bal - paid;
+    actualInterest += interest;
+    totalExtra += rowExtra;
+    var emiThis=interest+principal;
+    var denom=(startBal-balloon);
+    var pctPaid = denom>0 ? (startBal-bal-balloon)/denom*100 : 100;
+    rows.push({m:m,emi:emiThis+rowExtra,prin:principal,int:interest,extra:rowExtra,bal:bal,pct:pctPaid});
+    if(bal<=balloon+0.5){ payoffMonth=m; break; }
+  }
+
+  // build table
+  rows.forEach(function(r){
+    var tr=document.createElement('tr');
+    var cls='';
+    if(!milestonesHit.p25 && r.pct>=25){cls='milestone';milestonesHit.p25=true;}
+    else if(!milestonesHit.p50 && r.pct>=50){cls='milestone';milestonesHit.p50=true;}
+    else if(!milestonesHit.p75 && r.pct>=75){cls='milestone';milestonesHit.p75=true;}
+    if(r.m===payoffMonth){cls='milestone payoff';}
+    if(r.m===n && balloon>0){cls='milestone balloon';}
+    tr.className=cls;
+    tr.innerHTML='<td>'+r.m+'</td>'+
+      '<td class="num">'+fmt(r.emi,0)+'</td>'+
+      '<td class="num">'+fmt(r.prin,0)+'</td>'+
+      '<td class="num">'+fmt(r.int,0)+'</td>'+
+      '<td class="num"><input type="number" min="0" step="100" value="'+(state.extraPayments[r.m]||0)+'" data-m="'+r.m+'" oninput="onExtraRow(this)"></td>'+
+      '<td class="num">'+fmt(Math.max(0,r.bal),0)+'</td>';
+    body.appendChild(tr);
+  });
+
+  var interestSaved=Math.max(0, baseInt-actualInterest);
+  $('asEmi').textContent=fmtAED(baseEMI,0);
+  $('asSaved').textContent=fmtAED(interestSaved);
+  $('asPayoff').textContent=payoffMonth;
+  $('asExtra').textContent=fmtAED(totalExtra);
+}
+
+function onExtraRow(inp){
+  var m=parseInt(inp.getAttribute('data-m'),10);
+  var v=parseFloat(inp.value)||0;
+  if(v<=0) delete state.extraPayments[m];
+  else state.extraPayments[m]=v;
+  recalc();
+}
+
+/* ===================== PDC table ===================== */
+function buildPdcTable(){
+  var cnt=Math.max(0,Math.min(84,Math.round(num('pdcCount'))));
+  state.pdcCount=cnt;
+  var body=$('pdcBody'); body.innerHTML='';
+  if(cnt===0){ body.innerHTML='<tr><td colspan="4" class="note">Enter number of PDCs above to generate schedule.</td></tr>'; return; }
+  for(var i=1;i<=cnt;i++){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+i+'</td>'+
+      '<td><input type="text" data-pdc="no'+i+'"></td>'+
+      '<td><input type="date" data-pdc="date'+i+'"></td>'+
+      '<td class="num"><input type="number" min="0" data-pdc="amt'+i+'"></td>';
+    body.appendChild(tr);
+  }
+}
+
+/* ===================== Market bank table ===================== */
+function buildBankTable(){
+  var body=$('bankBody'); body.innerHTML='';
+  BANKS.forEach(function(b){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+b.name+'</td>'+
+      '<td class="num">'+fmt(b.flat,2)+'%</td>'+
+      '<td class="num">'+fmt(b.red,2)+'%</td>'+
+      '<td><button type="button" class="apply-btn">Apply</button></td>';
+    tr.querySelector('button').addEventListener('click',function(){
+      setRateType('flat');
+      $('rate').value=b.flat; $('rateSlider').value=b.flat;
+      recalc();
+    });
+    body.appendChild(tr);
+  });
+}
+
+/* ===================== Persistence ===================== */
+var SAVE_KEY='vcf_afg_v1';
+function collect(){
+  var data={state:{vehicleType:state.vehicleType,rateType:state.rateType,primaryRate:state.primaryRate,
+            extraPayments:state.extraPayments,pdcCount:state.pdcCount}, fields:{}, pdc:{}};
+  document.querySelectorAll('input,select,textarea').forEach(function(el){
+    if(el.id){ data.fields[el.id]=el.value; }
+    var pdc=el.getAttribute('data-pdc');
+    if(pdc){ data.pdc[pdc]=el.value; }
+  });
+  // scenario rates
+  data.scen=[];
+  document.querySelectorAll('.scenRate').forEach(function(s){data.scen.push(s.value);});
+  return data;
+}
+function saveSilently(){
+  try{ localStorage.setItem(SAVE_KEY, JSON.stringify(collect())); }catch(e){}
+}
+function saveForm(){
+  saveSilently();
+  alert('Saved. You can close and return later on this device.');
+}
+function restore(){
+  var raw;
+  try{ raw=localStorage.getItem(SAVE_KEY); }catch(e){ return; }
+  if(!raw) return;
+  var data;
+  try{ data=JSON.parse(raw); }catch(e){ return; }
+  if(data.state){
+    state.vehicleType=data.state.vehicleType||'new';
+    state.rateType=data.state.rateType||'reducing';
+    state.primaryRate=data.state.primaryRate||state.rateType;
+    state.extraPayments=data.state.extraPayments||{};
+    state.pdcCount=data.state.pdcCount||0;
+  }
+  if(data.fields){
+    Object.keys(data.fields).forEach(function(id){
+      var el=$(id); if(el && el.getAttribute('data-pdc')===null) el.value=data.fields[id];
+    });
+  }
+  if(data.scen){
+    document.querySelectorAll('.scenRate').forEach(function(s,i){ if(data.scen[i]!==undefined)s.value=data.scen[i]; });
+  }
+  // rebuild dynamic tables then restore their values
+  $('pdcCount').value=state.pdcCount;
+  buildPdcTable();
+  if(data.pdc){
+    Object.keys(data.pdc).forEach(function(k){
+      var el=document.querySelector('[data-pdc="'+k+'"]'); if(el)el.value=data.pdc[k];
+    });
+  }
+  // sync toggles
+  setVehicleTypeUI(state.vehicleType);
+  setRateTypeUI(state.rateType);
+}
+function setVehicleTypeUI(t){
+  state.vehicleType=t;
+  $('vehTypeToggle').querySelectorAll('button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-vt')===t);});
+  $('vehTypeHint').textContent = t==='used'?'Used: max LTV 70%, max tenure 48 months':'New: max LTV 80%, max tenure 60 months';
+}
+function setRateTypeUI(t){
+  state.rateType=t; state.primaryRate=t;
+  $('rateTypeToggle').querySelectorAll('button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-rt')===t);});
+}
+
+/* ===================== Example / reset ===================== */
+function loadExample(){
+  $('companyName').value='Al Fahim Enterprises LLC';
+  $('companyType').value='private';
+  $('mkNumber').value='MK-2026-0847';
+  $('tradeLicense').value='CN-1234567';
+  $('licenseExpiry').value='2027-03-31';
+  $('estDate').value='2009-06-15';
+  $('authPerson').value='Khalid Al Fahim';
+  $('mobile').value='+971 50 123 4567';
+  $('emiratesId').value='784-1985-1234567-8';
+
+  setVehicleTypeUI('new');
+  $('vsb').value='VSB-778812';
+  $('salesDate').value='2026-06-17';
+  $('vehModel').value='Mercedes-Benz GLE 350';
+  $('purpose').value='Executive company use';
+  $('basePrice').value=300000;
+
+  $('dpPct').value=25;
+  $('dpAed').value=75000;
+  $('dpSlider').value=25;
+  $('balloonPct').value=0; $('balloonAed').value=0;
+  $('procFeeAed').value=1050; $('procFeePct').value='';
+  $('insRate').value=2.5; $('regFee').value=1200;
+  $('months').value=48;
+  setRateTypeUI('reducing');
+  $('rate').value=5.75; $('rateSlider').value=5.75;
+
+  // credit control
+  $('annualTurnover').value=12000000;
+  $('cogs').value=8400000;
+  $('netOpIncome').value=2100000;
+  $('existingDebt').value=180000;
+  $('existingFacilities').value=750000;
+  $('aecbScore').value=712;
+  $('creditHistory').value='Clean — no defaults in last 60 months.';
+  $('csComments').value='Strong cashflow, DSCR within policy. Recommended for approval.';
+  $('ccComments').value='LTV and tenure within UAE CB limits. Approved subject to PDC submission.';
+
+  // payment method example
+  $('pdcCount').value=48; buildPdcTable();
+  $('pdcBank').value='Emirates NBD';
+
+  state.extraPayments={};
+  $('globalExtra').value=0;
+  recalc();
+}
+
+function resetForm(){
+  if(!confirm('Clear all fields and start over?')) return;
+  try{ localStorage.removeItem(SAVE_KEY); }catch(e){}
+  document.querySelectorAll('input,textarea').forEach(function(el){
+    if(el.type==='button')return;
+    el.value='';
+  });
+  $('companyType').value='private';
+  // blank slate
+  $('basePrice').value=0;
+  $('dpPct').value=0; $('dpSlider').value=0; $('dpAed').value=0;
+  $('balloonPct').value=0; $('balloonAed').value=0;
+  $('procFeeAed').value=0; $('procFeePct').value=0;
+  $('insRate').value=2.5; $('regFee').value=0;
+  $('months').value=0;
+  $('rate').value=0; $('rateSlider').value=0;
+  $('globalExtra').value=0;
+  $('pdcCount').value=0;
+  document.querySelectorAll('.scenRate').forEach(function(s,i){s.value=[3.99,4.99,5.99][i];});
+  state.extraPayments={}; state.pdcCount=0;
+  setRateTypeUI('reducing');
+  setVehicleTypeUI('new');
+  buildPdcTable();
+  recalc();
+}
+
+/* ===================== Init ===================== */
+window.addEventListener('DOMContentLoaded', function(){
+  buildBankTable();
+  buildPdcTable();
+  restore();
+  recalc();
+});
+</script>
+</body>
+</html>
