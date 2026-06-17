@@ -182,12 +182,26 @@
   @media(max-width:760px){.pm-cards{grid-template-columns:1fr;}}
 
   /* signatures */
-  .sigs{display:grid;gap:14px;}
-  .sig-box{border:1px solid var(--line);border-radius:6px;padding:10px;}
+  .sigs{display:flex;flex-wrap:wrap;gap:10px;}
+  .sig-box{flex:1;min-width:155px;border:1px solid var(--line);border-radius:6px;padding:10px;}
   .sig-box .ln{border-bottom:1px solid #94a3b8;height:34px;margin-bottom:6px;}
   .sig-box .role{font-size:11px;font-weight:700;color:var(--navy);}
   .sig-box .meta{display:flex;gap:8px;margin-top:6px;}
   .sig-box .meta input{font-size:11px;padding:4px;}
+
+  /* side-by-side section pairs */
+  .side-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px;}
+  .side-pair>section.block{margin:0;}
+  @media(max-width:760px){.side-pair{display:block;}
+    .side-pair>section.block{margin:16px;}}
+
+  /* sub-section headers (compact replacement for nested .card) */
+  .sub-hdr{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--line);padding-bottom:4px;margin:12px 0 8px;}
+  .sub-hdr:first-child{margin-top:0;}
+
+  .g5{grid-template-columns:repeat(5,1fr);}
+  .g6{grid-template-columns:repeat(6,1fr);}
+  @media(max-width:760px){.g5,.g6{grid-template-columns:1fr 1fr;}}
 
   .note{font-size:11px;color:#64748b;font-style:italic;}
   .amort-controls{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;}
@@ -203,14 +217,73 @@
   .amort-scroll td input{padding:3px 5px;font-size:11px;text-align:right;}
 
   @media print{
-    body{background:#fff;font-size:11px;}
-    .actionbar,.no-print,#sec-market,.amort-controls,.pills,input[type=range],.apply-btn{display:none !important;}
-    .amort-scroll{max-height:none;overflow:visible;border:none;}
-    section.block{break-inside:avoid;box-shadow:none;border:1px solid #999;}
-    header.afg{background:#0D2137 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    .sec-title,.emi-display,.kpi,.amort-summary .s{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    .wrap{max-width:none;}
-    @page{size:A4;margin:12mm;}
+    body{background:#fff;font-size:9pt;line-height:1.3;}
+    @page{size:A4;margin:8mm 10mm;}
+    .actionbar,.no-print,#sec-market,.amort-controls,.amort-scroll,.pills,input[type=range],.apply-btn,#pdcBody{display:none!important;}
+    #pdcPrintNote{display:block!important;}
+    .amort-summary{display:grid!important;}
+    section.block{break-inside:avoid;box-shadow:none;border:1px solid #bbb;border-radius:3px;margin:3px 0!important;}
+    .side-pair{display:grid!important;grid-template-columns:1fr 1fr;gap:5px;margin:3px 0!important;}
+    .side-pair>section.block{margin:0!important;}
+    header.afg{background:#0D2137!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:8px 14px;}
+    header.afg .brand h1{font-size:13pt;}
+    header.afg .brand p{font-size:8.5pt;}
+    .doc-title{padding:5px;font-size:10pt;letter-spacing:1px;}
+    .sec-title{padding:4px 10px;font-size:8pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sec-body{padding:6px 10px;}
+    .grid{gap:5px;}
+    .sub-hdr{margin:7px 0 4px;padding-bottom:3px;font-size:7.5pt;border-bottom-width:1px;}
+    .sub-hdr:first-child{margin-top:0;}
+    .field label{font-size:7.5pt;}
+    .field .hint{font-size:7pt;}
+    input,select,textarea{font-size:8.5pt;padding:2px 4px;}
+    textarea{min-height:26px;}
+    .card{padding:6px;margin-bottom:5px!important;border-radius:3px;}
+    .card h4{font-size:7.5pt;margin:0 0 5px;padding-bottom:3px;}
+    table{font-size:8pt;}
+    th,td{padding:3px 5px;}
+    .emi-display{padding:7px 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .emi-display .lbl{font-size:8pt;}
+    .emi-display .val{font-size:18pt;}
+    .emi-display .sub{font-size:7.5pt;}
+    .pi-bar{height:14px;margin:5px 0;font-size:7.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .statgrid{gap:4px;}
+    .statgrid .s{padding:4px;}
+    .statgrid .s .l{font-size:7pt;}
+    .statgrid .s .v{font-size:10pt;}
+    .minigrid{gap:4px;margin-top:4px;}
+    .minigrid .s{padding:4px;}
+    .minigrid .s .l{font-size:7pt;}
+    .minigrid .s .v{font-size:9pt;}
+    .ltv-wrap{margin-top:5px;}
+    .ltv-track{height:14px;}
+    .comp-grid{gap:4px;margin-top:6px!important;}
+    .comp{padding:4px;}
+    .comp .l{font-size:7pt;}
+    .comp .v{font-size:9pt;}
+    .comp .badge{font-size:7.5pt;padding:1px 5px;}
+    .dual{gap:6px;}
+    .dual .col{padding:7px;}
+    .dual .row{font-size:8pt;padding:2px 0;}
+    .kpi-strip{gap:4px;margin-top:6px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .kpi{padding:5px 7px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .kpi .l{font-size:7pt;}
+    .kpi .v{font-size:10pt;}
+    .sigs{display:flex!important;flex-wrap:wrap;gap:5px;}
+    .sig-box{flex:1;min-width:100px;padding:6px;}
+    .sig-box .ln{height:20px;margin-bottom:4px;}
+    .sig-box .role{font-size:7.5pt;}
+    .sig-box .meta{gap:4px;margin-top:4px;}
+    .sig-box .meta input{font-size:7pt;padding:2px;}
+    .amort-summary .s{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:5px;}
+    .amort-summary .s .l{font-size:7pt;}
+    .amort-summary .s .v{font-size:10pt;}
+    .pm-cards{grid-template-columns:1fr 1fr;gap:6px;}
+    .wrap{max-width:none;padding:0;}
+    .note{font-size:7.5pt;}
+    .toggle button{display:none!important;}
+    .toggle button.active{display:inline-block!important;border-radius:5px;}
+    .sec-title,.emi-display,.kpi,.kpi-strip,.amort-summary .s,.pi-bar .p,.pi-bar .i{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
 </style>
 </head>
@@ -248,6 +321,7 @@
   <button class="print" onclick="window.print()">Print</button>
 </div>
 
+<div class="side-pair">
 <!-- ============ SECTION 1 — COMPANY ============ -->
 <section class="block">
   <div class="sec-title">Section 1 — Company / Customer Details</div>
@@ -296,63 +370,59 @@
   </div>
 </section>
 
+</div><!-- /side-pair S1+S2 -->
+
 <!-- ============ SECTION 3 — FINANCE TERMS & SUMMARY ============ -->
 <section class="block">
   <div class="sec-title">Section 3 — Finance Terms &amp; Summary</div>
   <div class="sec-body">
 
     <!-- Down payment -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Down Payment</h4>
-      <div class="grid g4">
-        <div class="field"><label>Down Payment %</label><input id="dpPct" type="number" min="0" max="100" step="0.5" value="0" oninput="onDpPct()"></div>
-        <div class="field"><label>Down Payment (AED)</label><input id="dpAed" type="number" min="0" step="1000" oninput="onDpAed()"></div>
-        <div class="field" style="grid-column:1/3;"><label>DP Slider</label><input id="dpSlider" type="range" min="0" max="100" step="0.5" value="0" oninput="onDpSlider()"></div>
-        <div class="field"><label>DP Due Date</label><input id="dpDueDate" type="date"></div>
-        <div class="field" style="grid-column:2/-1;display:flex;align-items:flex-end;"><span class="hint" id="dpHint"></span></div>
-      </div>
+    <div class="sub-hdr">Down Payment</div>
+    <div class="grid g4" style="margin-bottom:12px;">
+      <div class="field"><label>Down Payment %</label><input id="dpPct" type="number" min="0" max="100" step="0.5" value="0" oninput="onDpPct()"></div>
+      <div class="field"><label>Down Payment (AED)</label><input id="dpAed" type="number" min="0" step="1000" oninput="onDpAed()"></div>
+      <div class="field" style="grid-column:1/3;"><label>DP Slider</label><input id="dpSlider" type="range" min="0" max="100" step="0.5" value="0" oninput="onDpSlider()"></div>
+      <div class="field"><label>DP Due Date</label><input id="dpDueDate" type="date"></div>
+      <div class="field" style="grid-column:2/-1;display:flex;align-items:flex-end;"><span class="hint" id="dpHint"></span></div>
     </div>
 
     <!-- Balloon -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Balloon / Residual Payment (Optional — PCP, max 30%)</h4>
-      <div class="grid g4">
-        <div class="field"><label>Balloon %</label><input id="balloonPct" type="number" min="0" max="30" step="0.5" value="0" oninput="onBalloonPct()"></div>
-        <div class="field"><label>Balloon (AED)</label><input id="balloonAed" type="number" min="0" step="1000" value="0" oninput="onBalloonAed()"></div>
-        <div class="field" style="grid-column:3/-1;display:flex;align-items:flex-end;"><span class="hint">Final lump-sum due at end of term. Reduces monthly EMI.</span></div>
-      </div>
+    <div class="sub-hdr">Balloon / Residual Payment (Optional — PCP, max 30%)</div>
+    <div class="grid g4" style="margin-bottom:12px;">
+      <div class="field"><label>Balloon %</label><input id="balloonPct" type="number" min="0" max="30" step="0.5" value="0" oninput="onBalloonPct()"></div>
+      <div class="field"><label>Balloon (AED)</label><input id="balloonAed" type="number" min="0" step="1000" value="0" oninput="onBalloonAed()"></div>
+      <div class="field" style="grid-column:3/-1;display:flex;align-items:flex-end;"><span class="hint">Final lump-sum due at end of term. Reduces monthly EMI.</span></div>
     </div>
 
     <!-- Additional costs -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Additional Costs</h4>
-      <div class="grid g4">
-        <div class="field"><label>Processing Fee (AED)</label><input id="procFeeAed" type="number" min="0" step="100" value="0" oninput="syncProcFromAED()"></div>
-        <div class="field"><label>Processing Fee (% of financed)</label><input id="procFeePct" type="number" min="0" step="0.05" value="0" oninput="syncProcFromPct()"></div>
-        <div class="field"><label>Insurance Rate (% p.a.)</label><input id="insRate" type="number" min="0" step="0.05" value="2.5" oninput="recalc()"></div>
-        <div class="field"><label>Registration &amp; Plates (AED)</label><input id="regFee" type="number" min="0" step="50" value="0" oninput="recalc()"></div>
-      </div>
+    <div class="sub-hdr">Additional Costs</div>
+    <div class="grid g4" style="margin-bottom:12px;">
+      <div class="field"><label>Processing Fee (AED)</label><input id="procFeeAed" type="number" min="0" step="100" value="0" oninput="syncProcFromAED()"></div>
+      <div class="field"><label>Processing Fee (% of financed)</label><input id="procFeePct" type="number" min="0" step="0.05" value="0" oninput="syncProcFromPct()"></div>
+      <div class="field"><label>Insurance Rate (% p.a.)</label><input id="insRate" type="number" min="0" step="0.05" value="2.5" oninput="recalc()"></div>
+      <div class="field"><label>Registration &amp; Plates (AED)</label><input id="regFee" type="number" min="0" step="50" value="0" oninput="recalc()"></div>
     </div>
 
     <!-- Price breakdown -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Price Breakdown</h4>
-      <table>
-        <tr><th>Vehicle Base Price (Excl. VAT)</th><td class="num" id="bd_base">AED 0</td></tr>
-        <tr><th>Down Payment</th><td class="num" id="bd_dp">AED 0</td></tr>
-        <tr><th>VAT (5%, paid upfront)</th><td class="num" id="bd_vat">AED 0</td></tr>
-        <tr><th>Total Upfront (DP + VAT + fees)</th><td class="num" id="bd_upfront">AED 0</td></tr>
-        <tr><th>Finance Amount</th><td class="num" id="bd_finance"><b>AED 0</b></td></tr>
-      </table>
-    </div>
+    <div class="sub-hdr">Price Breakdown</div>
+    <table style="margin-bottom:12px;">
+      <tr><th>Vehicle Base Price (Excl. VAT)</th><td class="num" id="bd_base">AED 0</td><th>Down Payment</th><td class="num" id="bd_dp">AED 0</td><th>VAT (5%, upfront)</th><td class="num" id="bd_vat">AED 0</td></tr>
+      <tr><th>Total Upfront (DP + VAT + fees)</th><td class="num" id="bd_upfront">AED 0</td><th style="background:#e0f2fe;">Finance Amount</th><td class="num" id="bd_finance" style="background:#e0f2fe;"><b>AED 0</b></td><td colspan="2"></td></tr>
+    </table>
 
     <!-- Finance inputs -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Finance Period &amp; Rate</h4>
-      <div class="grid g3">
+    <div class="sub-hdr">Finance Period &amp; Rate</div>
+    <div style="margin-bottom:12px;">
+      <div class="grid g4">
         <div class="field"><label>Period (months)</label><input id="months" type="number" min="1" max="84" step="1" value="0" oninput="recalc()"></div>
         <div class="field"><label>Tenure</label><input id="tenureDisplay" class="readonly-field" readonly></div>
-        <div class="field"><label>Quick Select</label>
+        <div class="field"><label>Rate (% p.a.)</label><input id="rate" type="number" min="0" max="30" step="0.05" value="0" oninput="onRateInput()"></div>
+        <div class="field"><label>Rate Equivalent</label><input id="rateEquiv" class="readonly-field" readonly></div>
+      </div>
+      <div class="grid g2" style="margin-top:8px;">
+        <div class="field">
+          <label>Quick Select</label>
           <div class="pills" id="durPills">
             <button type="button" data-m="12" onclick="setMonths(12)">12m</button>
             <button type="button" data-m="24" onclick="setMonths(24)">24m</button>
@@ -361,8 +431,6 @@
             <button type="button" data-m="60" onclick="setMonths(60)">60m</button>
           </div>
         </div>
-      </div>
-      <div class="grid g3" style="margin-top:12px;">
         <div class="field">
           <label>Rate Type</label>
           <div class="toggle" id="rateTypeToggle">
@@ -370,15 +438,15 @@
             <button type="button" data-rt="flat" onclick="setRateType('flat')">Flat Rate</button>
           </div>
         </div>
-        <div class="field"><label>Rate (% p.a.)</label><input id="rate" type="number" min="0" max="30" step="0.05" value="0" oninput="onRateInput()"></div>
-        <div class="field"><label>Rate Equivalent</label><input id="rateEquiv" class="readonly-field" readonly></div>
-        <div class="field" style="grid-column:1/-1;"><label>Rate Slider</label><input id="rateSlider" type="range" min="0" max="20" step="0.05" value="0" oninput="onRateSlider()"></div>
+      </div>
+      <div class="grid g2" style="margin-top:8px;">
+        <div class="field"><label>Rate Slider</label><input id="rateSlider" type="range" min="0" max="20" step="0.05" value="0" oninput="onRateSlider()"></div>
       </div>
     </div>
 
     <!-- Finance summary -->
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Finance Summary</h4>
+    <div class="sub-hdr">Finance Summary</div>
+    <div style="margin-bottom:12px;">
       <div class="emi-display">
         <div class="lbl">Estimated Monthly Installment (EMI)</div>
         <div class="val" id="sumEmi">AED 0</div>
@@ -403,15 +471,15 @@
     </div>
 
     <!-- LTV + compliance -->
-    <div class="card">
-      <h4>Loan-to-Value &amp; UAE Central Bank Compliance</h4>
+    <div class="sub-hdr">Loan-to-Value &amp; UAE Central Bank Compliance</div>
+    <div>
       <div class="ltv-wrap">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;">
           <span>LTV (Finance / Base Price)</span><span id="ltvLabel">0%</span>
         </div>
         <div class="ltv-track"><div class="ltv-fill" id="ltvFill"></div></div>
       </div>
-      <div class="comp-grid" style="margin-top:12px;">
+      <div class="comp-grid" style="margin-top:10px;">
         <div class="comp" id="cLtv"><div class="l">LTV</div><div class="v" id="cLtvV">0%</div><span class="badge">—</span></div>
         <div class="comp" id="cDp"><div class="l">Min Down Pmt</div><div class="v" id="cDpV">0%</div><span class="badge">—</span></div>
         <div class="comp" id="cTenure"><div class="l">Tenure</div><div class="v" id="cTenureV">0m</div><span class="badge">—</span></div>
@@ -437,6 +505,7 @@
         <thead><tr><th>#</th><th>Cheque No.</th><th>Date</th><th class="num">Amount (AED)</th></tr></thead>
         <tbody id="pdcBody"><tr><td colspan="4" class="note">Enter number of PDCs above to generate schedule.</td></tr></tbody>
       </table>
+      <p class="note" style="display:none;" id="pdcPrintNote">PDC detailed schedule attached as separate document.</p>
     </div>
     <div class="card">
       <h4>Local Purchase Order (LPO)</h4>
@@ -560,6 +629,7 @@
   </div>
 </section>
 
+<div class="side-pair">
 <!-- ============ SECTION 8 — MORTGAGE ============ -->
 <section class="block">
   <div class="sec-title">Section 8 — Mortgage / Security Details</div>
@@ -575,11 +645,12 @@
     <div class="field"><label>Special Information / Remarks</label><textarea id="specialInfo"></textarea></div>
   </div>
 </section>
+</div><!-- /side-pair S8+S9 -->
 
 <!-- ============ SALES APPROVALS ============ -->
 <section class="block">
   <div class="sec-title">Sales Approvals</div>
-  <div class="sec-body sigs g2">
+  <div class="sec-body sigs">
     <div class="sig-box">
       <div class="ln"></div><div class="role">Head of Sales</div>
       <div class="meta"><input placeholder="Name" id="sigHosName"><input placeholder="Date" type="date" id="sigHosDate"></div>
@@ -595,8 +666,8 @@
 <section class="block">
   <div class="sec-title">Credit Control Review</div>
   <div class="sec-body">
-    <div class="card" style="margin-bottom:14px;">
-      <h4>Deal Summary (auto-calculated)</h4>
+    <div style="margin-bottom:10px;">
+      <div class="sub-hdr" style="margin-top:0;">Deal Summary (auto-calculated)</div>
       <div class="grid g4">
         <div class="field"><label>Finance Amount</label><input id="dsFinance" class="readonly-field" readonly></div>
         <div class="field"><label>Monthly EMI</label><input id="dsEmi" class="readonly-field" readonly></div>
@@ -604,18 +675,16 @@
         <div class="field"><label>LTV</label><input id="dsLtv" class="readonly-field" readonly></div>
       </div>
     </div>
-    <div class="grid g3">
+    <div class="grid g3" style="margin-top:6px;">
       <div class="field"><label>Annual Turnover (AED)</label><input id="annualTurnover" type="number" min="0" oninput="recalc()"></div>
       <div class="field"><label>Net Operating Income (AED)</label><input id="netOpIncome" type="number" min="0" oninput="recalc()"></div>
       <div class="field"><label>Existing Debt Service (AED/yr)</label><input id="existingDebt" type="number" min="0" oninput="recalc()"></div>
       <div class="field"><label>Existing Facilities (AED)</label><input id="existingFacilities" type="number" min="0"></div>
+      <div class="field"><label>Cost of Goods Sold (AED)</label><input id="cogs" type="number" min="0" oninput="recalc()"></div>
+      <div class="field"><label>AECB Score</label><input id="aecbScore" type="number" min="300" max="900" oninput="recalc()"></div>
       <div class="field"><label>DSCR (auto)</label><input id="dscr" class="readonly-field" readonly></div>
       <div class="field"><label>GP % (auto)</label><input id="gpPct" class="readonly-field" readonly></div>
-    </div>
-    <div class="grid g3" style="margin-top:12px;">
-      <div class="field"><label>Cost of Goods Sold (AED)</label><input id="cogs" type="number" min="0" oninput="recalc()"></div>
       <div class="field"><label>Finance Cost % (auto, of turnover)</label><input id="fcPct" class="readonly-field" readonly></div>
-      <div class="field"><label>AECB Score</label><input id="aecbScore" type="number" min="300" max="900" oninput="recalc()"></div>
       <div class="field" style="grid-column:1/-1;"><label>Credit History</label><textarea id="creditHistory"></textarea></div>
       <div class="field" style="grid-column:1/-1;"><label>Credit Supervisor Comments</label><textarea id="csComments"></textarea></div>
       <div class="field" style="grid-column:1/-1;"><label>Credit Control Comments</label><textarea id="ccComments"></textarea></div>
@@ -626,7 +695,7 @@
 <!-- ============ FINAL APPROVALS ============ -->
 <section class="block">
   <div class="sec-title">Final Approvals</div>
-  <div class="sec-body sigs g3">
+  <div class="sec-body sigs">
     <div class="sig-box"><div class="ln"></div><div class="role">Credit Supervisor</div><div class="meta"><input placeholder="Name" id="sigCsName"><input placeholder="Date" type="date" id="sigCsDate"></div></div>
     <div class="sig-box"><div class="ln"></div><div class="role">CC Controller</div><div class="meta"><input placeholder="Name" id="sigCcName"><input placeholder="Date" type="date" id="sigCcDate"></div></div>
     <div class="sig-box"><div class="ln"></div><div class="role">Group Finance Director</div><div class="meta"><input placeholder="Name" id="sigGfdName"><input placeholder="Date" type="date" id="sigGfdDate"></div></div>
