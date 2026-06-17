@@ -71,7 +71,7 @@
 
   /* ===== Sections ===== */
   section.block{background:#fff;margin:16px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-  .sec-title{background:var(--section);color:#fff;padding:9px 14px;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+  .sec-title{background:var(--section);color:#fff;padding:9px 14px 9px 16px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border-left:4px solid var(--accent);}
   .sec-body{padding:14px;}
 
   .grid{display:grid;gap:12px;}
@@ -177,10 +177,6 @@
   @media(max-width:760px){.eibor-boxes{grid-template-columns:1fr 1fr;}}
   .apply-btn{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;}
 
-  /* payment method cards */
-  .pm-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  @media(max-width:760px){.pm-cards{grid-template-columns:1fr;}}
-
   /* signatures */
   .sigs{display:flex;flex-wrap:wrap;gap:10px;}
   .sig-box{flex:1;min-width:155px;border:1px solid var(--line);border-radius:6px;padding:10px;}
@@ -219,8 +215,7 @@
   @media print{
     body{background:#fff;font-size:9pt;line-height:1.3;}
     @page{size:A4;margin:8mm 10mm;}
-    .actionbar,.no-print,#sec-market,.amort-controls,.amort-scroll,.pills,input[type=range],.apply-btn,#pdcBody{display:none!important;}
-    #pdcPrintNote{display:block!important;}
+    .actionbar,.no-print,#sec-market,.amort-controls,.amort-scroll,.pills,input[type=range],.apply-btn{display:none!important;}
     .amort-summary{display:grid!important;}
     section.block{break-inside:avoid;box-shadow:none;border:1px solid #bbb;border-radius:3px;margin:3px 0!important;}
     .side-pair{display:grid!important;grid-template-columns:1fr 1fr;gap:5px;margin:3px 0!important;}
@@ -278,7 +273,6 @@
     .amort-summary .s{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:5px;}
     .amort-summary .s .l{font-size:7pt;}
     .amort-summary .s .v{font-size:10pt;}
-    .pm-cards{grid-template-columns:1fr 1fr;gap:6px;}
     .wrap{max-width:none;padding:0;}
     .note{font-size:7.5pt;}
     .toggle button{display:none!important;}
@@ -324,7 +318,7 @@
 <div class="side-pair">
 <!-- ============ SECTION 1 — COMPANY ============ -->
 <section class="block">
-  <div class="sec-title">Section 1 — Company / Customer Details</div>
+  <div class="sec-title">Company / Customer Details</div>
   <div class="sec-body grid g3">
     <div class="field"><label>Company / Customer Name</label><input id="companyName" type="text"></div>
     <div class="field"><label>Company Type</label>
@@ -346,7 +340,7 @@
 
 <!-- ============ SECTION 2 — VEHICLE ============ -->
 <section class="block">
-  <div class="sec-title">Section 2 — Vehicle Details</div>
+  <div class="sec-title">Vehicle Details</div>
   <div class="sec-body">
     <div class="field" style="margin-bottom:12px;">
       <label>Vehicle Condition</label>
@@ -374,7 +368,7 @@
 
 <!-- ============ SECTION 3 — FINANCE TERMS & SUMMARY ============ -->
 <section class="block">
-  <div class="sec-title">Section 3 — Finance Terms &amp; Summary</div>
+  <div class="sec-title">Finance Terms &amp; Summary</div>
   <div class="sec-body">
 
     <!-- Down payment -->
@@ -491,50 +485,10 @@
   </div>
 </section>
 
-<!-- ============ SECTION 4 — PAYMENT METHOD ============ -->
-<section class="block">
-  <div class="sec-title">Section 4 — Payment Method</div>
-  <div class="sec-body pm-cards">
-    <div class="card">
-      <h4>Post-Dated Cheques (PDC)</h4>
-      <div class="grid g2">
-        <div class="field"><label>Number of PDCs</label><input id="pdcCount" type="number" min="0" max="84" value="0" oninput="buildPdcTable()"></div>
-        <div class="field"><label>Bank Name</label><input id="pdcBank" type="text"></div>
-      </div>
-      <table id="pdcTable" style="margin-top:10px;">
-        <thead><tr><th>#</th><th>Cheque No.</th><th>Date</th><th class="num">Amount (AED)</th></tr></thead>
-        <tbody id="pdcBody"><tr><td colspan="4" class="note">Enter number of PDCs above to generate schedule.</td></tr></tbody>
-      </table>
-      <p class="note" style="display:none;" id="pdcPrintNote">PDC detailed schedule attached as separate document.</p>
-    </div>
-    <div class="card">
-      <h4>Local Purchase Order (LPO)</h4>
-      <div class="grid g2">
-        <div class="field"><label>LPO Number</label><input id="lpoNumber" type="text"></div>
-        <div class="field"><label>LPO Date</label><input id="lpoDate" type="date"></div>
-        <div class="field"><label>Issuing Authority</label><input id="lpoAuthority" type="text"></div>
-        <div class="field"><label>LPO Amount (AED)</label><input id="lpoAmount" type="number" min="0"></div>
-      </div>
-    </div>
-    <div class="card">
-      <h4>Bank Transfer</h4>
-      <div class="grid g2">
-        <div class="field"><label>Bank Name</label><input id="btBank" type="text"></div>
-        <div class="field"><label>Account Number / IBAN</label><input id="btIban" type="text"></div>
-        <div class="field"><label>Transfer Reference</label><input id="btRef" type="text"></div>
-        <div class="field"><label>Transfer Amount (AED)</label><input id="btAmount" type="number" min="0"></div>
-      </div>
-    </div>
-    <div class="card">
-      <h4>Other Arrangements</h4>
-      <div class="field"><label>Details</label><textarea id="otherPayment" placeholder="Describe any other payment arrangement"></textarea></div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ SECTION 5 — FINANCE STRUCTURE & RATE COMPARISON ============ -->
 <section class="block">
-  <div class="sec-title">Section 5 — Finance Structure &amp; Rate Comparison</div>
+  <div class="sec-title">Finance Structure &amp; Rate Comparison</div>
   <div class="sec-body">
     <div class="dual" id="dualPanel">
       <div class="col" id="colReducing">
@@ -562,7 +516,7 @@
       <div class="kpi"><div class="l">Primary Total Cost</div><div class="v" id="kpiCost">AED 0</div></div>
     </div>
 
-    <h4 style="margin:18px 0 8px;font-size:12px;color:var(--navy);">Rate Comparison — 3 Configurable Flat-Rate Scenarios</h4>
+    <div class="sub-hdr" style="margin-top:14px;">Rate Comparison — 3 Configurable Flat-Rate Scenarios</div>
     <table id="rateComp">
       <thead>
         <tr><th>Scenario</th><th>Flat Rate (%)</th><th class="num">Equiv. Reducing APR</th><th class="num">Monthly EMI</th><th class="num">Total Interest</th><th class="num">Total Repayment</th></tr>
@@ -590,7 +544,7 @@
 
 <!-- ============ SECTION 6 — UAE MARKET RATES ============ -->
 <section class="block" id="sec-market">
-  <div class="sec-title">Section 6 — UAE Market Rates (Reference)</div>
+  <div class="sec-title">UAE Market Rates — Reference</div>
   <div class="sec-body">
     <div class="eibor-boxes">
       <div class="eibor"><div class="l">1-Month EIBOR</div><div class="v">4.15%</div></div>
@@ -608,7 +562,7 @@
 
 <!-- ============ SECTION 7 — AMORTIZATION ============ -->
 <section class="block">
-  <div class="sec-title">Section 7 — Amortization Schedule</div>
+  <div class="sec-title">Amortization Schedule</div>
   <div class="sec-body">
     <div class="amort-controls no-print">
       <div class="field"><label>Global Extra Payment / Month (AED)</label><input id="globalExtra" type="number" min="0" step="100" value="0" oninput="recalc()"></div>
@@ -632,7 +586,7 @@
 <div class="side-pair">
 <!-- ============ SECTION 8 — MORTGAGE ============ -->
 <section class="block">
-  <div class="sec-title">Section 8 — Mortgage / Security Details</div>
+  <div class="sec-title">Mortgage &amp; Security Details</div>
   <div class="sec-body">
     <div class="field"><label>Mortgage / Security / Collateral</label><textarea id="mortgage" placeholder="Describe mortgage registration, security, guarantees, collateral"></textarea></div>
   </div>
@@ -640,7 +594,7 @@
 
 <!-- ============ SECTION 9 — SPECIAL INFO ============ -->
 <section class="block">
-  <div class="sec-title">Section 9 — Special Information</div>
+  <div class="sec-title">Special Information</div>
   <div class="sec-body">
     <div class="field"><label>Special Information / Remarks</label><textarea id="specialInfo"></textarea></div>
   </div>
@@ -711,11 +665,10 @@
 
 /* ===================== State ===================== */
 var state = {
-  vehicleType: 'new',      // 'new' | 'used'
-  rateType: 'reducing',    // entered rate basis
-  primaryRate: 'reducing', // which column drives summary
-  extraPayments: {},       // { monthIndex: amount }
-  pdcCount: 0,
+  vehicleType: 'new',
+  rateType: 'reducing',
+  primaryRate: 'reducing',
+  extraPayments: {},
   _syncing: false
 };
 
@@ -957,7 +910,6 @@ function computeCore(){
 function recalc(){
   var c=computeCore();
 
-  // Section 2
   $('vatAmount').value=fmtAED(c.vat);
   $('onRoadTotal').value=fmtAED(c.onRoad);
 
@@ -1165,22 +1117,6 @@ function onExtraRow(inp){
   recalc();
 }
 
-/* ===================== PDC table ===================== */
-function buildPdcTable(){
-  var cnt=Math.max(0,Math.min(84,Math.round(num('pdcCount'))));
-  state.pdcCount=cnt;
-  var body=$('pdcBody'); body.innerHTML='';
-  if(cnt===0){ body.innerHTML='<tr><td colspan="4" class="note">Enter number of PDCs above to generate schedule.</td></tr>'; return; }
-  for(var i=1;i<=cnt;i++){
-    var tr=document.createElement('tr');
-    tr.innerHTML='<td>'+i+'</td>'+
-      '<td><input type="text" data-pdc="no'+i+'"></td>'+
-      '<td><input type="date" data-pdc="date'+i+'"></td>'+
-      '<td class="num"><input type="number" min="0" data-pdc="amt'+i+'"></td>';
-    body.appendChild(tr);
-  }
-}
-
 /* ===================== Market bank table ===================== */
 function buildBankTable(){
   var body=$('bankBody'); body.innerHTML='';
@@ -1203,13 +1139,10 @@ function buildBankTable(){
 var SAVE_KEY='vcf_afg_v1';
 function collect(){
   var data={state:{vehicleType:state.vehicleType,rateType:state.rateType,primaryRate:state.primaryRate,
-            extraPayments:state.extraPayments,pdcCount:state.pdcCount}, fields:{}, pdc:{}};
+            extraPayments:state.extraPayments}, fields:{}};
   document.querySelectorAll('input,select,textarea').forEach(function(el){
     if(el.id){ data.fields[el.id]=el.value; }
-    var pdc=el.getAttribute('data-pdc');
-    if(pdc){ data.pdc[pdc]=el.value; }
   });
-  // scenario rates
   data.scen=[];
   document.querySelectorAll('.scenRate').forEach(function(s){data.scen.push(s.value);});
   return data;
@@ -1232,25 +1165,15 @@ function restore(){
     state.rateType=data.state.rateType||'reducing';
     state.primaryRate=data.state.primaryRate||state.rateType;
     state.extraPayments=data.state.extraPayments||{};
-    state.pdcCount=data.state.pdcCount||0;
   }
   if(data.fields){
     Object.keys(data.fields).forEach(function(id){
-      var el=$(id); if(el && el.getAttribute('data-pdc')===null) el.value=data.fields[id];
+      var el=$(id); if(el) el.value=data.fields[id];
     });
   }
   if(data.scen){
     document.querySelectorAll('.scenRate').forEach(function(s,i){ if(data.scen[i]!==undefined)s.value=data.scen[i]; });
   }
-  // rebuild dynamic tables then restore their values
-  $('pdcCount').value=state.pdcCount;
-  buildPdcTable();
-  if(data.pdc){
-    Object.keys(data.pdc).forEach(function(k){
-      var el=document.querySelector('[data-pdc="'+k+'"]'); if(el)el.value=data.pdc[k];
-    });
-  }
-  // sync toggles
   setVehicleTypeUI(state.vehicleType);
   setRateTypeUI(state.rateType);
 }
@@ -1302,11 +1225,7 @@ function loadExample(){
   $('aecbScore').value=712;
   $('creditHistory').value='Clean — no defaults in last 60 months.';
   $('csComments').value='Strong cashflow, DSCR within policy. Recommended for approval.';
-  $('ccComments').value='LTV and tenure within UAE CB limits. Approved subject to PDC submission.';
-
-  // payment method example
-  $('pdcCount').value=48; buildPdcTable();
-  $('pdcBank').value='Emirates NBD';
+  $('ccComments').value='LTV and tenure within UAE CB limits. Approved for credit facility.';
 
   state.extraPayments={};
   $('globalExtra').value=0;
@@ -1330,19 +1249,16 @@ function resetForm(){
   $('months').value=0;
   $('rate').value=0; $('rateSlider').value=0;
   $('globalExtra').value=0;
-  $('pdcCount').value=0;
   document.querySelectorAll('.scenRate').forEach(function(s,i){s.value=[3.99,4.99,5.99][i];});
-  state.extraPayments={}; state.pdcCount=0;
+  state.extraPayments={};
   setRateTypeUI('reducing');
   setVehicleTypeUI('new');
-  buildPdcTable();
   recalc();
 }
 
 /* ===================== Init ===================== */
 window.addEventListener('DOMContentLoaded', function(){
   buildBankTable();
-  buildPdcTable();
   restore();
   recalc();
 });
