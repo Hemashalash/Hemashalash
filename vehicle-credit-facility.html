@@ -140,9 +140,16 @@
   @media(max-width:760px){.amort-summary{grid-template-columns:1fr 1fr;}}
   .amort-scroll{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:6px;}
 
-  .vsb-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;}
-  .vsb-table th,.vsb-table td{border:1px solid var(--line);padding:5px 7px;}
+  #vsbTableWrap{overflow-x:auto;}
+  .vsb-table{width:100%;min-width:420px;border-collapse:collapse;font-size:12px;margin-bottom:8px;table-layout:fixed;}
+  .vsb-table th,.vsb-table td{border:1px solid var(--line);padding:5px 7px;overflow:hidden;}
   .vsb-table th{background:#eef2f7;font-weight:700;font-size:11px;}
+  .vsb-table th:nth-child(1),.vsb-table td:nth-child(1){width:16%;}
+  .vsb-table th:nth-child(2),.vsb-table td:nth-child(2){width:20%;}
+  .vsb-table th:nth-child(3),.vsb-table td:nth-child(3){width:34%;}
+  .vsb-table th:nth-child(4),.vsb-table td:nth-child(4){width:calc(30% - 44px);}
+  .vsb-table th:nth-child(5),.vsb-table td:nth-child(5){width:44px;}
+  .vsb-table input{min-width:0!important;width:100%;}
   .vsb-table tfoot td{background:#f8fafc;font-weight:600;}
   .vsb-btn{border:none;border-radius:4px;padding:3px 9px;font-size:11px;cursor:pointer;color:#fff;font-weight:600;}
   .vsb-add{background:var(--accent);}
@@ -569,10 +576,10 @@ function renderVsbTable(){
     '<th class="no-print" style="width:44px;"></th></tr></thead><tbody>';
   state.vsbRows.forEach(function(row,i){
     html+='<tr>'+
-      '<td><input type="text" value="'+escHtml(row.vsb||'')+'" oninput="onVsbField(this,'+i+',\'vsb\')" style="min-width:80px;"></td>'+
+      '<td><input type="text" value="'+escHtml(row.vsb||'')+'" oninput="onVsbField(this,'+i+',\'vsb\')"></td>'+
       '<td><input type="date" value="'+(row.salesDate||'')+'" oninput="onVsbField(this,'+i+',\'salesDate\')"></td>'+
-      '<td><input type="text" value="'+escHtml(row.model||'')+'" oninput="onVsbField(this,'+i+',\'model\')" placeholder="e.g. Mercedes GLE 350" style="min-width:130px;"></td>'+
-      '<td><input type="number" min="0" step="1000" value="'+(row.price||0)+'" oninput="onVsbField(this,'+i+',\'price\')" style="min-width:100px;text-align:right;"></td>'+
+      '<td><input type="text" value="'+escHtml(row.model||'')+'" oninput="onVsbField(this,'+i+',\'model\')" placeholder="e.g. Mercedes GLE 350"></td>'+
+      '<td><input type="number" min="0" step="1000" value="'+(row.price||0)+'" oninput="onVsbField(this,'+i+',\'price\')" style="text-align:right;"></td>'+
       '<td class="no-print" style="text-align:center;">'+
         (canRemove?'<button type="button" class="vsb-btn vsb-rem" onclick="removeVsb('+i+')">&times;</button>':'')+
       '</td></tr>';
