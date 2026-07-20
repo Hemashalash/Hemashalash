@@ -237,6 +237,20 @@
     .wrap{max-width:none;padding:0;}
     .note{font-size:7pt;}
     .sec-title,.emi-display,.kpi,.kpi-strip,.amort-summary .s,.pi-bar .p,.pi-bar .i,.comp.pass,.comp.fail,.comp.cfo-warn{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+    /* Finance & Amortization only print mode */
+    body.print-finance-only header.afg,
+    body.print-finance-only .doc-title,
+    body.print-finance-only .side-pair,
+    body.print-finance-only #secFinanceTerms,
+    body.print-finance-only #secMortgageSecurity,
+    body.print-finance-only #secSpecialInfo,
+    body.print-finance-only #secSalesApprovals,
+    body.print-finance-only .cc-section,
+    body.print-finance-only #secFinalApprovals{display:none!important;}
+    body.print-finance-only #secFinanceStructure,
+    body.print-finance-only #secAmortization{break-inside:auto;}
+    body.print-finance-only .amort-scroll{max-height:none!important;overflow:visible!important;border:none!important;}
   }
 </style>
 </head>
@@ -268,7 +282,8 @@
   <button onclick="saveForm()">Save for Later</button>
   <button class="secondary" onclick="loadExample()">Load Example</button>
   <button class="warn" onclick="resetForm()">Start Over</button>
-  <button class="print" onclick="window.print()">Print</button>
+  <button class="print" onclick="printFinanceOnly()" title="Print Finance Structure + Amortization Schedule only">Finance &amp; Amortization</button>
+  <button class="print" onclick="window.print()">Print Full Form</button>
 </div>
 
 <div class="side-pair">
@@ -319,7 +334,7 @@
 </div><!-- /side-pair -->
 
 <!-- ===== FINANCE TERMS & SUMMARY ===== -->
-<section class="block">
+<section class="block" id="secFinanceTerms">
   <div class="sec-title">Finance Terms &amp; Summary</div>
   <div class="sec-body">
     <div class="s3cols">
@@ -416,7 +431,7 @@
 </section>
 
 <!-- ===== FINANCE STRUCTURE ===== -->
-<section class="block">
+<section class="block" id="secFinanceStructure">
   <div class="sec-title">Finance Structure</div>
   <div class="sec-body">
     <div class="dual" id="dualPanel">
@@ -447,7 +462,7 @@
 </section>
 
 <!-- ===== AMORTIZATION SCHEDULE ===== -->
-<section class="block">
+<section class="block" id="secAmortization">
   <div class="sec-title">Amortization Schedule</div>
   <div class="sec-body">
     <div class="amort-scroll">
@@ -467,7 +482,7 @@
 
 <div class="side-pair">
 <!-- ===== MORTGAGE & SECURITY ===== -->
-<section class="block">
+<section class="block" id="secMortgageSecurity">
   <div class="sec-title">Mortgage &amp; Security Details</div>
   <div class="sec-body">
     <div class="field"><label>Mortgage / Security / Collateral</label><textarea id="mortgage" placeholder="Describe mortgage registration, security, guarantees, collateral"></textarea></div>
@@ -475,7 +490,7 @@
 </section>
 
 <!-- ===== SPECIAL INFORMATION ===== -->
-<section class="block">
+<section class="block" id="secSpecialInfo">
   <div class="sec-title">Special Information</div>
   <div class="sec-body">
     <div class="field"><label>Special Information / Remarks</label><textarea id="specialInfo"></textarea></div>
@@ -484,7 +499,7 @@
 </div><!-- /side-pair -->
 
 <!-- ===== SALES APPROVALS ===== -->
-<section class="block">
+<section class="block" id="secSalesApprovals">
   <div class="sec-title">Sales Approvals</div>
   <div class="sec-body sigs">
     <div class="sig-box">
@@ -531,7 +546,7 @@
 </section>
 
 <!-- ===== FINAL APPROVALS ===== -->
-<section class="block">
+<section class="block" id="secFinalApprovals">
   <div class="sec-title">Final Approvals</div>
   <div class="sec-body sigs">
     <div class="sig-box"><div class="ln"></div><div class="role">Credit Supervisor</div><div class="meta"><input placeholder="Name" id="sigCsName"><input placeholder="Date" type="date" id="sigCsDate"></div></div>
@@ -897,6 +912,11 @@ function collect(){
 }
 function saveSilently(){ try{ localStorage.setItem(SAVE_KEY,JSON.stringify(collect())); }catch(e){} }
 function saveForm(){ saveSilently(); alert('Saved. You can close and return later on this device.'); }
+function printFinanceOnly(){
+  document.body.classList.add('print-finance-only');
+  window.print();
+  window.addEventListener('afterprint',function h(){ document.body.classList.remove('print-finance-only'); window.removeEventListener('afterprint',h); });
+}
 function restore(){
   var raw; try{ raw=localStorage.getItem(SAVE_KEY); }catch(e){ return; }
   if(!raw) return;
